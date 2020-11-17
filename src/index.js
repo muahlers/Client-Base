@@ -3,9 +3,18 @@ import scenes from './scenes/scenes';
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 500,
+  width: 1400,
+  height: 800,
   scene: scenes,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      debug: false,
+      gravity: {
+        y: 0,
+      },
+    },
+  },
 };
 
 class GameApp extends Phaser.Game {

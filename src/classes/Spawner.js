@@ -150,7 +150,6 @@ export default class Spawner {
         canDraw: true,
       },
     ];
-
     this.start(); // Funcion que queda corriendo y crea los obj del Spawner.
   }
 
@@ -161,7 +160,7 @@ export default class Spawner {
 
   createSpawmer() {
     // Imprimo los tipos de blockes que debe producir cada outlet.
-    for (let i = 0; i < this.numberOfOutlets; i + 1) {
+    for (let i = 0; i < this.numberOfOutlets; i++) {
       switch (this.stage) {
         case 'city':
         {
@@ -188,7 +187,7 @@ export default class Spawner {
     }
 
     // Relleno los oulters con las carecteristicas de los bloques.
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       switch (this.outlet[i].type) {
         case 'wall':
         {
@@ -260,12 +259,13 @@ export default class Spawner {
         default: return null;
       }
     }
+    return console.log('Spawner Creado');
   }
 
   setupEventListener() {
     this.scene.events.on('updateSpawners', (name) => {
       // Activo el Oultet.
-      for (let i = 0; i < this.outlet.length; i + 1) {
+      for (let i = 0; i < this.outlet.length; i++) {
         if (this.outlet[i].name === name) this.outlet[i].canDraw = true;
       }
     });
@@ -274,7 +274,7 @@ export default class Spawner {
   drawBlockFromSpawner() {
     // this.objectCreated = [];
     const timer = [];
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].canDraw) {
         this.outlet[i].canDraw = false;
 
@@ -288,7 +288,7 @@ export default class Spawner {
             callbackScope: this,
             repeat: 0,
             args: [i],
-          });﻿﻿
+          });
         } else {
           this.scene.events.emit('spawnBlock',
             this.outlet[i].xPosition, // X position
@@ -339,7 +339,7 @@ export default class Spawner {
   }
 
   speedUpSpawner() {
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].platformSpeedRange[0] > 0) {
         this.outlet[i].platformSpeedRange[0] += 100;
         this.outlet[i].platformSpeedRange[1] += 100;
@@ -348,7 +348,7 @@ export default class Spawner {
   }
 
   speedDownSpawner() {
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].platformSpeedRange[0] > 100) {
         this.outlet[i].platformSpeedRange[0] -= 100;
         this.outlet[i].platformSpeedRange[1] -= 100;
@@ -357,7 +357,7 @@ export default class Spawner {
   }
 
   decreaseBlockFreq() {
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].platformSpawnRange[0] > 500) {
         this.outlet[i].platformSpawnRange[1] -= 250;
         this.outlet[i].platformSpawnRange[1] -= 500;
@@ -366,7 +366,7 @@ export default class Spawner {
   }
 
   increaseBlockFreq() {
-    for (let i = 0; i < this.outlet.length; i + 1) {
+    for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].platformSpawnRange[0] > 0) {
         this.outlet[i].platformSpawnRange[1] += 250;
         this.outlet[i].platformSpawnRange[1] += 500;

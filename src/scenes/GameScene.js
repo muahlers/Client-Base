@@ -12,11 +12,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    console.log('Create Start');
-    // this.physics.world.setBounds(0, 0, window.game.config.width, window.game.config.height);
+    this.physics.world.setBounds(0, 0, window.game.config.width, window.game.config.height);
 
-    //  this.blocks = this.physics.add.group();
-    //  this.flags = [true, true, true];
+    this.blocks = this.physics.add.group();
+    this.powerUps = this.physics.add.group();
+    this.flags = [true, true, true];
 
     this.setupEventListener();
     this.createBackground();
@@ -33,19 +33,6 @@ export default class GameScene extends Phaser.Scene {
     this.updatePlayer();
     this.updateBlocks();
     this.updateBackground();
-
-    if (this.keyX.isDown && this.keybord) {
-      this.blockSpwaner.increaseBlockFreq();
-      console.log('Freq. Inc.');
-      this.keybord = false;
-      this.time.addEvent({
-        delay: 1000,
-        callback: () => { this.keybord = true; },
-        callbackScope: this,
-        repeat: 0,
-        args: null,
-      });﻿﻿
-    }
   }
 
   // Funciones Metodo Create()

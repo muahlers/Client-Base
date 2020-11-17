@@ -5,6 +5,7 @@
   } ,
   "rules": {
     "no-console": "off",
-    "default-case": "off"
+    "default-case": "off",
+    "no-plusplus": "off"
   }
 }
