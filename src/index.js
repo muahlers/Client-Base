@@ -1,22 +1,20 @@
 import * as Phaser from 'phaser';
-
-function preload() {
-  console.log('this is the preload method');
-}
-
-function create() {
-  this.add.text(0, 0, 'Hello World 11');
-}
+import scenes from './scenes/scenes';
 
 const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 500,
-  scene: {
-    preload,
-    create,
-  },
+  scene: scenes,
 };
 
-const game = new Phaser.Game(config);
-console.log(game);
+class GameApp extends Phaser.Game {
+  constructor() {
+    super(config);
+    this.scene.start('Boot');
+  }
+}
+
+window.onload = () => {
+  window.game = new GameApp();
+};
