@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import Player from '../classes/Player';
 import Spawner from '../classes/Spawner';
+import Obstaculo from '../classes/Obstaculo';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -124,6 +125,56 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+    // Animación Enemigos
+    this.anims.create({
+      key: 'retenMovil',
+      frames: this.anims.generateFrameNumbers('retenMovil', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'bus',
+      frames: this.anims.generateFrameNumbers('bus', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'people',
+      frames: this.anims.generateFrameNumbers('people', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'moto',
+      frames: this.anims.generateFrameNumbers('moto', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'grass',
+      frames: this.anims.generateFrameNumbers('grass', {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
   }
 
   createBlocks() {
@@ -135,6 +186,7 @@ export default class GameScene extends Phaser.Scene {
       playerData.velocity,
       playerData.nextLevel,
     );
+    // Podria Sacar lvDistance a una clase de Etapas.
     this.levelDistance = this.blockSpwaner.lvDistance();
     this.drawBlock(this.blockSpwaner);
   }
@@ -238,9 +290,9 @@ export default class GameScene extends Phaser.Scene {
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       playerData.level += 1;
 
-      if (this.player.heat > 90) {
+      if (this.player.heat > 80) {
         playerData.propina += 600;
-      } else if (this.player.heat > 70) {
+      } else if (this.player.heat > 60) {
         playerData.propina += 400;
       } else if (this.player.heat > 40) {
         playerData.propina += 300;
@@ -317,16 +369,15 @@ export default class GameScene extends Phaser.Scene {
 
   // Funcion que gatilla Spawner
   setupEventListener() {
-    this.events.on('spawnBlock', (x, y, width, height, key, frame, speed, name) => {
-      const block = this.add.tileSprite(x, y, width, height, key, frame);
+    // Event Listener: spawnBlock.
+    this.events.on('spawnBlock', (x, y, height, key, frame, speed, outlet, type) => {
+      // const block = this.add.tileSprit(x, y, width, height, key, frame);
+      const block = new Obstaculo(this, x, y, speed, outlet, type);
       this.blocks.add(block);
-      block.body.setCollideWorldBounds(false);
-      block.body.setImmovable();
-      block.body.setVelocity(-speed, 0);
-      block.setOrigin(0);
-      block.name = name;
+      block.drawObstaculo();
+      console.log(this.blocks);
     });
-
+    // Event Listener: Player Jump.
     this.events.on('playerJump', () => {
       // El Jugador no puede chocar
       this.blocksCollide.active = false;
@@ -345,7 +396,7 @@ export default class GameScene extends Phaser.Scene {
         callbackScope: this,
       });
     });
-
+    // Event Listener: Player Finish Jump.
     this.events.on('playerFinishJump', () => {
       // Permito que el jugaddor puedda chocar de nuevo.
       this.blocksCollide.active = true;

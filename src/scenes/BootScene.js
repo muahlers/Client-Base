@@ -22,10 +22,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('background1', 'assets/fondos/fondo2.png');
     this.load.image('background2', 'assets/fondos/areaJugable.png');
     this.load.image('ground', 'assets/images/ground.png');
-    this.load.image('grass', 'assets/images/grass.jpg');
   }
 
   loadSpitesheets() {
+    this.load.spritesheet('grass', 'assets/images/bench.png', { frameWidth: 375, frameHeight: 251 });
     this.load.spritesheet('retenMovil', 'assets/images/RetenmovilSheet.png', { frameWidth: 160, frameHeight: 85 });
     this.load.spritesheet('bus', 'assets/images/busSheet.png', { frameWidth: 180, frameHeight: 85 });
     this.load.spritesheet('people', 'assets/images/protestaSheet.png', { frameWidth: 119, frameHeight: 94 });

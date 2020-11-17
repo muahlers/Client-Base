@@ -18,13 +18,13 @@ export default class Spawner {
     this.stage = stage;
 
     // stage 1
-    this.city = ['wall', 'wall', 'people', 'car', 'car', 'bus', 'grass', 'people'];
+    this.city = ['wall', 'wall', 'people', 'retenMovil', 'retenMovil', 'bus', 'grass', 'people'];
     // stage 2
     this.walkingLane = ['wall', 'wall', 'people', 'people', 'people', 'people', 'people', 'people'];
     // stage 3
-    this.highway = ['wall', 'wall', 'car', 'bus', 'moto', 'car', 'car', 'bus'];
+    this.highway = ['wall', 'wall', 'retenMovil', 'bus', 'moto', 'retenMovil', 'retenMovil', 'bus'];
     // stage 4
-    this.protesta = ['wall', 'wall', 'car', 'people', 'people', 'people', 'people', 'car'];
+    this.protesta = ['wall', 'wall', 'retenMovil', 'people', 'people', 'people', 'people', 'retenMovil'];
 
     this.wall = {
       type: 'wall',
@@ -32,7 +32,6 @@ export default class Spawner {
       frame: 5,
       platformSpeedRange: [0, 0],
       platformSpawnRange: [0, 0],
-      platformSizeRange: [window.window.game.config.width, window.game.config.width],
       platformBlockHeight: [0, 2],
       xPosition: 0,
     };
@@ -43,7 +42,6 @@ export default class Spawner {
       frame: 1,
       platformSpeedRange: [300 + 25 * this.level, 400 + 25 * this.level],
       platformSpawnRange: [3000, 7000],
-      platformSizeRange: [180, 180],
       platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
@@ -54,7 +52,6 @@ export default class Spawner {
       frame: 1,
       platformSpeedRange: [300, 400],
       platformSpawnRange: [3000, 7000],
-      platformSizeRange: [160, 160],
       platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
@@ -65,7 +62,6 @@ export default class Spawner {
       frame: 1,
       platformSpeedRange: [160, 160],
       platformSpawnRange: [2000, 4000],
-      platformSizeRange: [100, 200],
       platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
@@ -76,7 +72,6 @@ export default class Spawner {
       frame: 1,
       platformSpeedRange: [180, 220],
       platformSpawnRange: this.spawnRange.map((x) => x - (this.level * 250)),
-      platformSizeRange: [120, 120],
       platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
@@ -87,7 +82,6 @@ export default class Spawner {
       frame: 1,
       platformSpeedRange: [500, 600],
       platformSpawnRange: [1500, 4000],
-      platformSizeRange: [80, 80],
       platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
@@ -195,7 +189,6 @@ export default class Spawner {
           this.outlet[i].key = this.wall.key;
           this.outlet[i].platformSpeedRange = this.wall.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.wall.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.wall.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.wall.platformBlockHeight;
           this.outlet[i].xPosition = this.wall.xPosition;
           break;
@@ -206,18 +199,16 @@ export default class Spawner {
           this.outlet[i].key = this.bus.key;
           this.outlet[i].platformSpeedRange = this.bus.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.bus.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.bus.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.bus.platformBlockHeight;
           this.outlet[i].xPosition = this.bus.xPosition;
           break;
         }
-        case 'car':
+        case 'retenMovil':
         {
           this.outlet[i].frame = this.car.frame;
           this.outlet[i].key = this.car.key;
           this.outlet[i].platformSpeedRange = this.car.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.car.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.car.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.car.platformBlockHeight;
           this.outlet[i].xPosition = this.car.xPosition;
           break;
@@ -228,7 +219,6 @@ export default class Spawner {
           this.outlet[i].key = this.people.key;
           this.outlet[i].platformSpeedRange = this.people.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.people.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.people.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.people.platformBlockHeight;
           this.outlet[i].xPosition = this.people.xPosition;
           break;
@@ -239,7 +229,6 @@ export default class Spawner {
           this.outlet[i].key = this.grass.key;
           this.outlet[i].platformSpeedRange = this.grass.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.grass.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.grass.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.grass.platformBlockHeight;
           this.outlet[i].xPosition = this.grass.xPosition;
           break;
@@ -250,7 +239,6 @@ export default class Spawner {
           this.outlet[i].key = this.moto.key;
           this.outlet[i].platformSpeedRange = this.moto.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.moto.platformSpawnRange;
-          this.outlet[i].platformSizeRange = this.moto.platformSizeRange;
           this.outlet[i].platformBlockHeight = this.moto.platformBlockHeight;
           this.outlet[i].xPosition = this.moto.xPosition;
           break;
@@ -293,10 +281,6 @@ export default class Spawner {
           this.scene.events.emit('spawnBlock',
             this.outlet[i].xPosition, // X position
             this.outlet[i].yPosition, // Y position
-            this.randomNum(
-              this.outlet[i].platformSizeRange[0],
-              this.outlet[i].platformSizeRange[1],
-            ), // Width
             this.outlet[i].pixelsWidth, // height
             'items', // key
             this.outlet[i].frame, // frame
@@ -306,7 +290,7 @@ export default class Spawner {
             ), // Speed,
             this.outlet[i].name,
             // Outlet
-          );
+            this.outlet[i].type);
         }
       }
     }
@@ -317,10 +301,6 @@ export default class Spawner {
     this.scene.events.emit('spawnBlock',
       this.outlet[i].xPosition, // X position
       this.outlet[i].yPosition, // Y position
-      this.randomNum(
-        this.outlet[i].platformSizeRange[0],
-        this.outlet[i].platformSizeRange[1],
-      ), // Width
       this.outlet[i].pixelsWidth, // height
       this.outlet[i].key, // key
       this.outlet[i].frame, // frame
@@ -329,7 +309,7 @@ export default class Spawner {
         this.outlet[i].platformSpeedRange[1],
       ), // Speed,
       this.outlet[i].name, // Outlet
-    );
+      this.outlet[i].type);
     // Permito que el outlet vuelva a dibujar.
     this.outlet[i].canDraw = true;
   }

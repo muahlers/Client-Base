@@ -22,7 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setImmovable(false);
     // scale our player
     // Escalo mi Sprite en 2x, tanto en x como en y,
-    this.setScale(window.game.config.height / (3 * (163 + 15)));
+    this.setScale(window.game.config.height / (3 * (163 + 30)));
     // Collide with world bounds.
     this.setCollideWorldBounds(true); // No permito que mi player salga de la camara.
     // this.setGravityY(100);

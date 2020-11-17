@@ -13,7 +13,6 @@ export default class Kiosko extends Phaser.Scene {
   create() {
     // Cargo la info. del Jugador.
     this.playerData = JSON.parse(localStorage.getItem('myPlayerData'));
-    console.log('Bug');
 
     // Create Game Title
     this.titleText1 = this.add.text(this.scale.width / 2, this.scale.height / 2 - 160, 'El Honesto Mike', { fontSize: '48px', fill: '#fff' });
@@ -48,7 +47,7 @@ export default class Kiosko extends Phaser.Scene {
       this.scale.height * 0.8,
       'button1',
       'button2',
-      ' + Termo $350',
+      ' + Termo $300',
       this.improveTermo.bind(this),
     );
 
@@ -65,7 +64,7 @@ export default class Kiosko extends Phaser.Scene {
 
   update() {
     // sessionName();
-    const username =  "Joe";
+    const username = "Joe"
     this.events.emit('updatePlayer',
       '-',
       '-',
@@ -99,9 +98,9 @@ export default class Kiosko extends Phaser.Scene {
   }
 
   improveTermo() {
-    if (this.playerData.propina >= 350) {
+    if (this.playerData.propina >= 300) {
       this.playerData.termo += 0.5;
-      this.playerData.propina -= 350;
+      this.playerData.propina -= 300;
     }
   }
 }
