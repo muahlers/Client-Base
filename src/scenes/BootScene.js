@@ -12,6 +12,8 @@ export default class BootScene extends Phaser.Scene {
     this.loadSpitesheets();
     // load audio.
     this.loadAudio();
+    // load videos.
+    this.loadVideos();
   }
 
   loadImages() {
@@ -37,6 +39,10 @@ export default class BootScene extends Phaser.Scene {
 
   loadAudio() {
     // this.load.audio("goldSound", ['assets/audio/Pickup.wav']);
+  }
+
+  loadVideos() {
+    this.load.video('intro', './assets/videos/paperboy.mp4');
   }
 
   create() {

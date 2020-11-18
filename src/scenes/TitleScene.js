@@ -15,6 +15,11 @@ export default class TitleScene extends Phaser.Scene {
     this.titleText2.setOrigin(0.5);
     this.titleText3.setOrigin(0.5);
 
+    console.log('Load Video');
+    this.video = this.add.video(300, 300, 'intro');
+    this.video.setScale(0.5);
+    this.video.play(true);
+
     // Creat Start button
     this.startGameButton = new UiButton(this, this.scale.width / 2, this.scale.height * 0.7, 'button1', 'button2', 'Start', this.startScene.bind(this, 'Game'));
 
@@ -32,6 +37,8 @@ export default class TitleScene extends Phaser.Scene {
       level: 1,
       nextLevel: 'city',
       levels: ['city', 'walkingLane', 'highway', 'protesta'],
+      propinaLS: 0,
+      totalHeatLS: 0,
     };
     localStorage.setItem('myPlayerData', JSON.stringify(myPlayerData));
   }

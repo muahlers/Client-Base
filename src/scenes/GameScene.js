@@ -292,12 +292,19 @@ export default class GameScene extends Phaser.Scene {
 
       if (this.player.heat > 80) {
         playerData.propina += 600;
+        playerData.propinaLS = 600;
       } else if (this.player.heat > 60) {
         playerData.propina += 400;
+        playerData.propinaLS = 400;
       } else if (this.player.heat > 40) {
         playerData.propina += 300;
-      } else { playerData.propina += 100; }
+        playerData.propinaLS = 300;
+      } else {
+        playerData.propina += 100;
+        playerData.propinaLS = 100;
+      }
 
+      playerData.totalHeatLS = this.player.heat;
       playerData.totalDistance += this.levelDistance;
 
       // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
