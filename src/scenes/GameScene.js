@@ -10,7 +10,6 @@ export default class GameScene extends Phaser.Scene {
 
   init() {
     this.scene.launch('Ui');
-    console.log('init Game Scene');
   }
 
   create() {
@@ -20,14 +19,15 @@ export default class GameScene extends Phaser.Scene {
     this.powerUps = this.physics.add.group();
     this.flags = [true, true, true];
 
+    this.createMusic();
     this.createBackground();
     this.createAnime();
+    this.createPlayers();
+    this.setupEventListener();
     this.createBlocks();
     this.createDestroyer();
-    this.createPlayers();
     this.createInput();
     this.addCollision();
-    this.setupEventListener();
   }
 
   update() {
@@ -38,6 +38,18 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funciones Metodo Create()
+  createMusic() {
+    this.music = this.sound.add('battle');
+    const configMusic = {
+      mute: false,
+      volume: 0.5,
+      detune: 1,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    };
+    this.music.play(configMusic);
+  }
 
   createBackground() {
     this.bg0 = this.add.tileSprite(0, 0, window.game.config.width, window.game.config.width, 'background0');
@@ -282,6 +294,10 @@ export default class GameScene extends Phaser.Scene {
       this.scene.start('Title');
       console.log('Dead');
       this.uptoCookie(this.player.name, playerData.level);
+
+      // Apago Señales y Musica.
+      this.cutScene();
+
       // window.location.href = 'hiscore.php';
     }
   }
@@ -343,11 +359,8 @@ export default class GameScene extends Phaser.Scene {
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
-      //  Apago las señales.
-      this.events.off('spawnBlock');
-      this.events.off('playerJump');
-      this.events.off('playerFinishJump');
-
+      // Apago Señales y Musica.
+      this.cutScene();
       // Me voy a las siguiente Escena.
       this.scene.start('Kiosko');
     }
@@ -410,9 +423,6 @@ export default class GameScene extends Phaser.Scene {
       block.drawObstaculo();
       console.log('Obstaculo Dibujado');
     });
-    if(!this.events.spawnBlock) {
-      console.log(this.events);
-    }
     // Event Listener: Player Jump.
     this.events.on('playerJump', () => {
       // El Jugador no puede chocar
@@ -434,9 +444,18 @@ export default class GameScene extends Phaser.Scene {
     });
     // Event Listener: Player Finish Jump.
     this.events.on('playerFinishJump', () => {
-      // Permito que el jugaddor puedda chocar de nuevo.
+      // Permito que el jugador pueda chocar de nuevo.
       this.blocksCollide.active = true;
     });
+  }
+
+  cutScene() {
+    //  Apago las señales.
+    this.events.off('spawnBlock');
+    this.events.off('playerJump');
+    this.events.off('playerFinishJump');
+
+    this.music.stop();
   }
 
   // Funcion para crear cookie

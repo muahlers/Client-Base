@@ -38,7 +38,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   loadAudio() {
-    // this.load.audio("goldSound", ['assets/audio/Pickup.wav']);
+    this.load.audio('battle', ['assets/audio/sci-fi_platformer12.mp3', 'assets/audio/sci-fi_platformer12.ogg']);
   }
 
   loadVideos() {

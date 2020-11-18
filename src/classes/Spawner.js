@@ -242,7 +242,7 @@ export default class Spawner {
     for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].canDraw) {
         this.outlet[i].canDraw = false;
-        // Este if es para ver si es un Obstaculo o una Wall
+        // Este if es para ver si es un Obstaculo o una Wall.
         if (this.outlet[i].platformSpawnRange[0] > 0) {
           timer[i] = this.scene.time.addEvent({
             delay: randomNum(
