@@ -1,4 +1,4 @@
-// import * as Phaser from 'phaser';
+import { randomNum } from '../utils/utils';
 
 export default class Spawner {
   constructor(scene, level, playerSpeed, stage) {
@@ -18,71 +18,61 @@ export default class Spawner {
     this.stage = stage;
 
     // stage 1
-    this.city = ['wall', 'wall', 'people', 'retenMovil', 'retenMovil', 'bus', 'grass', 'people'];
+    this.city = ['wall', 'wall', 'people', 'sedan', 'sedan', 'bus', 'grass', 'people'];
     // stage 2
-    this.walkingLane = ['wall', 'wall', 'people', 'people', 'people', 'people', 'people', 'people'];
+    this.walkingLane = ['wall', 'wall', 'people', 'vieja', 'people', 'people', 'vieja', 'people'];
     // stage 3
-    this.highway = ['wall', 'wall', 'retenMovil', 'bus', 'moto', 'retenMovil', 'retenMovil', 'bus'];
+    this.highway = ['wall', 'wall', 'sedan', 'sedan', 'moto', 'retenMovil', 'bus', 'bus'];
     // stage 4
     this.protesta = ['wall', 'wall', 'retenMovil', 'people', 'people', 'people', 'people', 'retenMovil'];
+    // Stage 5
+    this.callejon = ['wall', 'wall', 'moto', 'moto', 'moto', 'moto', 'wall', 'wall'];
 
     this.wall = {
       type: 'wall',
-      key: 'items',
-      frame: 5,
-      platformSpeedRange: [0, 0],
       platformSpawnRange: [0, 0],
-      platformBlockHeight: [0, 2],
       xPosition: 0,
     };
 
     this.bus = {
       type: 'bus',
-      key: 'bus',
-      frame: 1,
-      platformSpeedRange: [300 + 25 * this.level, 400 + 25 * this.level],
       platformSpawnRange: [3000, 7000],
-      platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
 
     this.car = {
       type: 'retenMovil',
-      key: 'retenMovil',
-      frame: 1,
-      platformSpeedRange: [300, 400],
       platformSpawnRange: [3000, 7000],
-      platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
 
     this.grass = {
       type: 'grass',
-      key: 'grass',
-      frame: 1,
-      platformSpeedRange: [160, 160],
       platformSpawnRange: [2000, 4000],
-      platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
 
     this.people = {
       type: 'people',
-      key: 'people',
-      frame: 1,
-      platformSpeedRange: [180, 220],
       platformSpawnRange: this.spawnRange.map((x) => x - (this.level * 250)),
-      platformBlockHeight: [0, 2],
       xPosition: window.game.config.width,
     };
 
     this.moto = {
       type: 'moto',
-      key: 'moto',
-      frame: 1,
-      platformSpeedRange: [500, 600],
+      platformSpawnRange: [2000, 4000],
+      xPosition: window.game.config.width,
+    };
+
+    this.sedan = {
+      type: 'sedan',
       platformSpawnRange: [1500, 4000],
-      platformBlockHeight: [0, 2],
+      xPosition: window.game.config.width,
+    };
+
+    this.vieja = {
+      type: 'vieja',
+      platformSpawnRange: [3000, 5000],
       xPosition: window.game.config.width,
     };
 
@@ -144,6 +134,7 @@ export default class Spawner {
         canDraw: true,
       },
     ];
+
     this.start(); // Funcion que queda corriendo y crea los obj del Spawner.
   }
 
@@ -176,6 +167,12 @@ export default class Spawner {
           this.outlet[i].type = this.protesta[i];
           break;
         }
+
+        case 'callejon':
+        {
+          this.outlet[i].type = this.callejon[i];
+          break;
+        }
         default: return null;
       }
     }
@@ -185,62 +182,52 @@ export default class Spawner {
       switch (this.outlet[i].type) {
         case 'wall':
         {
-          this.outlet[i].frame = this.wall.frame;
-          this.outlet[i].key = this.wall.key;
-          this.outlet[i].platformSpeedRange = this.wall.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.wall.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.wall.platformBlockHeight;
           this.outlet[i].xPosition = this.wall.xPosition;
           break;
         }
         case 'bus':
         {
-          this.outlet[i].frame = this.bus.frame;
-          this.outlet[i].key = this.bus.key;
-          this.outlet[i].platformSpeedRange = this.bus.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.bus.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.bus.platformBlockHeight;
           this.outlet[i].xPosition = this.bus.xPosition;
           break;
         }
         case 'retenMovil':
         {
-          this.outlet[i].frame = this.car.frame;
-          this.outlet[i].key = this.car.key;
-          this.outlet[i].platformSpeedRange = this.car.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.car.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.car.platformBlockHeight;
           this.outlet[i].xPosition = this.car.xPosition;
           break;
         }
         case 'people':
         {
-          this.outlet[i].frame = this.people.frame;
-          this.outlet[i].key = this.people.key;
-          this.outlet[i].platformSpeedRange = this.people.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.people.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.people.platformBlockHeight;
           this.outlet[i].xPosition = this.people.xPosition;
           break;
         }
         case 'grass':
         {
-          this.outlet[i].frame = this.grass.frame;
-          this.outlet[i].key = this.grass.key;
-          this.outlet[i].platformSpeedRange = this.grass.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.grass.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.grass.platformBlockHeight;
           this.outlet[i].xPosition = this.grass.xPosition;
           break;
         }
         case 'moto':
         {
-          this.outlet[i].frame = this.moto.frame;
-          this.outlet[i].key = this.moto.key;
-          this.outlet[i].platformSpeedRange = this.moto.platformSpeedRange;
           this.outlet[i].platformSpawnRange = this.moto.platformSpawnRange;
-          this.outlet[i].platformBlockHeight = this.moto.platformBlockHeight;
           this.outlet[i].xPosition = this.moto.xPosition;
+          break;
+        }
+
+        case 'sedan':
+        {
+          this.outlet[i].platformSpawnRange = this.sedan.platformSpawnRange;
+          this.outlet[i].xPosition = this.sedan.xPosition;
+          break;
+        }
+
+        case 'vieja':
+        {
+          this.outlet[i].platformSpawnRange = this.vieja.platformSpawnRange;
+          this.outlet[i].xPosition = this.vieja.xPosition;
           break;
         }
 
@@ -268,7 +255,7 @@ export default class Spawner {
 
         if (this.outlet[i].platformSpawnRange[0] > 0) {
           timer[i] = this.scene.time.addEvent({
-            delay: this.randomNum(
+            delay: randomNum(
               this.outlet[i].platformSpawnRange[0],
               this.outlet[i].platformSpawnRange[1],
             ),
@@ -282,14 +269,7 @@ export default class Spawner {
             this.outlet[i].xPosition, // X position
             this.outlet[i].yPosition, // Y position
             this.outlet[i].pixelsWidth, // height
-            'items', // key
-            this.outlet[i].frame, // frame
-            this.randomNum(
-              this.outlet[i].platformSpeedRange[0],
-              this.outlet[i].platformSpeedRange[1],
-            ), // Speed,
-            this.outlet[i].name,
-            // Outlet
+            this.outlet[i].name, // Outlet
             this.outlet[i].type);
         }
       }
@@ -302,56 +282,10 @@ export default class Spawner {
       this.outlet[i].xPosition, // X position
       this.outlet[i].yPosition, // Y position
       this.outlet[i].pixelsWidth, // height
-      this.outlet[i].key, // key
-      this.outlet[i].frame, // frame
-      this.randomNum(
-        this.outlet[i].platformSpeedRange[0],
-        this.outlet[i].platformSpeedRange[1],
-      ), // Speed,
       this.outlet[i].name, // Outlet
       this.outlet[i].type);
     // Permito que el outlet vuelva a dibujar.
     this.outlet[i].canDraw = true;
-  }
-
-  randomNum(min = 0, max = 1) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  speedUpSpawner() {
-    for (let i = 0; i < this.outlet.length; i++) {
-      if (this.outlet[i].platformSpeedRange[0] > 0) {
-        this.outlet[i].platformSpeedRange[0] += 100;
-        this.outlet[i].platformSpeedRange[1] += 100;
-      }
-    }
-  }
-
-  speedDownSpawner() {
-    for (let i = 0; i < this.outlet.length; i++) {
-      if (this.outlet[i].platformSpeedRange[0] > 100) {
-        this.outlet[i].platformSpeedRange[0] -= 100;
-        this.outlet[i].platformSpeedRange[1] -= 100;
-      }
-    }
-  }
-
-  decreaseBlockFreq() {
-    for (let i = 0; i < this.outlet.length; i++) {
-      if (this.outlet[i].platformSpawnRange[0] > 500) {
-        this.outlet[i].platformSpawnRange[1] -= 250;
-        this.outlet[i].platformSpawnRange[1] -= 500;
-      }
-    }
-  }
-
-  increaseBlockFreq() {
-    for (let i = 0; i < this.outlet.length; i++) {
-      if (this.outlet[i].platformSpawnRange[0] > 0) {
-        this.outlet[i].platformSpawnRange[1] += 250;
-        this.outlet[i].platformSpawnRange[1] += 500;
-      }
-    }
   }
 
   lvDistance() {

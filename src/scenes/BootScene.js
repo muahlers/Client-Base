@@ -19,14 +19,14 @@ export default class BootScene extends Phaser.Scene {
   loadImages() {
     this.load.image('button1', 'assets/images/ui/blue_button01.png');
     this.load.image('button2', 'assets/images/ui/blue_button02.png');
-    this.load.image('plataform', 'assets/images/plataform.jpg');
     this.load.image('background0', 'assets/fondos/fondo3.png');
     this.load.image('background1', 'assets/fondos/fondo2.png');
     this.load.image('background2', 'assets/fondos/areaJugable.png');
-    this.load.image('ground', 'assets/images/ground.png');
   }
 
   loadSpitesheets() {
+    this.load.spritesheet('vieja', 'assets/images/viejaSheet.png', { frameWidth: 80, frameHeight: 80 });
+    this.load.spritesheet('sedan', 'assets/images/sedanSheet.png', { frameWidth: 155, frameHeight: 65 });
     this.load.spritesheet('grass', 'assets/images/bench.png', { frameWidth: 375, frameHeight: 251 });
     this.load.spritesheet('retenMovil', 'assets/images/RetenmovilSheet.png', { frameWidth: 160, frameHeight: 85 });
     this.load.spritesheet('bus', 'assets/images/busSheet.png', { frameWidth: 180, frameHeight: 85 });

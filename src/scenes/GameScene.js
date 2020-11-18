@@ -19,7 +19,6 @@ export default class GameScene extends Phaser.Scene {
     this.powerUps = this.physics.add.group();
     this.flags = [true, true, true];
 
-    this.setupEventListener();
     this.createBackground();
     this.createAnime();
     this.createBlocks();
@@ -27,6 +26,7 @@ export default class GameScene extends Phaser.Scene {
     this.createPlayers();
     this.createInput();
     this.addCollision();
+    this.setupEventListener();
   }
 
   update() {
@@ -169,6 +169,26 @@ export default class GameScene extends Phaser.Scene {
     this.anims.create({
       key: 'grass',
       frames: this.anims.generateFrameNumbers('grass', {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'sedan',
+      frames: this.anims.generateFrameNumbers('sedan', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'vieja',
+      frames: this.anims.generateFrameNumbers('vieja', {
         start: 0,
         end: 0,
       }),
@@ -371,18 +391,18 @@ export default class GameScene extends Phaser.Scene {
   }
 
   crush(player) {
-    // player.hitObstacle();
+    // player.playerHitObstacle();
   }
 
   // Funcion que gatilla Spawner
   setupEventListener() {
     // Event Listener: spawnBlock.
-    this.events.on('spawnBlock', (x, y, height, key, frame, speed, outlet, type) => {
+    this.events.on('spawnBlock', (x, y, height, outlet, type) => {
       // const block = this.add.tileSprit(x, y, width, height, key, frame);
-      const block = new Obstaculo(this, x, y, speed, outlet, type);
+      const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
       this.blocks.add(block);
       block.drawObstaculo();
-      console.log(this.blocks);
+      console.log('Obstaculo Creado');
     });
     // Event Listener: Player Jump.
     this.events.on('playerJump', () => {

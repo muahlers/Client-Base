@@ -1,75 +1,125 @@
 import * as Phaser from 'phaser';
+import { randomNum } from '../utils/utils'
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, speed, outlet, type) {
+  constructor(scene, x, y, height, outlet, type, playerSpeed) {
     super(scene, x, y);
     this.scene = scene;
-    this.speed = speed;
-    this.outlet = outlet;
+    this.outletPipeHeightPx = height;
+    this.outletNumber = outlet;
     this.type = type;
+    this.playerSpeed = playerSpeed;
+
+    this.obstaculos = {
+      wall: {
+        id: 'wall',
+        width: window.window.game.config.width,
+        height: 86,
+        scale: 1,
+        speed: 0,
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 0,
+      },
+      retenMovil: {
+        id: 'retenMovil',
+        width: 160,
+        height: 84,
+        scale: 1,
+        speed: 350 * (this.playerSpeed/160),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 50,
+      },
+      bus: {
+        id: 'bus',
+        width: 180,
+        height: 84,
+        scale: 1,
+        speed: 400 * (this.playerSpeed/160),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 100,
+      },
+      people: {
+        id: 'people',
+        width: 100,
+        height: 80,
+        scale: 1.2,
+        speed: this.playerSpeed - 20, //200
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 20,
+        speedVar: 0,
+      },
+      grass: {
+        id: 'grass',
+        width: 375,
+        height: 251,
+        scale: 0.4,
+        speed: this.playerSpeed, // 160
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 0,
+      },
+      moto: {
+        id: 'moto',
+        width: 100,
+        height: 60,
+        scale: 1,
+        speed: 550 * (this.playerSpeed/160),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 20,
+      },
+      sedan: {
+        id: 'sedan',
+        width: 155,
+        height: 60,
+        scale: 1,
+        speed: 500 * (this.playerSpeed/160),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 100,
+      },
+      vieja: {
+        id: 'vieja',
+        width: 80,
+        height: 80,
+        scale: 1,
+        speed: this.playerSpeed - 40, //220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 0,
+      },
+    };
   }
 
   drawObstaculo() {
     // enable Physics
     this.scene.physics.world.enable(this);
     this.setImmovable(true);
-    this.body.setVelocityX(-this.speed);
+    let obstaculoSpeed = this.obstaculos.[this.type].speed;
+    obstaculoSpeed = randomNum(
+      obstaculoSpeed - this.obstaculos.[this.type].speedVar,
+       obstaculoSpeed + this.obstaculos.[this.type].speedVar,
+    );
+    this.body.setVelocityX(-obstaculoSpeed);
     this.setOrigin(0);
 
-    switch (this.type) {
-      case 'wall':
-      {
-        this.body.setSize(window.window.game.config.width, 80, false);
-        break;
-      }
+    this.body.setSize(this.obstaculos.[this.type].width, this.obstaculos.[this.type].height, false);
+    this.body.setOffset(this.obstaculos.[this.type].offsetX, this.obstaculos.[this.type].offsetY);
+    this.setScale(this.obstaculos.[this.type].scale);
+    this.y -= this.obstaculos.[this.type].yCorrection;
 
-      case 'retenMovil':
-      {
-        this.setScale(1);
-        this.play(this.type);
-        this.body.setSize(160, 84, false);
-        break;
-      }
-      case 'bus':
-      {
-        this.setScale(1);
-        this.play(this.type);
-        this.body.setSize(180, 84, false);
-        break;
-      }
-
-      case 'people':
-      {
-        // scale our player
-        this.setScale(1.2, 1.2);
-        this.play(this.type);
-        this.body.setSize(100, 80, false);
-        this.body.setOffset(3, 14);
-        this.y -= 20;
-        break;
-      }
-      case 'grass':
-      {
-        this.body.setSize(375, 251, false);
-        this.setScale(0.4, 0.4);
-        this.play(this.type);
-
-        this.body.setOffset(3, 14);
-        break;
-      }
-
-      case 'moto':
-      {
-        this.setScale(1);
-        this.body.setSize(100, 60, false);
-        this.play(this.type);
-        break;
-      }
-      default: {
-        console.log('Obstaculo no Encontrado');
-        break;
-      }
-    }
+    this.play(this.type);
 
     this.scene.add.existing(this);
   }

@@ -7,9 +7,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.velocity = velocity; // the velocity this player moves.
     this.maxJumps = jumps; // Max Jumps a player can make per stage.
     this.jumps = this.maxJumps;
-    this.canJump = true;
-    this.canHit = true;
-    this.lowTemp = true;
+    this.canJump = true; // Indicador para Saltar.
+    this.canHit = true; // Indicador para ser Golepado.
+    this.lowTemp = true; // Indicador para bajar temperatura.
     this.propina = propina;
     this.termo = termo;
     this.distance = distance;
@@ -34,19 +34,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(cursor) {
-    this.body.setVelocity(0);
-
-    if ((cursor.left.isDown || this.scene.keyA.isDown) && this.canJump) {
-      this.body.setVelocityX(-this.velocity);
-    } else if ((cursor.right.isDown || this.scene.keyD.isDown) && this.canJump) {
-      this.body.setVelocityX(this.velocity);
-    } else if ((cursor.down.isDown || this.scene.keyS.isDown) && this.canJump) {
-      this.body.setVelocityY(this.velocity);
-      this.play('bikeDown', true);
-    } else if ((cursor.up.isDown || this.scene.keyW.isDown) && this.canJump) {
-      this.body.setVelocityY(-this.velocity);
-      this.play('bikeUp', true);
-    } else if (this.canJump && this.canHit) { this.play('bikeGoing', true); }
+    this.playerMovemnt(cursor);
 
     if (cursor.space.isDown && this.jumps > 0 && this.canJump) {
       this.jumps -= 1;
@@ -78,9 +66,33 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  playerMovemnt(cursor) {
+    this.body.setVelocity(0);
+
+    if ((cursor.left.isDown || this.scene.keyA.isDown) && this.canJump) {
+      this.body.setVelocityX(-this.velocity);
+    } else if ((cursor.right.isDown || this.scene.keyD.isDown) && this.canJump) {
+      this.body.setVelocityX(this.velocity);
+    }
+
+    if ((cursor.down.isDown || this.scene.keyS.isDown) && this.canJump) {
+      this.body.setVelocityY(this.velocity);
+      this.play('bikeDown', true);
+    } else if ((cursor.up.isDown || this.scene.keyW.isDown) && this.canJump) {
+      this.body.setVelocityY(-this.velocity);
+      this.play('bikeUp', true);
+    } else if (this.canJump && this.canHit) { this.play('bikeGoing', true); }
+  }
+
   playerJump() {
     this.play('bikeJump');
     this.scene.events.emit('playerJump');
+  }
+
+  playerHitObstacle() {
+    console.log('Hit');
+    this.canHit = false;
+    this.play('bikeCrush', true);
   }
 
   playerRefreshHeat() {
@@ -89,9 +101,5 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.lowTemp = true;
   }
 
-  hitObstacle() {
-    console.log('Hit');
-    this.canHit = false;
-    this.play('bikeCrush', true);
-  }
+
 }
