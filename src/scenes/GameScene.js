@@ -10,6 +10,7 @@ export default class GameScene extends Phaser.Scene {
 
   init() {
     this.scene.launch('Ui');
+    console.log('init Game Scene');
   }
 
   create() {
@@ -220,7 +221,6 @@ export default class GameScene extends Phaser.Scene {
   createPlayers() {
     const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
 
-    console.log(playerData);
     // Meto la info del juego al objeto Jugador.
     this.player = new Player(
       this,
@@ -282,7 +282,7 @@ export default class GameScene extends Phaser.Scene {
       this.scene.start('Title');
       console.log('Dead');
       this.uptoCookie(this.player.name, playerData.level);
-      window.location.href = 'hiscore.php';
+      // window.location.href = 'hiscore.php';
     }
   }
 
@@ -339,9 +339,16 @@ export default class GameScene extends Phaser.Scene {
 
       // Agrego la etapa que Saque!
       playerData.levels.push(sacoEtapa);
+      console.log(this.blocks);
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
+      //  Apago las señales.
+      this.events.off('spawnBlock');
+      this.events.off('playerJump');
+      this.events.off('playerFinishJump');
+
+      // Me voy a las siguiente Escena.
       this.scene.start('Kiosko');
     }
   }
@@ -365,7 +372,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   destroyBlock(destroyer, block) {
-    // this.events.emit('updateSpawners', block.name);
     this.blocks.remove(block, true, true);
   }
 
@@ -402,8 +408,11 @@ export default class GameScene extends Phaser.Scene {
       const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
       this.blocks.add(block);
       block.drawObstaculo();
-      console.log('Obstaculo Creado');
+      console.log('Obstaculo Dibujado');
     });
+    if(!this.events.spawnBlock) {
+      console.log(this.events);
+    }
     // Event Listener: Player Jump.
     this.events.on('playerJump', () => {
       // El Jugador no puede chocar

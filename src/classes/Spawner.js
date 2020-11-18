@@ -140,7 +140,6 @@ export default class Spawner {
 
   start() {
     this.createSpawmer();
-    this.setupEventListener();
   }
 
   createSpawmer() {
@@ -177,7 +176,7 @@ export default class Spawner {
       }
     }
 
-    // Relleno los oulters con las carecteristicas de los bloques.
+    // Relleno los oultes con las carecteristicas de los bloques.
     for (let i = 0; i < this.outlet.length; i++) {
       switch (this.outlet[i].type) {
         case 'wall':
@@ -234,16 +233,7 @@ export default class Spawner {
         default: return null;
       }
     }
-    return console.log('Spawner Creado');
-  }
-
-  setupEventListener() {
-    this.scene.events.on('updateSpawners', (name) => {
-      // Activo el Oultet.
-      for (let i = 0; i < this.outlet.length; i++) {
-        if (this.outlet[i].name === name) this.outlet[i].canDraw = true;
-      }
-    });
+    return null;
   }
 
   drawBlockFromSpawner() {
@@ -252,7 +242,7 @@ export default class Spawner {
     for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].canDraw) {
         this.outlet[i].canDraw = false;
-
+        // Este if es para ver si es un Obstaculo o una Wall
         if (this.outlet[i].platformSpawnRange[0] > 0) {
           timer[i] = this.scene.time.addEvent({
             delay: randomNum(
@@ -265,6 +255,7 @@ export default class Spawner {
             args: [i],
           });
         } else {
+          // Emito Señal a GameScene. Este else es para dibujar las walls
           this.scene.events.emit('spawnBlock',
             this.outlet[i].xPosition, // X position
             this.outlet[i].yPosition, // Y position
@@ -278,6 +269,7 @@ export default class Spawner {
 
   reset(i) {
     // Emito una señal a GameScene
+    console.log(this.outlet[i]);
     this.scene.events.emit('spawnBlock',
       this.outlet[i].xPosition, // X position
       this.outlet[i].yPosition, // Y position

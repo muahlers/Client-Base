@@ -9,7 +9,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.outletNumber = outlet;
     this.type = type;
     this.playerSpeed = playerSpeed;
-
+    // Información de Obstaculos.
     this.obstaculos = {
       wall: {
         id: 'wall',
@@ -49,11 +49,11 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 100,
         height: 80,
         scale: 1.2,
-        speed: this.playerSpeed - 20, //200
+        speed: this.playerSpeed - 20, // 200
         offsetX: 0,
         offsetY: 0,
         yCorrection: 20,
-        speedVar: 0,
+        speedVar: 20,
       },
       grass: {
         id: 'grass',
@@ -93,11 +93,11 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 80,
         height: 80,
         scale: 1,
-        speed: this.playerSpeed - 40, //220
+        speed: this.playerSpeed - 40, // 220
         offsetX: 0,
         offsetY: 0,
         yCorrection: 0,
-        speedVar: 0,
+        speedVar: 20,
       },
     };
   }
@@ -106,21 +106,22 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     // enable Physics
     this.scene.physics.world.enable(this);
     this.setImmovable(true);
-    let obstaculoSpeed = this.obstaculos.[this.type].speed;
+    // Randomizo la velocidad.
+    let obstaculoSpeed = this.obstaculos[this.type].speed;
     obstaculoSpeed = randomNum(
-      obstaculoSpeed - this.obstaculos.[this.type].speedVar,
-       obstaculoSpeed + this.obstaculos.[this.type].speedVar,
+      obstaculoSpeed - this.obstaculos[this.type].speedVar,
+      obstaculoSpeed + this.obstaculos[this.type].speedVar,
     );
     this.body.setVelocityX(-obstaculoSpeed);
+    // Doy tamaño a la animación y seteo le Hitbox,
     this.setOrigin(0);
-
-    this.body.setSize(this.obstaculos.[this.type].width, this.obstaculos.[this.type].height, false);
-    this.body.setOffset(this.obstaculos.[this.type].offsetX, this.obstaculos.[this.type].offsetY);
-    this.setScale(this.obstaculos.[this.type].scale);
-    this.y -= this.obstaculos.[this.type].yCorrection;
-
+    this.body.setSize(this.obstaculos[this.type].width, this.obstaculos[this.type].height, false);
+    this.body.setOffset(this.obstaculos[this.type].offsetX, this.obstaculos[this.type].offsetY);
+    this.setScale(this.obstaculos[this.type].scale);
+    this.y -= this.obstaculos[this.type].yCorrection;
+    // Animación.
     this.play(this.type);
-
     this.scene.add.existing(this);
+    console.log(this.obstaculos[this.type].id);
   }
 }
