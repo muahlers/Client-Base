@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { randomNum } from '../utils/utils'
+import { randomNum, randomType } from '../utils/utils';
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, height, outlet, type, playerSpeed) {
@@ -49,7 +49,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 100,
         height: 80,
         scale: 1.2,
-        speed: this.playerSpeed - 20, // 200
+        speed: this.playerSpeed + 20, // 200
         offsetX: 0,
         offsetY: 0,
         yCorrection: 20,
@@ -70,7 +70,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         id: 'moto',
         width: 100,
         height: 60,
-        scale: 1,
+        scale: 1.2,
         speed: 650 * (this.playerSpeed / 160),
         offsetX: 0,
         offsetY: 0,
@@ -92,7 +92,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         id: 'vieja',
         width: 80,
         height: 80,
-        scale: 1,
+        scale: 1.3,
         speed: this.playerSpeed - 40, // 220
         offsetX: 0,
         offsetY: 0,
@@ -103,6 +103,19 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
   }
 
   drawObstaculo() {
+    if (this.type === 'sedan_retenMovil') {
+      const uniqueType = randomType('sedan', 'retenMovil', 40);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_people') {
+      const uniqueType = randomType('vieja', 'people', 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_grass') {
+      const uniqueType = randomType('vieja', 'grass', 60);
+      this.type = uniqueType;
+    }
+
     // enable Physics
     this.scene.physics.world.enable(this);
     this.setImmovable(true);
@@ -122,6 +135,6 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     // Animación.
     this.play(this.type);
     this.scene.add.existing(this);
-    console.log(this.obstaculos[this.type].id);
+    console.log(`${this.type}: ${obstaculoSpeed}`);
   }
 }

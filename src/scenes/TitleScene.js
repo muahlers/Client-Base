@@ -15,14 +15,13 @@ export default class TitleScene extends Phaser.Scene {
     this.titleText2.setOrigin(0.5);
     this.titleText3.setOrigin(0.5);
 
-    console.log('Load Video');
     this.video = this.add.video(300, 300, 'intro');
     this.video.setScale(0.5);
     this.video.play(true);
 
     // Creat Start button
     this.startGameButton = new UiButton(this, this.scale.width / 2, this.scale.height * 0.7, 'button1', 'button2', 'Start', this.startScene.bind(this, 'Game'));
-
+    // this.setupGameButton = new UiButton(this, this.scale.width / 2, this.scale.height * 0.8, 'button1', 'button2', 'Options', this.startScene.bind(this, 'Title'));
     // Guardo la info del jugador
     const myPlayerData = {
       x: window.game.config.width / 5,
@@ -35,10 +34,11 @@ export default class TitleScene extends Phaser.Scene {
       distance: 0,
       totalDistance: 0,
       level: 1,
-      nextLevel: 'highway',
+      nextLevel: 'walkingLane',
       levels: ['city', 'walkingLane', 'highway', 'protesta', 'callejon'],
       propinaLS: 0,
       totalHeatLS: 0,
+      road: ['c'],
     };
     localStorage.setItem('myPlayerData', JSON.stringify(myPlayerData));
   }

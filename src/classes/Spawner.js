@@ -18,11 +18,11 @@ export default class Spawner {
     this.stage = stage;
 
     // stage 1
-    this.city = ['wall', 'wall', 'people', 'sedan', 'sedan', 'bus', 'grass', 'people'];
+    this.city = ['wall', 'wall', 'vieja_people', 'sedan_retenMovil', 'sedan', 'bus', 'vieja_grass', 'vieja_people'];
     // stage 2
-    this.walkingLane = ['wall', 'wall', 'people', 'vieja', 'people', 'people', 'vieja', 'people'];
+    this.walkingLane = ['wall', 'wall', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people'];
     // stage 3
-    this.highway = ['wall', 'wall', 'sedan', 'sedan', 'moto', 'retenMovil', 'bus', 'bus'];
+    this.highway = ['wall', 'wall', 'sedan', 'sedan', 'moto', 'sedan_retenMovil', 'bus', 'bus'];
     // stage 4
     this.protesta = ['wall', 'wall', 'retenMovil', 'people', 'people', 'people', 'people', 'retenMovil'];
     // Stage 5
@@ -48,31 +48,49 @@ export default class Spawner {
 
     this.grass = {
       type: 'grass',
-      platformSpawnRange: [2000, 4000],
+      platformSpawnRange: [2000, 6000],
       xPosition: window.game.config.width,
     };
 
     this.people = {
       type: 'people',
-      platformSpawnRange: this.spawnRange.map((x) => x - (this.level * 250)),
+      platformSpawnRange: [2000, 6000],
       xPosition: window.game.config.width,
     };
 
     this.moto = {
       type: 'moto',
-      platformSpawnRange: [2000, 4000],
+      platformSpawnRange: [3000, 6000],
       xPosition: window.game.config.width,
     };
 
     this.sedan = {
       type: 'sedan',
-      platformSpawnRange: [1500, 4000],
+      platformSpawnRange: [1500, 5000],
       xPosition: window.game.config.width,
     };
 
     this.vieja = {
       type: 'vieja',
-      platformSpawnRange: [3000, 5000],
+      platformSpawnRange: [3000, 7000],
+      xPosition: window.game.config.width,
+    };
+
+    this.sedan_retenMovil = {
+      type: ['sedan', 'retenMovil'],
+      platformSpawnRange: [2500, 5000],
+      xPosition: window.game.config.width,
+    };
+
+    this.vieja_people = {
+      type: ['vieja', 'people'],
+      platformSpawnRange: [3000, 6500],
+      xPosition: window.game.config.width,
+    };
+
+    this.vieja_grass = {
+      type: ['vieja', 'grass'],
+      platformSpawnRange: [3000, 6500],
       xPosition: window.game.config.width,
     };
 
@@ -215,21 +233,36 @@ export default class Spawner {
           this.outlet[i].xPosition = this.moto.xPosition;
           break;
         }
-
         case 'sedan':
         {
           this.outlet[i].platformSpawnRange = this.sedan.platformSpawnRange;
           this.outlet[i].xPosition = this.sedan.xPosition;
           break;
         }
-
         case 'vieja':
         {
           this.outlet[i].platformSpawnRange = this.vieja.platformSpawnRange;
           this.outlet[i].xPosition = this.vieja.xPosition;
           break;
         }
-
+        case 'sedan_retenMovil':
+        {
+          this.outlet[i].platformSpawnRange = this.sedan_retenMovil.platformSpawnRange;
+          this.outlet[i].xPosition = this.sedan_retenMovil.xPosition;
+          break;
+        }
+        case 'vieja_people':
+        {
+          this.outlet[i].platformSpawnRange = this.vieja_people.platformSpawnRange;
+          this.outlet[i].xPosition = this.vieja_people.xPosition;
+          break;
+        }
+        case 'vieja_grass':
+        {
+          this.outlet[i].platformSpawnRange = this.vieja_grass.platformSpawnRange;
+          this.outlet[i].xPosition = this.vieja_grass.xPosition;
+          break;
+        }
         default: return null;
       }
     }
@@ -269,7 +302,6 @@ export default class Spawner {
 
   reset(i) {
     // Emito una señal a GameScene
-    console.log(this.outlet[i]);
     this.scene.events.emit('spawnBlock',
       this.outlet[i].xPosition, // X position
       this.outlet[i].yPosition, // Y position
@@ -281,6 +313,6 @@ export default class Spawner {
   }
 
   lvDistance() {
-    return this.level * 200;
+    return this.level * 180;
   }
 }

@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../classes/Player';
 import Spawner from '../classes/Spawner';
 import Obstaculo from '../classes/Obstaculo';
+import { randomNumber } from '../utils/utils';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,6 +16,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.physics.world.setBounds(0, 0, window.game.config.width, window.game.config.height);
 
+    this.walls = this.physics.add.group();
     this.blocks = this.physics.add.group();
     this.powerUps = this.physics.add.group();
     this.flags = [true, true, true];
@@ -203,9 +205,9 @@ export default class GameScene extends Phaser.Scene {
       key: 'vieja',
       frames: this.anims.generateFrameNumbers('vieja', {
         start: 0,
-        end: 0,
+        end: 7,
       }),
-      frameRate: 15,
+      frameRate: 10,
       repeat: -1,
     });
   }
@@ -265,6 +267,7 @@ export default class GameScene extends Phaser.Scene {
     this.blocksCollide = this.physics.add.collider(this.player, this.blocks);
     this.physics.add.collider(this.blocks, this.destroyer, this.destroyBlock, null, this);
     this.physics.add.collider(this.powerUps, this.blocks);
+    this.physics.add.collider(this.player, this.walls);
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.physics.add.overlap(this.player, this.blocks, this.crush, null, this);
   }
@@ -293,12 +296,18 @@ export default class GameScene extends Phaser.Scene {
     if (this.player.x < 0) {
       this.scene.start('Title');
       console.log('Dead');
-      this.uptoCookie(this.player.name, playerData.level);
+
+      let adnRoad = '';
+      for (let i = 0; i < playerData.road.length; i++) {
+        adnRoad += playerData.road[i];
+      }
+      console.log(adnRoad);
+      this.uptoCookie(this.player.name, playerData.level, adnRoad);
 
       // Apago Señales y Musica.
       this.cutScene();
 
-      // window.location.href = 'hiscore.php';
+      //window.location.href = 'hiscore.php';
     }
   }
 
@@ -326,13 +335,13 @@ export default class GameScene extends Phaser.Scene {
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       playerData.level += 1;
 
-      if (this.player.heat > 80) {
+      if (this.player.heat >= 80) {
         playerData.propina += 600;
         playerData.propinaLS = 600;
-      } else if (this.player.heat > 60) {
+      } else if (this.player.heat >= 60) {
         playerData.propina += 400;
         playerData.propinaLS = 400;
-      } else if (this.player.heat > 40) {
+      } else if (this.player.heat >= 40) {
         playerData.propina += 300;
         playerData.propinaLS = 300;
       } else {
@@ -346,16 +355,39 @@ export default class GameScene extends Phaser.Scene {
       // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
       const sacoEtapa = playerData.levels.shift();
 
-      playerData.nextLevel = playerData.levels[Math.floor(Math.random() * playerData.levels.length)];
-      console.log('Next Level:');
-      console.log(playerData.nextLevel);
-      console.log(playerData.levels.length);
-      console.log(Math.floor(Math.random() * playerData.levels.length));
-      console.log(playerData.levels);
+      playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
 
+      switch (playerData.nextLevel) {
+        case 'city':
+        {
+          playerData.road[playerData.road.length] = 'c';
+          break;
+        }
+        case 'walkingLane':
+        {
+          playerData.road[playerData.road.length] = 'w';
+          break;
+        }
+        case 'highway':
+        {
+          playerData.road[playerData.road.length] = 'h';
+          break;
+        }
+        case 'protesta':
+        {
+          playerData.road[playerData.road.length] = 'p';
+          break;
+        }
+        case 'callejon':
+        {
+          playerData.road[playerData.road.length] = 'j';
+          break;
+        }
+        default: break;
+      }
+      console.log(playerData.road);
       // Agrego la etapa que Saque!
       playerData.levels.push(sacoEtapa);
-      console.log(this.blocks);
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
@@ -372,10 +404,9 @@ export default class GameScene extends Phaser.Scene {
 
   updateBackground() {
     // Extraigo Velocidad de jugador para acelerar los movimientos de fondo. No es muy eficiente!
-    const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
-    this.bg0.tilePositionX += 0.375 * (playerData.velocity / 160);
-    this.bg1.tilePositionX += 0.75 * (playerData.velocity / 160);
-    this.bg2.tilePositionX += 1.50 * (playerData.velocity / 160);
+    this.bg0.tilePositionX += 0.375 * (this.player.velocity / 160);
+    this.bg1.tilePositionX += 0.750 * (this.player.velocity / 160);
+    this.bg2.tilePositionX += 1.500 * (this.player.velocity / 160);
   }
 
   // Funciones Auxiliares Juego.
@@ -419,9 +450,12 @@ export default class GameScene extends Phaser.Scene {
     this.events.on('spawnBlock', (x, y, height, outlet, type) => {
       // const block = this.add.tileSprit(x, y, width, height, key, frame);
       const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
-      this.blocks.add(block);
+      if (type === 'wall') {
+        this.walls.add(block);
+      } else {
+        this.blocks.add(block);
+      }
       block.drawObstaculo();
-      console.log('Obstaculo Dibujado');
     });
     // Event Listener: Player Jump.
     this.events.on('playerJump', () => {
@@ -459,8 +493,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funcion para crear cookie
-  uptoCookie(player, level) {
-    function setCookie(name, valueOne, valueTwo, seg) {
+  uptoCookie(player, level , road) {
+    function setCookie(name, valueOne, valueTwo, valueThree, seg) {
       let expires = '';
       let now = '';
       if (seg) {
@@ -470,10 +504,10 @@ export default class GameScene extends Phaser.Scene {
         date.setTime(date.getTime() + (seg * 1000));
         expires = `; expires=${date.toUTCString()}`;
       }
-      const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","deathTime":"${now}"}`);
+      const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
 
       document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
     }
-    setCookie('ppkcookie', player, level, 3);
+    setCookie('ppkcookie', player, level, road);
   }
 }
