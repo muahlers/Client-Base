@@ -307,7 +307,7 @@ export default class GameScene extends Phaser.Scene {
       // Apago Señales y Musica.
       this.cutScene();
 
-      //window.location.href = 'hiscore.php';
+      window.location.href = 'hiscore.php';
     }
   }
 
