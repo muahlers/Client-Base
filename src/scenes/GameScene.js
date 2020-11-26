@@ -19,6 +19,8 @@ export default class GameScene extends Phaser.Scene {
     this.walls = this.physics.add.group();
     this.blocks = this.physics.add.group();
     this.powerUps = this.physics.add.group();
+    this.finals = this.physics.add.group();
+
     this.flags = [true, true, true];
 
     this.createMusic();
@@ -177,7 +179,7 @@ export default class GameScene extends Phaser.Scene {
         start: 0,
         end: 4,
       }),
-      frameRate: 15,
+      frameRate: 5,
       repeat: -1,
     });
 
@@ -240,11 +242,22 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
     this.anims.create({
       key: 'motoPaco',
       frames: this.anims.generateFrameNumbers('motoPaco', {
         start: 0,
         end: 4,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'final',
+      frames: this.anims.generateFrameNumbers('carrito', {
+        start: 0,
+        end: 7,
       }),
       frameRate: 10,
       repeat: -1,
@@ -309,6 +322,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.walls);
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.physics.add.overlap(this.player, this.blocks, this.crush, null, this);
+    this.physics.add.overlap(this.player, this.finals, this.endStage, null, this);
   }
 
   // Funciones Metodo Update()
@@ -319,7 +333,8 @@ export default class GameScene extends Phaser.Scene {
     const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
 
     // Mensaje para la UI
-    this.player.distance += this.player.velocity / 1000;
+    if (this.flags[1]) this.player.distance += this.player.velocity / 1000;
+
     this.events.emit('updatePlayer',
       Math.floor(this.player.x),
       Math.floor(this.player.y),
@@ -370,17 +385,19 @@ export default class GameScene extends Phaser.Scene {
       powerUp.setBounce(0.8);
     }
     // Finish Level
-    if (this.player.distance > this.levelDistance) {
+    if (this.player.distance > this.levelDistance && this.flags[1]) {
+      this.flags[1] = false;
+      this.player.playerEndStage();
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       playerData.level += 1;
 
-      if (this.player.heat >= 80) {
+      if (this.player.heat >= 81) {
         playerData.propina += 600;
         playerData.propinaLS = 600;
-      } else if (this.player.heat >= 60) {
+      } else if (this.player.heat >= 61) {
         playerData.propina += 400;
         playerData.propinaLS = 400;
-      } else if (this.player.heat >= 40) {
+      } else if (this.player.heat >= 41) {
         playerData.propina += 300;
         playerData.propinaLS = 300;
       } else {
@@ -388,7 +405,7 @@ export default class GameScene extends Phaser.Scene {
         playerData.propinaLS = 100;
       }
 
-      playerData.totalHeatLS = this.player.heat;
+      playerData.totalHeatLS = this.player.heat - 1;
       playerData.totalDistance += this.levelDistance;
 
       // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
@@ -430,10 +447,12 @@ export default class GameScene extends Phaser.Scene {
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
-      // Apago Señales y Musica.
-      this.cutScene();
+
       // Me voy a las siguiente Escena.
-      this.scene.start('Kiosko');
+      console.log(this.blocks);
+      this.blockSpwaner.turnOff();
+
+      this.time.delayedCall(7000, this.toEndStage, null, this);
     }
   }
 
@@ -462,6 +481,7 @@ export default class GameScene extends Phaser.Scene {
     powerUp.disableBody(true, true);
     // Elimino Collaide entre jugador y Bloques.
     this.blocksCollide.active = false;
+    player.playerChangeSpeed(40);
 
     this.tweens.add({
       targets: player,
@@ -474,6 +494,7 @@ export default class GameScene extends Phaser.Scene {
       onComplete: () => {
         // Restablezco Collaide entre jugador y Bloques.
         this.blocksCollide.active = true;
+        player.playerChangeSpeed(-40);
       },
       callbackScope: this,
     });
@@ -481,6 +502,16 @@ export default class GameScene extends Phaser.Scene {
 
   crush(player) {
     // player.playerHitObstacle();
+  }
+
+  endStage() {
+    // Apago Señales y Musica.
+    this.cutScene();
+    this.scene.start('Kiosko');
+  }
+
+  toEndStage() {
+    this.blockSpwaner.drawEnd(4);
   }
 
   // Funcion que gatilla Spawner
@@ -491,9 +522,10 @@ export default class GameScene extends Phaser.Scene {
       const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
       if (type === 'wall') {
         this.walls.add(block);
-      } else {
-        this.blocks.add(block);
-      }
+      } else if (type === 'final') {
+        this.finals.add(block);
+      } else this.blocks.add(block);
+
       block.drawObstaculo();
     });
     // Event Listener: Player Jump.
@@ -532,7 +564,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funcion para crear cookie
-  uptoCookie(player, level , road) {
+  uptoCookie(player, level, road) {
     function setCookie(name, valueOne, valueTwo, valueThree, seg) {
       let expires = '';
       let now = '';

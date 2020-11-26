@@ -18,105 +18,178 @@ export default class Spawner {
     this.stage = stage;
 
     // stage 1
-    this.city = ['wall', 'wall', 'vieja_people', 'sedan_retenMovil', 'sedan', 'bus', 'vieja_vago', 'vieja_people'];
+    this.city = [
+      'wall',
+      'wall',
+      'vieja_people_moncho',
+      'sedan_retenMovil',
+      'sedan',
+      'bus',
+      'carrito_vago',
+      'vieja_people',
+    ];
     // stage 2
-    this.walkingLane = ['wall', 'wall', 'carrito', 'vago', 'motoPaco', 'vieja_people', 'vieja_people', 'vieja_people'];
+    this.walkingLane = [
+      'wall',
+      'wall',
+      'carrito_vago',
+      'vieja_people_moncho',
+      'vieja_people_skater',
+      'vieja_people_moncho',
+      'vieja_people_skater',
+      'vieja_people_moncho',
+    ];
     // stage 3
-    this.highway = ['wall', 'wall', 'sedan', 'sedan', 'moto', 'sedan_retenMovil', 'bus', 'bus'];
+    this.highway = [
+      'wall',
+      'wall',
+      'sedan',
+      'sedan',
+      'moto_motoPaco',
+      'sedan_retenMovil',
+      'bus',
+      'bus',
+    ];
     // stage 4
-    this.protesta = ['wall', 'wall', 'retenMovil', 'people', 'people', 'people', 'people', 'retenMovil'];
+    this.protesta = [
+      'wall',
+      'wall',
+      'retenMovil',
+      'people',
+      'people_moncho',
+      'people',
+      'people_moncho',
+      'retenMovil',
+    ];
     // Stage 5
-    this.callejon = ['wall', 'wall', 'moto', 'moto', 'moto', 'moto', 'wall', 'wall'];
+    this.callejon = [
+      'wall',
+      'wall',
+      'moto_motoPaco',
+      'moto_motoPaco',
+      'moto_motoPaco',
+      'moto_motoPaco',
+      'wall',
+      'wall',
+    ];
 
-    this.wall = {
-      type: 'wall',
-      platformSpawnRange: [0, 0],
-      xPosition: 0,
-    };
+    this.obstaculosStats = [
 
-    this.bus = {
-      type: 'bus',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'wall',
+        platformSpawnRange: [0, 0],
+        xPosition: 0,
+      },
 
-    this.car = {
-      type: 'retenMovil',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'bus',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.vago = {
-      type: 'vago',
-      platformSpawnRange: [2000, 6000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'retenMovil',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.people = {
-      type: 'people',
-      platformSpawnRange: [2000, 6000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'vago',
+        platformSpawnRange: [2000, 6000],
+        xPosition: window.game.config.width,
+      },
 
-    this.moto = {
-      type: 'moto',
-      platformSpawnRange: [3000, 6000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'people',
+        platformSpawnRange: [2000, 6000],
+        xPosition: window.game.config.width,
+      },
 
-    this.motoPaco = {
-      type: 'motoPaco',
-      platformSpawnRange: [3000, 6000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'moto',
+        platformSpawnRange: [3000, 6000],
+        xPosition: window.game.config.width,
+      },
 
-    this.sedan = {
-      type: 'sedan',
-      platformSpawnRange: [1500, 5000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'motoPaco',
+        platformSpawnRange: [3000, 6000],
+        xPosition: window.game.config.width,
+      },
 
-    this.vieja = {
-      type: 'vieja',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'sedan',
+        platformSpawnRange: [1500, 5000],
+        xPosition: window.game.config.width,
+      },
 
-    this.moncho = {
-      type: 'moncho',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'vieja',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.skater = {
-      type: 'skater',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'moncho',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.carrito = {
-      type: 'carrito',
-      platformSpawnRange: [3000, 7000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'skater',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.sedan_retenMovil = {
-      type: ['sedan', 'retenMovil'],
-      platformSpawnRange: [2500, 5000],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'carrito',
+        platformSpawnRange: [3000, 7000],
+        xPosition: window.game.config.width,
+      },
 
-    this.vieja_people = {
-      type: ['vieja', 'people'],
-      platformSpawnRange: [3000, 6500],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'sedan_retenMovil',
+        platformSpawnRange: [2500, 5000],
+        xPosition: window.game.config.width,
+      },
 
-    this.vieja_vago = {
-      type: ['vieja', 'vago'],
-      platformSpawnRange: [3000, 6500],
-      xPosition: window.game.config.width,
-    };
+      {
+        type: 'vieja_people',
+        platformSpawnRange: [3000, 6500],
+        xPosition: window.game.config.width,
+      },
+
+      {
+        type: 'vieja_vago',
+        platformSpawnRange: [3000, 6500],
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'vieja_people_moncho',
+        platformSpawnRange: [3000, 6500],
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'vieja_people_skater',
+        platformSpawnRange: [3000, 6500],
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'moto_motoPaco',
+        platformSpawnRange: [3000, 6000],
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'carrito_vago',
+        platformSpawnRange: [3000, 6000],
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'people_moncho',
+        platformSpawnRange: [2000, 6000],
+        xPosition: window.game.config.width,
+      },
+    ];
 
     this.outlet = [
       {
@@ -125,6 +198,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - 20,
         yPosition: 0 + 20,
         canDraw: true,
+        on: true,
       },
       {
         id: 2,
@@ -132,6 +206,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: window.game.config.height / 8 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 3,
@@ -139,6 +214,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 2 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 4,
@@ -146,6 +222,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 3 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 5,
@@ -153,6 +230,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 4 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 6,
@@ -160,6 +238,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 5 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 7,
@@ -167,6 +246,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 6 + this.offset,
         canDraw: true,
+        on: true,
       },
       {
         id: 8,
@@ -174,6 +254,7 @@ export default class Spawner {
         pixelsWidth: window.game.config.height / 8 - this.offset * 2,
         yPosition: (window.game.config.height / 8) * 7,
         canDraw: true,
+        on: true,
       },
     ];
 
@@ -219,109 +300,22 @@ export default class Spawner {
     }
 
     // Relleno los oultes con las carecteristicas de los bloques.
-    for (let i = 0; i < this.outlet.length; i++) {
-      switch (this.outlet[i].type) {
-        case 'wall':
-        {
-          this.outlet[i].platformSpawnRange = this.wall.platformSpawnRange;
-          this.outlet[i].xPosition = this.wall.xPosition;
-          break;
+    Object.keys(this.outlet).forEach((outlet) => {
+      Object.keys(this.obstaculosStats).forEach((enemy) => {
+        if (this.outlet[outlet].type === this.obstaculosStats[enemy].type) {
+          this.outlet[outlet].platformSpawnRange = this.obstaculosStats[enemy].platformSpawnRange;
+          this.outlet[outlet].xPosition = this.obstaculosStats[enemy].xPosition;
         }
-        case 'bus':
-        {
-          this.outlet[i].platformSpawnRange = this.bus.platformSpawnRange;
-          this.outlet[i].xPosition = this.bus.xPosition;
-          break;
-        }
-        case 'retenMovil':
-        {
-          this.outlet[i].platformSpawnRange = this.car.platformSpawnRange;
-          this.outlet[i].xPosition = this.car.xPosition;
-          break;
-        }
-        case 'people':
-        {
-          this.outlet[i].platformSpawnRange = this.people.platformSpawnRange;
-          this.outlet[i].xPosition = this.people.xPosition;
-          break;
-        }
-        case 'vago':
-        {
-          this.outlet[i].platformSpawnRange = this.vago.platformSpawnRange;
-          this.outlet[i].xPosition = this.vago.xPosition;
-          break;
-        }
-        case 'moto':
-        {
-          this.outlet[i].platformSpawnRange = this.moto.platformSpawnRange;
-          this.outlet[i].xPosition = this.moto.xPosition;
-          break;
-        }
-        case 'motoPaco':
-        {
-          this.outlet[i].platformSpawnRange = this.motoPaco.platformSpawnRange;
-          this.outlet[i].xPosition = this.motoPaco.xPosition;
-          break;
-        }
-        case 'sedan':
-        {
-          this.outlet[i].platformSpawnRange = this.sedan.platformSpawnRange;
-          this.outlet[i].xPosition = this.sedan.xPosition;
-          break;
-        }
-        case 'vieja':
-        {
-          this.outlet[i].platformSpawnRange = this.vieja.platformSpawnRange;
-          this.outlet[i].xPosition = this.vieja.xPosition;
-          break;
-        }
-        case 'moncho':
-        {
-          this.outlet[i].platformSpawnRange = this.moncho.platformSpawnRange;
-          this.outlet[i].xPosition = this.moncho.xPosition;
-          break;
-        }
-        case 'skater':
-        {
-          this.outlet[i].platformSpawnRange = this.skater.platformSpawnRange;
-          this.outlet[i].xPosition = this.skater.xPosition;
-          break;
-        }
-        case 'carrito':
-        {
-          this.outlet[i].platformSpawnRange = this.carrito.platformSpawnRange;
-          this.outlet[i].xPosition = this.carrito.xPosition;
-          break;
-        }
-        case 'sedan_retenMovil':
-        {
-          this.outlet[i].platformSpawnRange = this.sedan_retenMovil.platformSpawnRange;
-          this.outlet[i].xPosition = this.sedan_retenMovil.xPosition;
-          break;
-        }
-        case 'vieja_people':
-        {
-          this.outlet[i].platformSpawnRange = this.vieja_people.platformSpawnRange;
-          this.outlet[i].xPosition = this.vieja_people.xPosition;
-          break;
-        }
-        case 'vieja_vago':
-        {
-          this.outlet[i].platformSpawnRange = this.vieja_vago.platformSpawnRange;
-          this.outlet[i].xPosition = this.vieja_vago.xPosition;
-          break;
-        }
-        default: return null;
-      }
-    }
-    return null;
+      });
+    });
+    return true;
   }
 
   drawBlockFromSpawner() {
     // this.objectCreated = [];
     const timer = [];
     for (let i = 0; i < this.outlet.length; i++) {
-      if (this.outlet[i].canDraw) {
+      if (this.outlet[i].canDraw && this.outlet[i].on) {
         this.outlet[i].canDraw = false;
         // Este if es para ver si es un Obstaculo o una Wall.
         if (this.outlet[i].platformSpawnRange[0] > 0) {
@@ -360,7 +354,23 @@ export default class Spawner {
     this.outlet[i].canDraw = true;
   }
 
+  turnOff() {
+    Object.keys(this.outlet).forEach((outlet) => {
+      this.outlet[outlet].on = false;
+    });
+  }
+
+  drawEnd(i) {
+    // Emito una señal a GameScene
+    this.scene.events.emit('spawnBlock',
+      this.outlet[i].xPosition, // X position
+      this.outlet[i].yPosition, // Y position
+      this.outlet[i].pixelsWidth, // height
+      this.outlet[i].name, // Outlet
+      'final'); // tipo
+  }
+
   lvDistance() {
-    return this.level * 180;
+    return this.level * 80;
   }
 }

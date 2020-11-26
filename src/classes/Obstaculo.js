@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { randomNum, randomType } from '../utils/utils';
+import { randomNum, randomType2, randomType3 } from '../utils/utils';
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, height, outlet, type, playerSpeed) {
@@ -9,6 +9,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.outletNumber = outlet;
     this.type = type;
     this.playerSpeed = playerSpeed;
+
     // Información de Obstaculos.
     this.obstaculos = {
       wall: {
@@ -63,13 +64,13 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         speed: this.playerSpeed, // 160
         offsetX: 0,
         offsetY: 0,
-        yCorrection: 0,
+        yCorrection: -30,
         speedVar: 0,
       },
       moto: {
         id: 'moto',
-        width: 100,
-        height: 60,
+        width: 80,
+        height: 65,
         scale: 1.2,
         speed: 650 * (this.playerSpeed / 160),
         offsetX: 0,
@@ -104,7 +105,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 50,
         height: 60,
         scale: 1.3,
-        speed: this.playerSpeed - 40, // 220
+        speed: this.playerSpeed - 80, // 220
         offsetX: 0,
         offsetY: 5,
         yCorrection: 0,
@@ -115,7 +116,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 30,
         height: 60,
         scale: 1.3,
-        speed: this.playerSpeed - 40, // 220
+        speed: this.playerSpeed - 80, // 220
         offsetX: 0,
         offsetY: 5,
         yCorrection: 0,
@@ -126,7 +127,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 40,
         height: 56,
         scale: 1.3,
-        speed: this.playerSpeed - 40, // 220
+        speed: this.playerSpeed + 40, // 220
         offsetX: 0,
         offsetY: 5,
         yCorrection: 0,
@@ -135,11 +136,22 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       carrito: {
         id: 'carrito',
         width: 72,
-        height: 64,
-        scale: 1.2,
-        speed: this.playerSpeed - 40, // 220
+        height: 50,
+        scale: 1.3,
+        speed: this.playerSpeed - 20, // 220
         offsetX: 0,
-        offsetY: 5,
+        offsetY: 15,
+        yCorrection: 0,
+        speedVar: 20,
+      },
+      final: {
+        id: 'final',
+        width: 72,
+        height: 50,
+        scale: 1.3,
+        speed: this.playerSpeed - 100, // 220
+        offsetX: 0,
+        offsetY: 15,
         yCorrection: 0,
         speedVar: 20,
       },
@@ -148,15 +160,35 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
 
   drawObstaculo() {
     if (this.type === 'sedan_retenMovil') {
-      const uniqueType = randomType('sedan', 'retenMovil', 40);
+      const uniqueType = randomType2('sedan', 'retenMovil', 40);
       this.type = uniqueType;
     }
     if (this.type === 'vieja_people') {
-      const uniqueType = randomType('vieja', 'people', 30);
+      const uniqueType = randomType2('vieja', 'people', 30);
       this.type = uniqueType;
     }
     if (this.type === 'vieja_grass') {
-      const uniqueType = randomType('vieja', 'grass', 60);
+      const uniqueType = randomType2('vieja', 'grass', 60);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_people_moncho') {
+      const uniqueType = randomType3('vieja', 'people', 'moncho', 40, 5);
+      this.type = uniqueType;
+    }
+    if (this.type === 'moto_motoPaco') {
+      const uniqueType = randomType2('moto', 'motoPaco', 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_people_skater') {
+      const uniqueType = randomType3('vieja', 'people', 'skater', 40, 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'carrito_vago') {
+      const uniqueType = randomType2('carrito', 'vago', 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'people_moncho') {
+      const uniqueType = randomType2('people', 'moncho', 5);
       this.type = uniqueType;
     }
 
