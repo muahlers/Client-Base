@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.termo = termo;
     this.distance = distance;
     this.heat = heat;
-    this.name = sessionName();
+    this.name = 'Joe'; // sessionName();
 
     // enable Physics
     this.scene.physics.world.enable(this);

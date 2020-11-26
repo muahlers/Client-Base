@@ -182,8 +182,8 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: 'grass',
-      frames: this.anims.generateFrameNumbers('grass', {
+      key: 'vago',
+      frames: this.anims.generateFrameNumbers('vago', {
         start: 0,
         end: 0,
       }),
@@ -206,6 +206,45 @@ export default class GameScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('vieja', {
         start: 0,
         end: 7,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'moncho',
+      frames: this.anims.generateFrameNumbers('moncho', {
+        start: 0,
+        end: 7,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'skater',
+      frames: this.anims.generateFrameNumbers('skater', {
+        start: 0,
+        end: 1,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'carrito',
+      frames: this.anims.generateFrameNumbers('carrito', {
+        start: 0,
+        end: 7,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'motoPaco',
+      frames: this.anims.generateFrameNumbers('motoPaco', {
+        start: 0,
+        end: 4,
       }),
       frameRate: 10,
       repeat: -1,

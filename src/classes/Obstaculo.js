@@ -47,19 +47,19 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       people: {
         id: 'people',
         width: 100,
-        height: 80,
+        height: 75,
         scale: 1.2,
         speed: this.playerSpeed + 20, // 200
-        offsetX: 0,
-        offsetY: 0,
+        offsetX: 15,
+        offsetY: 20,
         yCorrection: 20,
         speedVar: 20,
       },
-      grass: {
-        id: 'grass',
-        width: 375,
-        height: 251,
-        scale: 0.4,
+      vago: {
+        id: 'vago',
+        width: 74,
+        height: 24,
+        scale: 1.5,
         speed: this.playerSpeed, // 160
         offsetX: 0,
         offsetY: 0,
@@ -70,6 +70,17 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         id: 'moto',
         width: 100,
         height: 60,
+        scale: 1.2,
+        speed: 650 * (this.playerSpeed / 160),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 50,
+      },
+      motoPaco: {
+        id: 'motoPaco',
+        width: 80,
+        height: 65,
         scale: 1.2,
         speed: 650 * (this.playerSpeed / 160),
         offsetX: 0,
@@ -90,12 +101,45 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       },
       vieja: {
         id: 'vieja',
-        width: 80,
-        height: 80,
+        width: 50,
+        height: 60,
         scale: 1.3,
         speed: this.playerSpeed - 40, // 220
         offsetX: 0,
-        offsetY: 0,
+        offsetY: 5,
+        yCorrection: 0,
+        speedVar: 20,
+      },
+      moncho: {
+        id: 'moncho',
+        width: 30,
+        height: 60,
+        scale: 1.3,
+        speed: this.playerSpeed - 40, // 220
+        offsetX: 0,
+        offsetY: 5,
+        yCorrection: 0,
+        speedVar: 20,
+      },
+      skater: {
+        id: 'skater',
+        width: 40,
+        height: 56,
+        scale: 1.3,
+        speed: this.playerSpeed - 40, // 220
+        offsetX: 0,
+        offsetY: 5,
+        yCorrection: 0,
+        speedVar: 20,
+      },
+      carrito: {
+        id: 'carrito',
+        width: 72,
+        height: 64,
+        scale: 1.2,
+        speed: this.playerSpeed - 40, // 220
+        offsetX: 0,
+        offsetY: 5,
         yCorrection: 0,
         speedVar: 20,
       },
@@ -119,6 +163,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     // enable Physics
     this.scene.physics.world.enable(this);
     this.setImmovable(true);
+
     // Randomizo la velocidad.
     let obstaculoSpeed = this.obstaculos[this.type].speed;
     obstaculoSpeed = randomNum(
@@ -126,12 +171,14 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       obstaculoSpeed + this.obstaculos[this.type].speedVar,
     );
     this.body.setVelocityX(-obstaculoSpeed);
+
     // Doy tamaño a la animación y seteo le Hitbox,
     this.setOrigin(0);
     this.body.setSize(this.obstaculos[this.type].width, this.obstaculos[this.type].height, false);
     this.body.setOffset(this.obstaculos[this.type].offsetX, this.obstaculos[this.type].offsetY);
     this.setScale(this.obstaculos[this.type].scale);
     this.y -= this.obstaculos[this.type].yCorrection;
+
     // Animación.
     this.play(this.type);
     this.scene.add.existing(this);

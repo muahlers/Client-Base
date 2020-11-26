@@ -18,9 +18,9 @@ export default class Spawner {
     this.stage = stage;
 
     // stage 1
-    this.city = ['wall', 'wall', 'vieja_people', 'sedan_retenMovil', 'sedan', 'bus', 'vieja_grass', 'vieja_people'];
+    this.city = ['wall', 'wall', 'vieja_people', 'sedan_retenMovil', 'sedan', 'bus', 'vieja_vago', 'vieja_people'];
     // stage 2
-    this.walkingLane = ['wall', 'wall', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people', 'vieja_people'];
+    this.walkingLane = ['wall', 'wall', 'carrito', 'vago', 'motoPaco', 'vieja_people', 'vieja_people', 'vieja_people'];
     // stage 3
     this.highway = ['wall', 'wall', 'sedan', 'sedan', 'moto', 'sedan_retenMovil', 'bus', 'bus'];
     // stage 4
@@ -46,8 +46,8 @@ export default class Spawner {
       xPosition: window.game.config.width,
     };
 
-    this.grass = {
-      type: 'grass',
+    this.vago = {
+      type: 'vago',
       platformSpawnRange: [2000, 6000],
       xPosition: window.game.config.width,
     };
@@ -64,6 +64,12 @@ export default class Spawner {
       xPosition: window.game.config.width,
     };
 
+    this.motoPaco = {
+      type: 'motoPaco',
+      platformSpawnRange: [3000, 6000],
+      xPosition: window.game.config.width,
+    };
+
     this.sedan = {
       type: 'sedan',
       platformSpawnRange: [1500, 5000],
@@ -72,6 +78,24 @@ export default class Spawner {
 
     this.vieja = {
       type: 'vieja',
+      platformSpawnRange: [3000, 7000],
+      xPosition: window.game.config.width,
+    };
+
+    this.moncho = {
+      type: 'moncho',
+      platformSpawnRange: [3000, 7000],
+      xPosition: window.game.config.width,
+    };
+
+    this.skater = {
+      type: 'skater',
+      platformSpawnRange: [3000, 7000],
+      xPosition: window.game.config.width,
+    };
+
+    this.carrito = {
+      type: 'carrito',
       platformSpawnRange: [3000, 7000],
       xPosition: window.game.config.width,
     };
@@ -88,8 +112,8 @@ export default class Spawner {
       xPosition: window.game.config.width,
     };
 
-    this.vieja_grass = {
-      type: ['vieja', 'grass'],
+    this.vieja_vago = {
+      type: ['vieja', 'vago'],
       platformSpawnRange: [3000, 6500],
       xPosition: window.game.config.width,
     };
@@ -221,16 +245,22 @@ export default class Spawner {
           this.outlet[i].xPosition = this.people.xPosition;
           break;
         }
-        case 'grass':
+        case 'vago':
         {
-          this.outlet[i].platformSpawnRange = this.grass.platformSpawnRange;
-          this.outlet[i].xPosition = this.grass.xPosition;
+          this.outlet[i].platformSpawnRange = this.vago.platformSpawnRange;
+          this.outlet[i].xPosition = this.vago.xPosition;
           break;
         }
         case 'moto':
         {
           this.outlet[i].platformSpawnRange = this.moto.platformSpawnRange;
           this.outlet[i].xPosition = this.moto.xPosition;
+          break;
+        }
+        case 'motoPaco':
+        {
+          this.outlet[i].platformSpawnRange = this.motoPaco.platformSpawnRange;
+          this.outlet[i].xPosition = this.motoPaco.xPosition;
           break;
         }
         case 'sedan':
@@ -245,6 +275,24 @@ export default class Spawner {
           this.outlet[i].xPosition = this.vieja.xPosition;
           break;
         }
+        case 'moncho':
+        {
+          this.outlet[i].platformSpawnRange = this.moncho.platformSpawnRange;
+          this.outlet[i].xPosition = this.moncho.xPosition;
+          break;
+        }
+        case 'skater':
+        {
+          this.outlet[i].platformSpawnRange = this.skater.platformSpawnRange;
+          this.outlet[i].xPosition = this.skater.xPosition;
+          break;
+        }
+        case 'carrito':
+        {
+          this.outlet[i].platformSpawnRange = this.carrito.platformSpawnRange;
+          this.outlet[i].xPosition = this.carrito.xPosition;
+          break;
+        }
         case 'sedan_retenMovil':
         {
           this.outlet[i].platformSpawnRange = this.sedan_retenMovil.platformSpawnRange;
@@ -257,10 +305,10 @@ export default class Spawner {
           this.outlet[i].xPosition = this.vieja_people.xPosition;
           break;
         }
-        case 'vieja_grass':
+        case 'vieja_vago':
         {
-          this.outlet[i].platformSpawnRange = this.vieja_grass.platformSpawnRange;
-          this.outlet[i].xPosition = this.vieja_grass.xPosition;
+          this.outlet[i].platformSpawnRange = this.vieja_vago.platformSpawnRange;
+          this.outlet[i].xPosition = this.vieja_vago.xPosition;
           break;
         }
         default: return null;
