@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../classes/Player';
 import Spawner from '../classes/Spawner';
 import Obstaculo from '../classes/Obstaculo';
-import { randomNumber } from '../utils/utils';
+import { randomNumber, uptoCookie } from '../utils/utils';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -21,7 +21,7 @@ export default class GameScene extends Phaser.Scene {
     this.powerUps = this.physics.add.group();
     this.finals = this.physics.add.group();
 
-    this.flags = [true, true, true];
+    this.flags = [true, true];
 
     this.createMusic();
     this.createBackground();
@@ -275,7 +275,7 @@ export default class GameScene extends Phaser.Scene {
     );
     // Podria Sacar lvDistance a una clase de Etapas.
     this.levelDistance = this.blockSpwaner.lvDistance();
-    this.drawBlock(this.blockSpwaner);
+    this.blockSpwaner.drawBlockFromSpawner();
   }
 
   createDestroyer() {
@@ -356,7 +356,7 @@ export default class GameScene extends Phaser.Scene {
         adnRoad += playerData.road[i];
       }
       console.log(adnRoad);
-      this.uptoCookie(this.player.name, playerData.level, adnRoad);
+      uptoCookie(this.player.name, playerData.level, adnRoad);
 
       // Apago Señales y Musica.
       this.cutScene();
@@ -384,6 +384,7 @@ export default class GameScene extends Phaser.Scene {
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(0.8);
     }
+
     // Finish Level
     if (this.player.distance > this.levelDistance && this.flags[1]) {
       this.flags[1] = false;
@@ -413,6 +414,7 @@ export default class GameScene extends Phaser.Scene {
 
       playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
 
+      // Creo un string con todas las etapas que el jugador ha pasado.
       switch (playerData.nextLevel) {
         case 'city':
         {
@@ -441,15 +443,14 @@ export default class GameScene extends Phaser.Scene {
         }
         default: break;
       }
-      console.log(playerData.road);
+
       // Agrego la etapa que Saque!
       playerData.levels.push(sacoEtapa);
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
 
-      // Me voy a las siguiente Escena.
-      console.log(this.blocks);
+      // Inicio el fin de la Etapa.
       this.blockSpwaner.turnOff();
 
       this.time.delayedCall(7000, this.toEndStage, null, this);
@@ -457,7 +458,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateBlocks() {
-    this.drawBlock(this.blockSpwaner);
+    this.blockSpwaner.drawBlockFromSpawner();
   }
 
   updateBackground() {
@@ -468,10 +469,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funciones Auxiliares Juego.
-
-  drawBlock(spawner) {
-    spawner.drawBlockFromSpawner();
-  }
 
   destroyBlock(destroyer, block) {
     this.blocks.remove(block, true, true);
@@ -500,10 +497,6 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  crush(player) {
-    // player.playerHitObstacle();
-  }
-
   endStage() {
     // Apago Señales y Musica.
     this.cutScene();
@@ -514,7 +507,16 @@ export default class GameScene extends Phaser.Scene {
     this.blockSpwaner.drawEnd(4);
   }
 
-  // Funcion que gatilla Spawner
+  cutScene() {
+    //  Apago las señales.
+    this.events.off('spawnBlock');
+    this.events.off('playerJump');
+    this.events.off('playerFinishJump');
+
+    this.music.stop();
+  }
+
+  // Funcion que gatilla Spawner y Player
   setupEventListener() {
     // Event Listener: spawnBlock.
     this.events.on('spawnBlock', (x, y, height, outlet, type) => {
@@ -552,33 +554,5 @@ export default class GameScene extends Phaser.Scene {
       // Permito que el jugador pueda chocar de nuevo.
       this.blocksCollide.active = true;
     });
-  }
-
-  cutScene() {
-    //  Apago las señales.
-    this.events.off('spawnBlock');
-    this.events.off('playerJump');
-    this.events.off('playerFinishJump');
-
-    this.music.stop();
-  }
-
-  // Funcion para crear cookie
-  uptoCookie(player, level, road) {
-    function setCookie(name, valueOne, valueTwo, valueThree, seg) {
-      let expires = '';
-      let now = '';
-      if (seg) {
-        const date = new Date();
-        date.setTime(date.getTime());
-        now = ` ${date.toUTCString()}`;
-        date.setTime(date.getTime() + (seg * 1000));
-        expires = `; expires=${date.toUTCString()}`;
-      }
-      const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
-
-      document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
-    }
-    setCookie('ppkcookie', player, level, road);
   }
 }

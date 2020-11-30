@@ -3,6 +3,7 @@ import TitleScene from './TitleScene';
 import GameScene from './GameScene';
 import UiScene from './UiScene';
 import Kiosko from './Kiosko';
+import SetupScene from './SetupScene';
 
 export default [
   BootScene,
@@ -10,4 +11,5 @@ export default [
   GameScene,
   UiScene,
   Kiosko,
+  SetupScene,
 ];

@@ -3,74 +3,81 @@ import { randomNum } from '../utils/utils';
 export default class Spawner {
   constructor(scene, level, playerSpeed, stage) {
     this.scene = scene;
-    // platform speed range, in pixels per second
-    this.speedRange = [200, 250];
-    // spawn range, how far should be the rightmost platform from the right edge
-    // before next platform spawns, in pixels
-    this.spawnRange = [3000, 7000];
-    // platform width range, in pixels
-    this.platformSizeRange = [100, 1600];
     // platform max and min height, as screen height ratio
     this.playerSpeed = playerSpeed;
+    // Adjust oultes spawn area.
     this.offset = 8;
-    this.numberOfOutlets = 8;
+    // Level #
     this.level = level;
+    // Name of the Stage.
     this.stage = stage;
 
-    // stage 1
-    this.city = [
-      'wall',
-      'wall',
-      'vieja_people_moncho',
-      'sedan_retenMovil',
-      'sedan',
-      'bus',
-      'carrito_vago',
-      'vieja_people',
-    ];
-    // stage 2
-    this.walkingLane = [
-      'wall',
-      'wall',
-      'carrito_vago',
-      'vieja_people_moncho',
-      'vieja_people_skater',
-      'vieja_people_moncho',
-      'vieja_people_skater',
-      'vieja_people_moncho',
-    ];
-    // stage 3
-    this.highway = [
-      'wall',
-      'wall',
-      'sedan',
-      'sedan',
-      'moto_motoPaco',
-      'sedan_retenMovil',
-      'bus',
-      'bus',
-    ];
-    // stage 4
-    this.protesta = [
-      'wall',
-      'wall',
-      'retenMovil',
-      'people',
-      'people_moncho',
-      'people',
-      'people_moncho',
-      'retenMovil',
-    ];
-    // Stage 5
-    this.callejon = [
-      'wall',
-      'wall',
-      'moto_motoPaco',
-      'moto_motoPaco',
-      'moto_motoPaco',
-      'moto_motoPaco',
-      'wall',
-      'wall',
+    this.stages = [
+      {
+        type: 'city',
+        blocks: [
+          'wall',
+          'wall',
+          'vieja_people_moncho',
+          'sedan_retenMovil',
+          'sedan',
+          'bus',
+          'carrito_vago',
+          'vieja_people',
+        ],
+      },
+      {
+        type: 'walkingLane',
+        blocks: [
+          'wall',
+          'wall',
+          'carrito_vago',
+          'vieja_people_moncho',
+          'vieja_people_skater',
+          'vieja_people_moncho',
+          'vieja_people_skater',
+          'vieja_people_moncho',
+        ],
+      },
+      {
+        type: 'highway',
+        blocks: [
+          'wall',
+          'wall',
+          'sedan',
+          'sedan',
+          'moto_motoPaco',
+          'sedan_retenMovil',
+          'bus',
+          'bus',
+        ],
+      },
+      {
+        type: 'protesta',
+        blocks: [
+          'wall',
+          'wall',
+          'retenMovil',
+          'people',
+          'people_moncho',
+          'people',
+          'people_moncho',
+          'retenMovil',
+        ],
+      },
+      {
+        type: 'callejon',
+        blocks: [
+          'wall',
+          'wall',
+          'moto_motoPaco',
+          'moto_motoPaco',
+          'moto_motoPaco',
+          'moto_motoPaco',
+          'wall',
+          'wall',
+        ],
+      },
     ];
 
     this.obstaculosStats = [
@@ -258,7 +265,7 @@ export default class Spawner {
       },
     ];
 
-    this.start(); // Funcion que queda corriendo y crea los obj del Spawner.
+    this.start(); // Funcion que crea los obj del Spawner.
   }
 
   start() {
@@ -267,37 +274,14 @@ export default class Spawner {
 
   createSpawmer() {
     // Imprimo los tipos de blockes que debe producir cada outlet.
-    for (let i = 0; i < this.numberOfOutlets; i++) {
-      switch (this.stage) {
-        case 'city':
-        {
-          this.outlet[i].type = this.city[i];
-          break;
-        }
-        case 'walkingLane':
-        {
-          this.outlet[i].type = this.walkingLane[i];
-          break;
-        }
-        case 'highway':
-        {
-          this.outlet[i].type = this.highway[i];
-          break;
-        }
-        case 'protesta':
-        {
-          this.outlet[i].type = this.protesta[i];
-          break;
-        }
-
-        case 'callejon':
-        {
-          this.outlet[i].type = this.callejon[i];
-          break;
-        }
-        default: return null;
+    Object.keys(this.stages).forEach((stage) => {
+      if (this.stages[stage].type === this.stage) {
+        Object.keys(this.stages[stage].blocks).forEach((block) => {
+          console.log(this.outlet[block]);
+          this.outlet[block].type = this.stages[stage].blocks[block];
+        });
       }
-    }
+    });
 
     // Relleno los oultes con las carecteristicas de los bloques.
     Object.keys(this.outlet).forEach((outlet) => {
@@ -312,7 +296,7 @@ export default class Spawner {
   }
 
   drawBlockFromSpawner() {
-    // this.objectCreated = [];
+    // setup de los timers para dibujar
     const timer = [];
     for (let i = 0; i < this.outlet.length; i++) {
       if (this.outlet[i].canDraw && this.outlet[i].on) {
@@ -343,7 +327,7 @@ export default class Spawner {
   }
 
   reset(i) {
-    // Emito una señal a GameScene
+    // Emito una señal a GameScene para dibujar un obstaculos
     this.scene.events.emit('spawnBlock',
       this.outlet[i].xPosition, // X position
       this.outlet[i].yPosition, // Y position
@@ -371,6 +355,6 @@ export default class Spawner {
   }
 
   lvDistance() {
-    return this.level * 80;
+    return this.level * 180;
   }
 }

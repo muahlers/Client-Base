@@ -20,8 +20,25 @@ export default class TitleScene extends Phaser.Scene {
     this.video.play(true);
 
     // Creat Start button
-    this.startGameButton = new UiButton(this, this.scale.width / 2, this.scale.height * 0.7, 'button1', 'button2', 'Start', this.startScene.bind(this, 'Game'));
-    // this.setupGameButton = new UiButton(this, this.scale.width / 2, this.scale.height * 0.8, 'button1', 'button2', 'Options', this.startScene.bind(this, 'Title'));
+    this.startGameButton = new UiButton(
+      this,
+      this.scale.width / 2,
+      this.scale.height * 0.7,
+      'button1',
+      'button2',
+      'Start',
+      this.startScene.bind(this, 'Game'),
+    );
+
+    this.setupGameButton = new UiButton(
+      this, this.scale.width / 2,
+      this.scale.height * 0.8,
+      'button1',
+      'button2',
+      'Options',
+      this.startScene.bind(this, 'Setup'),
+    );
+
     // Guardo la info del jugador
     const myPlayerData = {
       x: window.game.config.width / 5,
@@ -34,7 +51,7 @@ export default class TitleScene extends Phaser.Scene {
       distance: 0,
       totalDistance: 0,
       level: 1,
-      nextLevel: 'protesta',
+      nextLevel: 'city',
       levels: ['city', 'walkingLane', 'highway', 'protesta', 'callejon'],
       propinaLS: 0,
       totalHeatLS: 0,
