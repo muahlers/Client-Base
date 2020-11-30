@@ -10,7 +10,7 @@ export default class TitleScene extends Phaser.Scene {
     // Create Game Title
     this.titleText1 = this.add.text(this.scale.width / 2, this.scale.height / 2 - 160, 'El Honesto Mike', { fontSize: '48px', fill: '#fff' });
     this.titleText2 = this.add.text(this.scale.width / 2, this.scale.height / 2 - 80, 'Delivery Game', { fontSize: '48px', fill: '#fff' });
-    this.titleText3 = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Version: 0.2.6', { fontSize: '48px', fill: '#fff' });
+    this.titleText3 = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Version: 0.2.7', { fontSize: '48px', fill: '#fff' });
     this.titleText1.setOrigin(0.5);
     this.titleText2.setOrigin(0.5);
     this.titleText3.setOrigin(0.5);
