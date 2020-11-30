@@ -29,6 +29,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.spritesheet('moncho', 'assets/images/monchoSheet.png', { frameWidth: 30, frameHeight: 65 });
     this.load.spritesheet('skater', 'assets/images/skaterSheet.png', { frameWidth: 40, frameHeight: 56 });
     this.load.spritesheet('carrito', 'assets/images/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
+    this.load.spritesheet('final', 'assets/images/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
     this.load.spritesheet('motoPaco', 'assets/images/motoPacoSheet.png', { frameWidth: 80, frameHeight: 65 });
     this.load.spritesheet('sedan', 'assets/images/sedanSheet.png', { frameWidth: 155, frameHeight: 65 });
     this.load.spritesheet('vago', 'assets/images/vago.png', { frameWidth: 74, frameHeight: 24 });

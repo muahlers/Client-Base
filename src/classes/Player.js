@@ -15,6 +15,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.distance = distance;
     this.heat = heat;
     this.name = 'Joe'; // sessionName();
+    this.onStage = true;
 
     // enable Physics
     this.scene.physics.world.enable(this);
@@ -52,10 +53,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.playerJump();
     }
 
-    if (this.lowTemp) {
+    if (this.lowTemp && this.onStage) {
       this.lowTemp = false;
       this.scene.time.addEvent({
-        delay: (1500 * this.termo),
+        delay: (1700 * this.termo),
         callback: () => {
           this.playerRefreshHeat();
         },
@@ -98,5 +99,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   playerRefreshHeat() {
     this.heat -= 1;
     this.lowTemp = true;
+  }
+
+  playerEndStage() {
+    this.onStage = false;
+  }
+
+  playerChangeSpeed(speed) {
+    this.body.setVelocity(this.velocity + speed);
   }
 }

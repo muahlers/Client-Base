@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../classes/Player';
 import Spawner from '../classes/Spawner';
 import Obstaculo from '../classes/Obstaculo';
-import { randomNumber } from '../utils/utils';
+import { randomNumber, uptoCookie } from '../utils/utils';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -19,7 +19,9 @@ export default class GameScene extends Phaser.Scene {
     this.walls = this.physics.add.group();
     this.blocks = this.physics.add.group();
     this.powerUps = this.physics.add.group();
-    this.flags = [true, true, true];
+    this.finals = this.physics.add.group();
+
+    this.flags = [true, true];
 
     this.createMusic();
     this.createBackground();
@@ -177,7 +179,7 @@ export default class GameScene extends Phaser.Scene {
         start: 0,
         end: 4,
       }),
-      frameRate: 15,
+      frameRate: 5,
       repeat: -1,
     });
 
@@ -240,11 +242,22 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
     this.anims.create({
       key: 'motoPaco',
       frames: this.anims.generateFrameNumbers('motoPaco', {
         start: 0,
         end: 4,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'final',
+      frames: this.anims.generateFrameNumbers('carrito', {
+        start: 0,
+        end: 7,
       }),
       frameRate: 10,
       repeat: -1,
@@ -262,7 +275,7 @@ export default class GameScene extends Phaser.Scene {
     );
     // Podria Sacar lvDistance a una clase de Etapas.
     this.levelDistance = this.blockSpwaner.lvDistance();
-    this.drawBlock(this.blockSpwaner);
+    this.blockSpwaner.drawBlockFromSpawner();
   }
 
   createDestroyer() {
@@ -309,6 +322,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.walls);
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.physics.add.overlap(this.player, this.blocks, this.crush, null, this);
+    this.physics.add.overlap(this.player, this.finals, this.endStage, null, this);
   }
 
   // Funciones Metodo Update()
@@ -319,7 +333,8 @@ export default class GameScene extends Phaser.Scene {
     const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
 
     // Mensaje para la UI
-    this.player.distance += this.player.velocity / 1000;
+    if (this.flags[1]) this.player.distance += this.player.velocity / 1000;
+
     this.events.emit('updatePlayer',
       Math.floor(this.player.x),
       Math.floor(this.player.y),
@@ -341,7 +356,7 @@ export default class GameScene extends Phaser.Scene {
         adnRoad += playerData.road[i];
       }
       console.log(adnRoad);
-      this.uptoCookie(this.player.name, playerData.level, adnRoad);
+      uptoCookie(this.player.name, playerData.level, adnRoad);
 
       // Apago Señales y Musica.
       this.cutScene();
@@ -369,18 +384,21 @@ export default class GameScene extends Phaser.Scene {
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(0.8);
     }
+
     // Finish Level
-    if (this.player.distance > this.levelDistance) {
+    if (this.player.distance > this.levelDistance && this.flags[1]) {
+      this.flags[1] = false;
+      this.player.playerEndStage();
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       playerData.level += 1;
 
-      if (this.player.heat >= 80) {
+      if (this.player.heat >= 81) {
         playerData.propina += 600;
         playerData.propinaLS = 600;
-      } else if (this.player.heat >= 60) {
+      } else if (this.player.heat >= 61) {
         playerData.propina += 400;
         playerData.propinaLS = 400;
-      } else if (this.player.heat >= 40) {
+      } else if (this.player.heat >= 41) {
         playerData.propina += 300;
         playerData.propinaLS = 300;
       } else {
@@ -388,7 +406,7 @@ export default class GameScene extends Phaser.Scene {
         playerData.propinaLS = 100;
       }
 
-      playerData.totalHeatLS = this.player.heat;
+      playerData.totalHeatLS = this.player.heat - 1;
       playerData.totalDistance += this.levelDistance;
 
       // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
@@ -396,6 +414,7 @@ export default class GameScene extends Phaser.Scene {
 
       playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
 
+      // Creo un string con todas las etapas que el jugador ha pasado.
       switch (playerData.nextLevel) {
         case 'city':
         {
@@ -424,21 +443,22 @@ export default class GameScene extends Phaser.Scene {
         }
         default: break;
       }
-      console.log(playerData.road);
+
       // Agrego la etapa que Saque!
       playerData.levels.push(sacoEtapa);
 
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
-      // Apago Señales y Musica.
-      this.cutScene();
-      // Me voy a las siguiente Escena.
-      this.scene.start('Kiosko');
+
+      // Inicio el fin de la Etapa.
+      this.blockSpwaner.turnOff();
+
+      this.time.delayedCall(7000, this.toEndStage, null, this);
     }
   }
 
   updateBlocks() {
-    this.drawBlock(this.blockSpwaner);
+    this.blockSpwaner.drawBlockFromSpawner();
   }
 
   updateBackground() {
@@ -450,10 +470,6 @@ export default class GameScene extends Phaser.Scene {
 
   // Funciones Auxiliares Juego.
 
-  drawBlock(spawner) {
-    spawner.drawBlockFromSpawner();
-  }
-
   destroyBlock(destroyer, block) {
     this.blocks.remove(block, true, true);
   }
@@ -462,6 +478,7 @@ export default class GameScene extends Phaser.Scene {
     powerUp.disableBody(true, true);
     // Elimino Collaide entre jugador y Bloques.
     this.blocksCollide.active = false;
+    player.playerChangeSpeed(40);
 
     this.tweens.add({
       targets: player,
@@ -474,16 +491,32 @@ export default class GameScene extends Phaser.Scene {
       onComplete: () => {
         // Restablezco Collaide entre jugador y Bloques.
         this.blocksCollide.active = true;
+        player.playerChangeSpeed(-40);
       },
       callbackScope: this,
     });
   }
 
-  crush(player) {
-    // player.playerHitObstacle();
+  endStage() {
+    // Apago Señales y Musica.
+    this.cutScene();
+    this.scene.start('Kiosko');
   }
 
-  // Funcion que gatilla Spawner
+  toEndStage() {
+    this.blockSpwaner.drawEnd(4);
+  }
+
+  cutScene() {
+    //  Apago las señales.
+    this.events.off('spawnBlock');
+    this.events.off('playerJump');
+    this.events.off('playerFinishJump');
+
+    this.music.stop();
+  }
+
+  // Funcion que gatilla Spawner y Player
   setupEventListener() {
     // Event Listener: spawnBlock.
     this.events.on('spawnBlock', (x, y, height, outlet, type) => {
@@ -491,9 +524,10 @@ export default class GameScene extends Phaser.Scene {
       const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
       if (type === 'wall') {
         this.walls.add(block);
-      } else {
-        this.blocks.add(block);
-      }
+      } else if (type === 'final') {
+        this.finals.add(block);
+      } else this.blocks.add(block);
+
       block.drawObstaculo();
     });
     // Event Listener: Player Jump.
@@ -520,33 +554,5 @@ export default class GameScene extends Phaser.Scene {
       // Permito que el jugador pueda chocar de nuevo.
       this.blocksCollide.active = true;
     });
-  }
-
-  cutScene() {
-    //  Apago las señales.
-    this.events.off('spawnBlock');
-    this.events.off('playerJump');
-    this.events.off('playerFinishJump');
-
-    this.music.stop();
-  }
-
-  // Funcion para crear cookie
-  uptoCookie(player, level , road) {
-    function setCookie(name, valueOne, valueTwo, valueThree, seg) {
-      let expires = '';
-      let now = '';
-      if (seg) {
-        const date = new Date();
-        date.setTime(date.getTime());
-        now = ` ${date.toUTCString()}`;
-        date.setTime(date.getTime() + (seg * 1000));
-        expires = `; expires=${date.toUTCString()}`;
-      }
-      const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
-
-      document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
-    }
-    setCookie('ppkcookie', player, level, road);
   }
 }
