@@ -25,20 +25,16 @@ export function randomType3(string1, string2, string3, porciento1, porciento2) {
 }
 
 // Funcion para crear cookie
-export function uptoCookie(player, level, road) {
-  function setCookie(name, valueOne, valueTwo, valueThree, seg) {
+export function uptoCookie(player, level, road, service1level) {
+  function setCookie(name, valueOne, valueTwo, valueThree, valueFour, seg) {
     let expires = '';
-    // let now = '';
-    if (seg) {
-      const date = new Date();
-      date.setTime(date.getTime());
-      // now = ` ${date.toUTCString()}`;
-      date.setTime(date.getTime() + (seg * 1000));
-      expires = `; expires=${date.toUTCString()}`;
-    }
-    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
+    const date = new Date();
+    date.setTime(date.getTime() + (seg * 1000));
+    expires = `; expires=${date.toUTCString()}`;
+
+    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","service 1 level":"${valueFour}"}`);
 
     document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
   }
-  setCookie('ppkcookie', player, level, road);
+  setCookie('pehm', player, level, road, service1level, 7);
 }
