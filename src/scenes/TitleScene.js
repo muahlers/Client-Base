@@ -56,6 +56,7 @@ export default class TitleScene extends Phaser.Scene {
       propinaLS: 0,
       totalHeatLS: 0,
       road: ['c'],
+      level1Service: 0,
     };
     localStorage.setItem('myPlayerData', JSON.stringify(myPlayerData));
   }

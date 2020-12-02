@@ -333,7 +333,8 @@ export default class GameScene extends Phaser.Scene {
     const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
 
     // Mensaje para la UI
-    if (this.flags[1]) this.player.distance += this.player.velocity / 1000;
+    const frames = window.game.loop.actualFps;
+    if (this.flags[1]) this.player.distance += (this.player.velocity / 1000) * (40 / frames);
 
     this.events.emit('updatePlayer',
       Math.floor(this.player.x),
@@ -356,12 +357,16 @@ export default class GameScene extends Phaser.Scene {
         adnRoad += playerData.road[i];
       }
       console.log(adnRoad);
+<<<<<<< HEAD
       uptoCookie(this.player.name, playerData.level, adnRoad);
       alert(document.cookie);
+=======
+      uptoCookie(this.player.name, playerData.level, adnRoad, playerData.level1Service);
+>>>>>>> 83032a2de4a297060d3ab4db516d5355cce5848a
 
       // Apago Señales y Musica.
       this.cutScene();
-
+      // window.alert(document.cookie);
       window.location.href = 'endstage.php';
     }
   }
@@ -391,6 +396,10 @@ export default class GameScene extends Phaser.Scene {
       this.flags[1] = false;
       this.player.playerEndStage();
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
+      // Mido Servicio en nivel 1 para entender performance de distintos pc's.
+      if (playerData.level === 1) {
+        playerData.level1Service = this.player.heat;
+      }
       playerData.level += 1;
 
       if (this.player.heat >= 81) {
@@ -464,9 +473,10 @@ export default class GameScene extends Phaser.Scene {
 
   updateBackground() {
     // Extraigo Velocidad de jugador para acelerar los movimientos de fondo. No es muy eficiente!
-    this.bg0.tilePositionX += 0.375 * (this.player.velocity / 160);
-    this.bg1.tilePositionX += 0.750 * (this.player.velocity / 160);
-    this.bg2.tilePositionX += 1.500 * (this.player.velocity / 160);
+    const frames = window.game.loop.actualFps;
+    this.bg0.tilePositionX += 0.375 * (this.player.velocity / 160) * (40 / frames);
+    this.bg1.tilePositionX += 0.750 * (this.player.velocity / 160) * (40 / frames);
+    this.bg2.tilePositionX += 1.500 * (this.player.velocity / 160) * (40 / frames);
   }
 
   // Funciones Auxiliares Juego.
