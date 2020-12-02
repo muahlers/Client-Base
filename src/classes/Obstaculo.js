@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { randomNum, randomType2, randomType3 } from '../utils/utils';
+import { obstaculoData } from '../utils/obstaculoData';
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, height, outlet, type, playerSpeed) {
@@ -11,7 +12,7 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.playerSpeed = playerSpeed;
 
     // Información de Obstaculos.
-    this.obstaculos = {
+  /*  this.obstaculos = {
       wall: {
         id: 'wall',
         width: window.window.game.config.width,
@@ -149,13 +150,13 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
         width: 72,
         height: 50,
         scale: 1.3,
-        speed: this.playerSpeed - 100, // 220
+        speed: 20, // 220
         offsetX: 0,
         offsetY: 15,
         yCorrection: 0,
-        speedVar: 20,
+        speedVar: 0,
       },
-    };
+    }; */
   }
 
   drawObstaculo() {
@@ -192,24 +193,27 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       this.type = uniqueType;
     }
 
+    this.obstaculos = obstaculoData(this.type, this.playerSpeed);
+    console.log(this.obstaculos);
+
     // enable Physics
     this.scene.physics.world.enable(this);
     this.setImmovable(true);
 
     // Randomizo la velocidad.
-    let obstaculoSpeed = this.obstaculos[this.type].speed;
+    let obstaculoSpeed = this.obstaculos.speed;
     obstaculoSpeed = randomNum(
-      obstaculoSpeed - this.obstaculos[this.type].speedVar,
-      obstaculoSpeed + this.obstaculos[this.type].speedVar,
+      obstaculoSpeed - this.obstaculos.speedVar,
+      obstaculoSpeed + this.obstaculos.speedVar,
     );
     this.body.setVelocityX(-obstaculoSpeed);
 
     // Doy tamaño a la animación y seteo le Hitbox,
     this.setOrigin(0);
-    this.body.setSize(this.obstaculos[this.type].width, this.obstaculos[this.type].height, false);
-    this.body.setOffset(this.obstaculos[this.type].offsetX, this.obstaculos[this.type].offsetY);
-    this.setScale(this.obstaculos[this.type].scale);
-    this.y -= this.obstaculos[this.type].yCorrection;
+    this.body.setSize(this.obstaculos.width, this.obstaculos.height, false);
+    this.body.setOffset(this.obstaculos.offsetX, this.obstaculos.offsetY);
+    this.setScale(this.obstaculos.scale);
+    this.y -= this.obstaculos.yCorrection;
 
     // Animación.
     this.play(this.type);

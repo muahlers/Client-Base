@@ -90,110 +90,110 @@ export default class Spawner {
 
       {
         type: 'bus',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'retenMovil',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'vago',
-        platformSpawnRange: [2000, 6000],
+        platformSpawnRange: [3000, 6000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'people',
-        platformSpawnRange: [2000, 6000],
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'moto',
-        platformSpawnRange: [3000, 6000],
+        platformSpawnRange: [3000, 6000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'motoPaco',
-        platformSpawnRange: [3000, 6000],
+        platformSpawnRange: [3000, 6000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'sedan',
-        platformSpawnRange: [1500, 5000],
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'vieja',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'moncho',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'skater',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'carrito',
-        platformSpawnRange: [3000, 7000],
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'sedan_retenMovil',
-        platformSpawnRange: [2500, 5000],
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'vieja_people',
-        platformSpawnRange: [3000, 6500],
+        platformSpawnRange: [3000, 5500].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
 
       {
         type: 'vieja_vago',
-        platformSpawnRange: [3000, 6500],
+        platformSpawnRange: [3000, 5500].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
         type: 'vieja_people_moncho',
-        platformSpawnRange: [3000, 6500],
+        platformSpawnRange: [3000, 5500].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
         type: 'vieja_people_skater',
-        platformSpawnRange: [3000, 6500],
+        platformSpawnRange: [3000, 5500].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
         type: 'moto_motoPaco',
-        platformSpawnRange: [3000, 6000],
+        platformSpawnRange: [2500, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
         type: 'carrito_vago',
-        platformSpawnRange: [3000, 6000],
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
         type: 'people_moncho',
-        platformSpawnRange: [2000, 6000],
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
     ];
@@ -277,7 +277,6 @@ export default class Spawner {
     Object.keys(this.stages).forEach((stage) => {
       if (this.stages[stage].type === this.stage) {
         Object.keys(this.stages[stage].blocks).forEach((block) => {
-          console.log(this.outlet[block]);
           this.outlet[block].type = this.stages[stage].blocks[block];
         });
       }
@@ -355,6 +354,6 @@ export default class Spawner {
   }
 
   lvDistance() {
-    return this.level * 180;
+    return this.level * 100;
   }
 }
