@@ -29,16 +29,16 @@ export function uptoCookie(player, level, road) {
   function setCookie(name, valueOne, valueTwo, valueThree, seg) {
     let expires = '';
     // let now = '';
-    if (seg) {
-      const date = new Date();
-      date.setTime(date.getTime());
-      // now = ` ${date.toUTCString()}`;
-      date.setTime(date.getTime() + (seg * 1000));
-      expires = `; expires=${date.toUTCString()}`;
-    }
-    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
+    const date = new Date();
+    // date.setTime(date.getTime());
+    // now = ` ${date.toUTCString()}`;
+    date.setTime(date.getTime() + (seg * 1000));
+    expires = `${date.toUTCString()}`;
+    console.log(expires);
 
-    document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
+    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}"}`);
+
+    document.cookie = `${name}=${JSON.stringify(myObject)}; expires=${expires}; path=/`;
   }
-  setCookie('ppkcookie', player, level, road);
+  setCookie('ppkcookie', player, level, road, 10);
 }

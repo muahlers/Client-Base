@@ -357,6 +357,7 @@ export default class GameScene extends Phaser.Scene {
       }
       console.log(adnRoad);
       uptoCookie(this.player.name, playerData.level, adnRoad);
+      alert(document.cookie);
 
       // Apago Señales y Musica.
       this.cutScene();
