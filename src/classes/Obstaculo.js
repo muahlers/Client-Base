@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
-import { randomNum, randomType2, randomType3 } from '../utils/utils';
+import {
+  randomNum, randomType2, randomType3, randomType4,
+} from '../utils/utils';
 import { obstaculoData } from '../utils/obstaculoData';
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
@@ -11,155 +13,6 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.type = type;
     this.playerSpeed = playerSpeed;
 
-    // Información de Obstaculos.
-  /*  this.obstaculos = {
-      wall: {
-        id: 'wall',
-        width: window.window.game.config.width,
-        height: 86,
-        scale: 1,
-        speed: 0,
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 0,
-      },
-      retenMovil: {
-        id: 'retenMovil',
-        width: 160,
-        height: 84,
-        scale: 1,
-        speed: 350 * (this.playerSpeed / 160),
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 50,
-      },
-      bus: {
-        id: 'bus',
-        width: 180,
-        height: 84,
-        scale: 1,
-        speed: 400 * (this.playerSpeed / 160),
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 100,
-      },
-      people: {
-        id: 'people',
-        width: 100,
-        height: 75,
-        scale: 1.2,
-        speed: this.playerSpeed + 20, // 200
-        offsetX: 15,
-        offsetY: 20,
-        yCorrection: 20,
-        speedVar: 20,
-      },
-      vago: {
-        id: 'vago',
-        width: 74,
-        height: 24,
-        scale: 1.5,
-        speed: this.playerSpeed, // 160
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: -30,
-        speedVar: 0,
-      },
-      moto: {
-        id: 'moto',
-        width: 80,
-        height: 65,
-        scale: 1.2,
-        speed: 650 * (this.playerSpeed / 160),
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 50,
-      },
-      motoPaco: {
-        id: 'motoPaco',
-        width: 80,
-        height: 65,
-        scale: 1.2,
-        speed: 650 * (this.playerSpeed / 160),
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 50,
-      },
-      sedan: {
-        id: 'sedan',
-        width: 155,
-        height: 60,
-        scale: 1,
-        speed: 500 * (this.playerSpeed / 160),
-        offsetX: 0,
-        offsetY: 0,
-        yCorrection: 0,
-        speedVar: 100,
-      },
-      vieja: {
-        id: 'vieja',
-        width: 50,
-        height: 60,
-        scale: 1.3,
-        speed: this.playerSpeed - 80, // 220
-        offsetX: 0,
-        offsetY: 5,
-        yCorrection: 0,
-        speedVar: 20,
-      },
-      moncho: {
-        id: 'moncho',
-        width: 30,
-        height: 60,
-        scale: 1.3,
-        speed: this.playerSpeed - 80, // 220
-        offsetX: 0,
-        offsetY: 5,
-        yCorrection: 0,
-        speedVar: 20,
-      },
-      skater: {
-        id: 'skater',
-        width: 40,
-        height: 56,
-        scale: 1.3,
-        speed: this.playerSpeed + 40, // 220
-        offsetX: 0,
-        offsetY: 5,
-        yCorrection: 0,
-        speedVar: 20,
-      },
-      carrito: {
-        id: 'carrito',
-        width: 72,
-        height: 50,
-        scale: 1.3,
-        speed: this.playerSpeed - 20, // 220
-        offsetX: 0,
-        offsetY: 15,
-        yCorrection: 0,
-        speedVar: 20,
-      },
-      final: {
-        id: 'final',
-        width: 72,
-        height: 50,
-        scale: 1.3,
-        speed: 20, // 220
-        offsetX: 0,
-        offsetY: 15,
-        yCorrection: 0,
-        speedVar: 0,
-      },
-    }; */
-  }
-
-  drawObstaculo() {
     if (this.type === 'sedan_retenMovil') {
       const uniqueType = randomType2('sedan', 'retenMovil', 40);
       this.type = uniqueType;
@@ -172,8 +25,8 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       const uniqueType = randomType2('vieja', 'grass', 60);
       this.type = uniqueType;
     }
-    if (this.type === 'vieja_people_moncho') {
-      const uniqueType = randomType3('vieja', 'people', 'moncho', 40, 5);
+    if (this.type === 'vieja_people_moncho_perro') {
+      const uniqueType = randomType4('vieja', 'people', 'moncho', 'perro', 70, 40, 30);
       this.type = uniqueType;
     }
     if (this.type === 'moto_motoPaco') {
@@ -192,7 +45,33 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       const uniqueType = randomType2('people', 'moncho', 5);
       this.type = uniqueType;
     }
+    if (this.type === 'carrito_vago_algodon_carpa') {
+      const uniqueType = randomType4('carrito', 'vago', 'algodon', 'carpa', 70, 60, 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'sedan_camioneta') {
+      const uniqueType = randomType2('sedan', 'camioneta', 40);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_people_oficinista') {
+      const uniqueType = randomType3('vieja', 'people', 'oficinista', 55, 45);
+      this.type = uniqueType;
+    }
+    if (this.type === 'vieja_people_skater_telefono') {
+      const uniqueType = randomType4('vieja', 'people', 'skater', 'telefono', 70, 65, 30);
+      this.type = uniqueType;
+    }
+    if (this.type === 'people_perro') {
+      const uniqueType = randomType2('people', 'perro', 10);
+      this.type = uniqueType;
+    }
+    if (this.type === 'people_perro_moneda') {
+      const uniqueType = randomType3('people', 'perro', 'moneda', 40, 30);
+      this.type = uniqueType;
+    }
+  }
 
+  drawObstaculo() {
     this.obstaculos = obstaculoData(this.type, this.playerSpeed);
     console.log(this.obstaculos);
 
@@ -219,5 +98,18 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.play(this.type);
     this.scene.add.existing(this);
     console.log(`${this.type}: ${obstaculoSpeed}`);
+  }
+
+  stopObstaculo(time) {
+    this.scene.time.addEvent({
+      delay: time,
+      callback: this.setStop,
+      callbackScope: this,
+      repeat: 0,
+    });
+  }
+
+  setStop() {
+    this.body.setVelocityX(0);
   }
 }
