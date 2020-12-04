@@ -19,6 +19,7 @@ export default class GameScene extends Phaser.Scene {
     this.walls = this.physics.add.group();
     this.blocks = this.physics.add.group();
     this.powerUps = this.physics.add.group();
+    this.coins = this.physics.add.group();
     this.finals = this.physics.add.group();
 
     this.flags = [true, true];
@@ -46,7 +47,7 @@ export default class GameScene extends Phaser.Scene {
     this.music = this.sound.add('battle');
     const configMusic = {
       mute: false,
-      volume: 0.5,
+      volume: 0.3,
       detune: 1,
       seek: 0,
       loop: false,
@@ -254,10 +255,80 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: 'final',
-      frames: this.anims.generateFrameNumbers('carrito', {
+      key: 'algodon',
+      frames: this.anims.generateFrameNumbers('algodon', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'carpa',
+      frames: this.anims.generateFrameNumbers('carpa', {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'oficinista',
+      frames: this.anims.generateFrameNumbers('oficinista', {
         start: 0,
         end: 7,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'perro',
+      frames: this.anims.generateFrameNumbers('perro', {
+        start: 0,
+        end: 7,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'telefono',
+      frames: this.anims.generateFrameNumbers('telefono', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'camioneta',
+      frames: this.anims.generateFrameNumbers('camioneta', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'moneda',
+      frames: this.anims.generateFrameNumbers('items', {
+        start: 2,
+        end: 2,
+      }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'final',
+      frames: this.anims.generateFrameNumbers('final', {
+        start: 0,
+        end: 5,
       }),
       frameRate: 10,
       repeat: -1,
@@ -323,6 +394,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.physics.add.overlap(this.player, this.blocks, this.crush, null, this);
     this.physics.add.overlap(this.player, this.finals, this.endStage, null, this);
+    this.physics.add.overlap(this.player, this.coins, this.getCoin, null, this);
   }
 
   // Funciones Metodo Update()
@@ -399,20 +471,6 @@ export default class GameScene extends Phaser.Scene {
       }
       playerData.level += 1;
 
-      if (this.player.heat >= 81) {
-        playerData.propina += 600;
-        playerData.propinaLS = 600;
-      } else if (this.player.heat >= 61) {
-        playerData.propina += 400;
-        playerData.propinaLS = 400;
-      } else if (this.player.heat >= 41) {
-        playerData.propina += 300;
-        playerData.propinaLS = 300;
-      } else {
-        playerData.propina += 100;
-        playerData.propinaLS = 100;
-      }
-
       playerData.totalHeatLS = this.player.heat - 1;
       playerData.totalDistance += this.levelDistance;
 
@@ -460,7 +518,7 @@ export default class GameScene extends Phaser.Scene {
       // Inicio el fin de la Etapa.
       this.blockSpwaner.turnOff();
 
-      this.time.delayedCall(7000, this.toEndStage, null, this);
+      this.time.delayedCall(6000, this.toEndStage, null, this);
     }
   }
 
@@ -505,6 +563,11 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
+  getCoin(player, coin) {
+    this.coins.remove(coin, true, true);
+    player.getPropinaStreet(50);
+  }
+
   endStage() {
     // Apago Señales y Musica.
     this.cutScene();
@@ -516,6 +579,24 @@ export default class GameScene extends Phaser.Scene {
   }
 
   cutScene() {
+    const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
+    // Pago propina
+    playerData.propina = this.player.propina;
+
+    if (this.player.heat >= 81) {
+      playerData.propina += 600;
+      playerData.propinaLS = 600;
+    } else if (this.player.heat >= 61) {
+      playerData.propina += 400;
+      playerData.propinaLS = 400;
+    } else if (this.player.heat >= 41) {
+      playerData.propina += 300;
+      playerData.propinaLS = 300;
+    } else {
+      playerData.propina += 100;
+      playerData.propinaLS = 100;
+    }
+    localStorage.setItem('myPlayerData', JSON.stringify(playerData));
     //  Apago las señales.
     this.events.off('spawnBlock');
     this.events.off('playerJump');
@@ -534,6 +615,9 @@ export default class GameScene extends Phaser.Scene {
         this.walls.add(block);
       } else if (type === 'final') {
         this.finals.add(block);
+        block.stopObstaculo(15000);
+      } else if (block.type === 'moneda') {
+        this.coins.add(block);
       } else this.blocks.add(block);
 
       block.drawObstaculo();

@@ -24,6 +24,20 @@ export function randomType3(string1, string2, string3, porciento1, porciento2) {
   return string3;
 }
 
+export function randomType4(string1, string2, string3, string4, porc1, porc2, porc3) {
+  const x = Math.random();
+  if (x > (porc1 / 100)) {
+    return string1;
+  }
+  if (x > (porc2 / 100)) {
+    return string2;
+  }
+  if (x > (porc3 / 100)) {
+    return string3;
+  }
+  return string4;
+}
+
 // Funcion para crear cookie
 export function uptoCookie(player, level, road, service1level) {
   function setCookie(name, valueOne, valueTwo, valueThree, valueFour, seg) {

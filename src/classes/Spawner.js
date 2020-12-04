@@ -18,12 +18,12 @@ export default class Spawner {
         blocks: [
           'wall',
           'wall',
-          'vieja_people_moncho',
+          'vieja_people_moncho_perro',
           'sedan_retenMovil',
-          'sedan',
+          'sedan_camioneta',
           'bus',
-          'carrito_vago',
-          'vieja_people',
+          'carrito_vago_algodon_carpa',
+          'vieja_people_oficinista',
         ],
       },
       {
@@ -31,12 +31,12 @@ export default class Spawner {
         blocks: [
           'wall',
           'wall',
-          'carrito_vago',
-          'vieja_people_moncho',
-          'vieja_people_skater',
-          'vieja_people_moncho',
-          'vieja_people_skater',
-          'vieja_people_moncho',
+          'carrito_vago_algodon_carpa',
+          'vieja_people_oficinista',
+          'vieja_people_skater_telefono',
+          'vieja_people_moncho_perro',
+          'vieja_people_skater_telefono',
+          'vieja_people_oficinista',
         ],
       },
       {
@@ -44,8 +44,8 @@ export default class Spawner {
         blocks: [
           'wall',
           'wall',
-          'sedan',
-          'sedan',
+          'sedan_camioneta',
+          'sedan_camioneta',
           'moto_motoPaco',
           'sedan_retenMovil',
           'bus',
@@ -58,9 +58,9 @@ export default class Spawner {
           'wall',
           'wall',
           'retenMovil',
-          'people',
+          'people_perro_moneda',
           'people_moncho',
-          'people',
+          'people_perro_moneda',
           'people_moncho',
           'retenMovil',
         ],
@@ -172,7 +172,7 @@ export default class Spawner {
         xPosition: window.game.config.width,
       },
       {
-        type: 'vieja_people_moncho',
+        type: 'vieja_people_moncho_perro',
         platformSpawnRange: [3000, 5500].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
@@ -193,6 +193,36 @@ export default class Spawner {
       },
       {
         type: 'people_moncho',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'carrito_vago_algodon_carpa',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'sedan_camioneta',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'vieja_people_oficinista',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'vieja_people_skater_telefono',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'people_perro',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
+        xPosition: window.game.config.width,
+      },
+      {
+        type: 'people_perro_moneda',
         platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
@@ -354,6 +384,6 @@ export default class Spawner {
   }
 
   lvDistance() {
-    return this.level * 100;
+    return (this.level * 80) + 100;
   }
 }

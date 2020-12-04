@@ -59,7 +59,7 @@ export function obstaculoData(type, playerSpeed) {
         width: 74,
         height: 24,
         scale: 1.5,
-        speed: playerSpeed, // 160
+        speed: playerSpeed - 30, // 160
         offsetX: 0,
         offsetY: 0,
         yCorrection: -30,
@@ -157,15 +157,106 @@ export function obstaculoData(type, playerSpeed) {
         speedVar: 20,
       };
       break;
+    case 'algodon':
+      data = {
+        id: 'algodon',
+        width: 92,
+        height: 85,
+        scale: 1,
+        speed: playerSpeed - 30, // 220
+        offsetX: 0,
+        offsetY: 15,
+        yCorrection: 0,
+        speedVar: 5,
+      };
+      break;
+    case 'camioneta':
+      data = {
+        id: 'camioneta',
+        width: 195,
+        height: 85,
+        scale: 1,
+        speed: 450 * (playerSpeed / 160), // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 100,
+      };
+      break;
+    case 'oficinista':
+      data = {
+        id: 'oficinista',
+        width: 48,
+        height: 70,
+        scale: 1.2,
+        speed: playerSpeed - 30, // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 5,
+      };
+      break;
+    case 'telefono':
+      data = {
+        id: 'telefono',
+        width: 32,
+        height: 70,
+        scale: 1.3,
+        speed: playerSpeed - 30, // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 5,
+      };
+      break;
+    case 'perro':
+      data = {
+        id: 'perro',
+        width: 32,
+        height: 24,
+        scale: 1.3,
+        speed: playerSpeed + 30, // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: -15,
+        speedVar: 5,
+      };
+      break;
+    case 'carpa':
+      data = {
+        id: 'carpa',
+        width: 142,
+        height: 74,
+        scale: 1,
+        speed: playerSpeed - 30, // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: -18,
+        speedVar: 5,
+      };
+      break;
+    case 'moneda':
+      data = {
+        id: 'moneda',
+        width: 142,
+        height: 74,
+        scale: 1,
+        speed: playerSpeed - 30, // 220
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: -18,
+        speedVar: 5,
+      };
+      break;
     case 'final':
       data = {
         id: 'final',
-        width: 72,
-        height: 50,
+        width: 52,
+        height: 84,
         scale: 1.3,
         speed: 20, // 220
         offsetX: 0,
-        offsetY: 15,
+        offsetY: 0,
         yCorrection: 0,
         speedVar: 0,
       };
