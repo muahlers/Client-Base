@@ -1,7 +1,5 @@
 import * as Phaser from 'phaser';
-import {
-  randomNum, randomType2, randomType3, randomType4,
-} from '../utils/utils';
+import { randomNum, randomType } from '../utils/utils';
 import { obstaculoData } from '../utils/obstaculoData';
 
 export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
@@ -12,68 +10,25 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.outletNumber = outlet;
     this.type = type;
     this.playerSpeed = playerSpeed;
-
-    if (this.type === 'sedan_retenMovil') {
-      const uniqueType = randomType2('sedan', 'retenMovil', 40);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_people') {
-      const uniqueType = randomType2('vieja', 'people', 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_grass') {
-      const uniqueType = randomType2('vieja', 'grass', 60);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_people_moncho_perro') {
-      const uniqueType = randomType4('vieja', 'people', 'moncho', 'perro', 70, 40, 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'moto_motoPaco') {
-      const uniqueType = randomType2('moto', 'motoPaco', 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_people_skater') {
-      const uniqueType = randomType3('vieja', 'people', 'skater', 40, 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'carrito_vago') {
-      const uniqueType = randomType2('carrito', 'vago', 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'people_moncho') {
-      const uniqueType = randomType2('people', 'moncho', 5);
-      this.type = uniqueType;
-    }
-    if (this.type === 'carrito_vago_algodon_carpa') {
-      const uniqueType = randomType4('carrito', 'vago', 'algodon', 'carpa', 70, 60, 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'sedan_camioneta') {
-      const uniqueType = randomType2('sedan', 'camioneta', 40);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_people_oficinista') {
-      const uniqueType = randomType3('vieja', 'people', 'oficinista', 55, 45);
-      this.type = uniqueType;
-    }
-    if (this.type === 'vieja_people_skater_telefono') {
-      const uniqueType = randomType4('vieja', 'people', 'skater', 'telefono', 70, 65, 30);
-      this.type = uniqueType;
-    }
-    if (this.type === 'people_perro') {
-      const uniqueType = randomType2('people', 'perro', 10);
-      this.type = uniqueType;
-    }
-    if (this.type === 'people_perro_moneda') {
-      const uniqueType = randomType3('people', 'perro', 'moneda', 40, 30);
-      this.type = uniqueType;
-    }
+    // Parto el label tipo en sub tipos.
+    const labels = this.type.split('_');
+    const outputType = randomType(
+      labels[0], // String 1
+      labels[1], // porciento 1
+      labels[2], // String 2
+      labels[3], // porciento 2
+      labels[4], // String 3
+      labels[5], // porciento 3
+      labels[6], // String 4
+      labels[7], // porciento 4
+      labels[8], // String 5
+    );
+    // Defino el tipo final.
+    this.type = outputType;
   }
 
   drawObstaculo() {
     this.obstaculos = obstaculoData(this.type, this.playerSpeed);
-    console.log(this.obstaculos);
 
     // enable Physics
     this.scene.physics.world.enable(this);
