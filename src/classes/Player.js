@@ -106,6 +106,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   playerChangeSpeed(speed) {
-    this.body.setVelocity(this.velocity + speed);
+    this.velocity += speed;
   }
 }

@@ -355,6 +355,10 @@ export default class Spawner {
   }
 
   lvDistance() {
-    return this.level * 180;
+    return this.level * 80;
+  }
+
+  playerSpeedLevel() {
+    return this.playerSpeed;
   }
 }

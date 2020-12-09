@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../classes/Player';
 import Spawner from '../classes/Spawner';
 import Obstaculo from '../classes/Obstaculo';
+import PowerUp from '../classes/PowerUp';
 import { randomNumber, uptoCookie } from '../utils/utils';
 
 export default class GameScene extends Phaser.Scene {
@@ -370,19 +371,14 @@ export default class GameScene extends Phaser.Scene {
     if (this.player.distance > this.levelDistance / 2 && this.flags[0]) {
       console.log('powerUp');
       this.flags[0] = false;
-      const powerUp = this.physics.add.sprite(16, 16, 'powerUp');
+
+      const powerUp = new PowerUp(
+        this,
+        randomNumber(0, window.game.config.width),
+        randomNumber(80, window.game.config.height - 80),
+      );
       this.powerUps.add(powerUp);
-      powerUp.setRandomPosition(0, 80, window.game.config.width, window.game.config.height - 80);
-
-      if (Math.random() > 0.5) {
-        powerUp.play('red');
-      } else {
-        powerUp.play('grey');
-      }
-
-      powerUp.setVelocity(100, 100);
-      powerUp.setCollideWorldBounds(true);
-      powerUp.setBounce(0.8);
+      powerUp.drawPowerUp();
     }
 
     // Finish Level
@@ -478,7 +474,7 @@ export default class GameScene extends Phaser.Scene {
     powerUp.disableBody(true, true);
     // Elimino Collaide entre jugador y Bloques.
     this.blocksCollide.active = false;
-    player.playerChangeSpeed(40);
+    player.playerChangeSpeed(100);
 
     this.tweens.add({
       targets: player,
@@ -491,7 +487,7 @@ export default class GameScene extends Phaser.Scene {
       onComplete: () => {
         // Restablezco Collaide entre jugador y Bloques.
         this.blocksCollide.active = true;
-        player.playerChangeSpeed(-40);
+        player.playerChangeSpeed(-100);
       },
       callbackScope: this,
     });
@@ -521,7 +517,16 @@ export default class GameScene extends Phaser.Scene {
     // Event Listener: spawnBlock.
     this.events.on('spawnBlock', (x, y, height, outlet, type) => {
       // const block = this.add.tileSprit(x, y, width, height, key, frame);
-      const block = new Obstaculo(this, x, y, height, outlet, type, this.player.velocity);
+      const block = new Obstaculo(
+        this,
+        x,
+        y,
+        height,
+        outlet,
+        type,
+        this.blockSpwaner.playerSpeedLevel(), // Evito cambios de velocidad PowerUp.
+      );
+
       if (type === 'wall') {
         this.walls.add(block);
       } else if (type === 'final') {
