@@ -317,8 +317,8 @@ export default class GameScene extends Phaser.Scene {
     this.anims.create({
       key: 'moneda',
       frames: this.anims.generateFrameNumbers('items', {
-        start: 2,
-        end: 2,
+        start: 0,
+        end: 3,
       }),
       frameRate: 1,
       repeat: -1,
