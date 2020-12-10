@@ -403,12 +403,10 @@ export default class GameScene extends Phaser.Scene {
   updatePlayer() {
     this.player.update(this.cursor);
 
-    const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
-
     // Mensaje para la UI
     const frames = window.game.loop.actualFps;
     if (this.flags[1]) this.player.distance += (this.player.velocity / 1000) * (40 / frames);
-
+    // Envio infromación para UISCcene.
     this.events.emit('updatePlayer',
       Math.floor(this.player.x),
       Math.floor(this.player.y),
@@ -416,28 +414,28 @@ export default class GameScene extends Phaser.Scene {
       Math.floor(this.player.distance),
       this.levelDistance,
       this.player.propina,
-      playerData.level,
+      this.blockSpwaner.level,
       this.player.jumps,
       this.player.name,
       this.player.heat);
-
+    // Player is Death.
     if (this.player.x < 0) {
-      this.scene.start('Title');
       console.log('Dead');
 
+      const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       let adnRoad = '';
       for (let i = 0; i < playerData.road.length; i++) {
         adnRoad += playerData.road[i];
       }
       console.log(adnRoad);
-
+      // Creo Cookie para manadar a base de Datos.
       uptoCookie(this.player.name, playerData.level, adnRoad, playerData.level1Service);
       alert(document.cookie);
 
       // Apago Señales y Musica.
-      this.cutScene();
-      // window.alert(document.cookie);
+      this.cutScene(); // Si muero no debiera ganar propina.
       window.location.href = 'endstage.php';
+      // this.scene.start('Title');
     }
   }
 
@@ -465,15 +463,17 @@ export default class GameScene extends Phaser.Scene {
       if (playerData.level === 1) {
         playerData.level1Service = this.player.heat;
       }
-      playerData.level += 1;
 
+      // Grabo el Heat para Kiosko y Tomo distancia acumulada.
       playerData.totalHeatLS = this.player.heat - 1;
       playerData.totalDistance += this.levelDistance;
 
       // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
       const sacoEtapa = playerData.levels.shift();
-
+      // ELigo una Etapa al azar.
       playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
+      // Agrego la etapa que Saque!
+      playerData.levels.push(sacoEtapa);
 
       // Creo un string con todas las etapas que el jugador ha pasado.
       switch (playerData.nextLevel) {
@@ -505,15 +505,13 @@ export default class GameScene extends Phaser.Scene {
         default: break;
       }
 
-      // Agrego la etapa que Saque!
-      playerData.levels.push(sacoEtapa);
-
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
 
       // Inicio el fin de la Etapa.
+      // Apago Spawner.
       this.blockSpwaner.turnOff();
-
+      // Ejecuto el fin de la etapa con un retraso.
       this.time.delayedCall(6000, this.toEndStage, null, this);
     }
   }
@@ -537,7 +535,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   pickPowerUp(player, powerUp) {
-    powerUp.disableBody(true, true);
+    // powerUp.disableBody(true, true);
+    this.powerUps.remove(powerUp, true, true);
     // Elimino Collaide entre jugador y Bloques.
     this.blocksCollide.active = false;
     player.playerChangeSpeed(100);
@@ -561,7 +560,14 @@ export default class GameScene extends Phaser.Scene {
 
   getCoin(player, coin) {
     this.coins.remove(coin, true, true);
-    player.getPropinaStreet(50);
+    const coinValue = randomNumber(20, 50);
+    player.getPropinaStreet(coinValue);
+  }
+
+  // Funciones para cerrar Escena.
+
+  toEndStage() {
+    this.blockSpwaner.drawEnd(4);
   }
 
   endStage() {
@@ -570,22 +576,20 @@ export default class GameScene extends Phaser.Scene {
     this.scene.start('Kiosko');
   }
 
-  toEndStage() {
-    this.blockSpwaner.drawEnd(4);
-  }
-
   cutScene() {
     const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
     // Pago propina
     playerData.propina = this.player.propina;
+    // Aumento el nivel de la etapa.
+    playerData.level += 1;
 
-    if (this.player.heat >= 81) {
+    if (this.player.heat >= 80) {
       playerData.propina += 600;
       playerData.propinaLS = 600;
-    } else if (this.player.heat >= 61) {
+    } else if (this.player.heat >= 60) {
       playerData.propina += 400;
       playerData.propinaLS = 400;
-    } else if (this.player.heat >= 41) {
+    } else if (this.player.heat >= 40) {
       playerData.propina += 300;
       playerData.propinaLS = 300;
     } else {
@@ -602,6 +606,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funcion que gatilla Spawner y Player
+
   setupEventListener() {
     // Event Listener: spawnBlock.
     this.events.on('spawnBlock', (x, y, height, outlet, type) => {
@@ -615,7 +620,7 @@ export default class GameScene extends Phaser.Scene {
         type,
         this.blockSpwaner.playerSpeedLevel(), // Evito cambios de velocidad PowerUp.
       );
-
+      // Pongo el bloque en su grupo.
       if (type === 'wall') {
         this.walls.add(block);
       } else if (type === 'final') {
@@ -624,9 +629,10 @@ export default class GameScene extends Phaser.Scene {
       } else if (block.type === 'moneda') {
         this.coins.add(block);
       } else this.blocks.add(block);
-
+      // Dibujo el Bloque en la Escena de Juego.
       block.drawObstaculo();
     });
+
     // Event Listener: Player Jump.
     this.events.on('playerJump', () => {
       // El Jugador no puede chocar
@@ -646,6 +652,7 @@ export default class GameScene extends Phaser.Scene {
         callbackScope: this,
       });
     });
+
     // Event Listener: Player Finish Jump.
     this.events.on('playerFinishJump', () => {
       // Permito que el jugador pueda chocar de nuevo.

@@ -1,7 +1,7 @@
 <?php
   // Grabo cookie en la base de datos.
   if($_COOKIE["pehm"]) {
-    echo "thers is pehm cookie";
+    echo "Entering Database: </br>";
     // Include config file
     require_once "config.php";
 
@@ -13,7 +13,6 @@
 
         $json = stripslashes($_COOKIE["pehm"]);
         $obj = json_decode($json, true);
-        echo $json;
 
         $param_username = $obj["username"];
         $param_level = $obj["level"];
@@ -28,7 +27,10 @@
         }
       // Close connection
       mysqli_close($link);
+      // Erase Cookie
+      setcookie("pehm", "bye,bye: hola", time() + (86400 * 15), "/");
     }
+
     header("location: hiscore.php");
     exit;
 ?>

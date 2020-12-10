@@ -3,8 +3,6 @@ import scenes from './scenes/scenes';
 
 const config = {
   type: Phaser.AUTO,
-  width: 1400,
-  height: 800,
   scene: scenes,
   physics: {
     default: 'arcade',
@@ -14,6 +12,11 @@ const config = {
         y: 0,
       },
     },
+  },
+  scale: {
+    width: 1200,
+    height: 800,
+    mode: Phaser.Scale.FIT,
   },
 };
 

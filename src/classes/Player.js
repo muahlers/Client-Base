@@ -7,15 +7,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.velocity = velocity; // the velocity this player moves.
     this.maxJumps = jumps; // Max Jumps a player can make per stage.
     this.jumps = this.maxJumps;
-    this.canJump = true; // Indicador para Saltar.
-    this.canHit = true; // Indicador para ser Golepado.
-    this.lowTemp = true; // Indicador para bajar temperatura.
     this.propina = propina;
     this.termo = termo;
     this.distance = distance;
     this.heat = heat;
-    this.name = `${USER_NAME}`;
-    this.onStage = true;
+    this.name = sessionName();
+    // Indicadores:
+    this.canJump = true; // Indicador para Saltar.
+    this.canHit = true; // Indicador para ser Golepado.
+    this.lowTemp = true; // Indicador para bajar temperatura.
+    this.onStage = true; // Indicador de que la etapa No ha terminado.
 
     // enable Physics
     this.scene.physics.world.enable(this);
@@ -90,7 +91,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.events.emit('playerJump');
   }
 
-  playerHitObstacle() {
+  playerHitObstacle() { // Sin Uso.
     console.log('Hit');
     this.canHit = false;
     this.play('bikeCrush', true);

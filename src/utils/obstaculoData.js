@@ -238,13 +238,13 @@ export function obstaculoData(type, playerSpeed) {
     case 'moneda':
       data = {
         id: 'moneda',
-        width: 142,
-        height: 74,
-        scale: 1,
+        width: 30,
+        height: 30,
+        scale: 1.5,
         speed: playerSpeed - 30, // 220
         offsetX: 0,
         offsetY: 0,
-        yCorrection: -18,
+        yCorrection: -20,
         speedVar: 5,
       };
       break;
