@@ -10,7 +10,7 @@ export default class TitleScene extends Phaser.Scene {
     // Create Game Title
     this.titleText1 = this.add.text(this.scale.width / 2, this.scale.height / 2 - 160, 'El Honesto Mike', { fontSize: '48px', fill: '#fff' });
     this.titleText2 = this.add.text(this.scale.width / 2, this.scale.height / 2 - 80, 'Delivery Game', { fontSize: '48px', fill: '#fff' });
-    this.titleText3 = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Version: 0.2.6', { fontSize: '48px', fill: '#fff' });
+    this.titleText3 = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Version: 0.2.8', { fontSize: '48px', fill: '#fff' });
     this.titleText1.setOrigin(0.5);
     this.titleText2.setOrigin(0.5);
     this.titleText3.setOrigin(0.5);
@@ -51,11 +51,12 @@ export default class TitleScene extends Phaser.Scene {
       distance: 0,
       totalDistance: 0,
       level: 1,
-      nextLevel: 'city',
+      nextLevel: 'protesta',
       levels: ['city', 'walkingLane', 'highway', 'protesta', 'callejon'],
       propinaLS: 0,
       totalHeatLS: 0,
       road: ['c'],
+      level1Service: 0,
     };
     localStorage.setItem('myPlayerData', JSON.stringify(myPlayerData));
   }

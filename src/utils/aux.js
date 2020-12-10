@@ -1,0 +1,67 @@
+this.stages = [
+  {
+    type: 'city',
+    blocks: [
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+      ['vieja_70_people_40_moncho_30_perro', 'gente'],
+      ['sedan_40_retenMovil', 'autos'],
+      ['sedan_40_camioneta', 'autos'],
+      ['bus', 'normal'],
+      ['carrito_70_vago_60_algodon_30_carpa', 'gente'],
+      ['vieja_55_people_45_oficinista', 'gente'],
+    ],
+  },
+  {
+    type: 'walkingLane',
+    blocks: [
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+      ['carrito_70_vago_60_algodon_30_carpa', 'gente'],
+      ['vieja_55_people_45_oficinista', 'gente'],
+      ['vieja_70_people_65_skater_30_telefono', 'gente'],
+      ['vieja_70_people_40_moncho_30_perro', 'gente'],
+      ['vieja_70_people_65_skater_30_telefono', 'gente'],
+      ['vieja_55_people_45_oficinista', 'gente'],
+    ],
+  },
+  {
+    type: 'highway',
+    blocks: [
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+      ['sedan_40_camioneta', 'autos'],
+      ['sedan_40_camioneta', 'autos'],
+      ['moto_30_motoPaco', 'veloz'],
+      ['sedan_40_retenMovil', 'autos'],
+      ['bus', 'normal'],
+      ['bus', 'normal'],
+    ],
+  },
+  {
+    type: 'protesta',
+    blocks: [
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+      ['retenMovil', 'normal'],
+      ['people_30_perro_20_moneda', 'gente'],
+      ['people_5_moncho', 'gente'],
+      ['people_30_perro_20_moneda', 'gente'],
+      ['people_5_moncho', 'gente'],
+      ['retenMovil', 'normal'],
+    ],
+  },
+  {
+    type: 'callejon',
+    blocks: [
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+      ['moto_30_motoPaco', 'veloz'],
+      ['moto_30_motoPaco', 'veloz'],
+      ['moto_30_motoPaco', 'veloz'],
+      ['moto_30_motoPaco', 'veloz'],
+      ['wall', 'parado'],
+      ['wall', 'parado'],
+    ],
+  },
+];

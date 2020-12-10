@@ -77,7 +77,7 @@ export default class Kiosko extends Phaser.Scene {
 
   update() {
     // sessionName();
-    const username = 'Joe'; // sessionName();
+    const username = `${USER_NAME}`;
     this.events.emit('updatePlayer',
       '-',
       '-',

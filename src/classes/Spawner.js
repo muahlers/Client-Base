@@ -16,66 +16,66 @@ export default class Spawner {
       {
         type: 'city',
         blocks: [
-          'wall',
-          'wall',
-          'vieja_people_moncho',
-          'sedan_retenMovil',
-          'sedan',
-          'bus',
-          'carrito_vago',
-          'vieja_people',
+          ['wall', 'parado'],
+          ['wall', 'parado'],
+          ['vieja_76_people_46_moncho_36_perro_6_moneda', 'gente'],
+          ['sedan_46_retenMovil_5_moneda', 'autos'],
+          ['sedan_46_camioneta_5_moneda', 'autos'],
+          ['bus_6_moneda', 'normal'],
+          ['carrito_76_vago_66_algodon_36_carpa_6_moneda', 'gente'],
+          ['vieja_61_people_51_oficinista_6_moneda', 'gente'],
         ],
       },
       {
         type: 'walkingLane',
         blocks: [
-          'wall',
-          'wall',
-          'carrito_vago',
-          'vieja_people_moncho',
-          'vieja_people_skater',
-          'vieja_people_moncho',
-          'vieja_people_skater',
-          'vieja_people_moncho',
+          ['wall', 'parado'],
+          ['wall', 'parado'],
+          ['carrito_76_vago_66_algodon_36_carpa_6_moneda', 'gente'],
+          ['vieja_61_people_51_oficinista_15_skater_6_moneda', 'gente'],
+          ['vieja_76_people_61_skater_36_telefono_6_moneda', 'gente'],
+          ['vieja_76_people_46_moncho_36_perro_6_moneda', 'gente'],
+          ['vieja_76_people_71_skater_36_telefono_6_moneda', 'gente'],
+          ['vieja_61_people_51_oficinista_15_moncho_6_moneda', 'gente'],
         ],
       },
       {
         type: 'highway',
         blocks: [
-          'wall',
-          'wall',
-          'sedan',
-          'sedan',
-          'moto_motoPaco',
-          'sedan_retenMovil',
-          'bus',
-          'bus',
+          ['wall', 'parado'],
+          ['wall', 'parado'],
+          ['sedan_46_camioneta_5_moneda', 'autos'],
+          ['sedan_46_camioneta_5_moneda', 'autos'],
+          ['moto_36_motoPaco_5_moneda', 'veloz'],
+          ['sedan_46_retenMovil_5_moneda', 'autos'],
+          ['bus_6_moneda', 'normal'],
+          ['bus_6_moneda', 'normal'],
         ],
       },
       {
         type: 'protesta',
         blocks: [
-          'wall',
-          'wall',
-          'retenMovil',
-          'people',
-          'people_moncho',
-          'people',
-          'people_moncho',
-          'retenMovil',
+          ['wall', 'parado'],
+          ['wall', 'parado'],
+          ['retenMovil_5_moneda', 'normal'],
+          ['people_30_perro_9_moncho_6_moneda', 'gente'],
+          ['people_15_perro_11_moncho_6_moneda', 'gente'],
+          ['people_30_perro_9_moncho_6_moneda', 'gente'],
+          ['people_15_perro_11_moncho_6_moneda', 'gente'],
+          ['retenMovil_5_moneda', 'normal'],
         ],
       },
       {
         type: 'callejon',
         blocks: [
-          'wall',
-          'wall',
-          'moto_motoPaco',
-          'moto_motoPaco',
-          'moto_motoPaco',
-          'moto_motoPaco',
-          'wall',
-          'wall',
+          ['wall', 'parado'],
+          ['wall', 'parado'],
+          ['moto_30_motoPaco_5_moneda', 'veloz'],
+          ['moto_30_motoPaco_5_moneda', 'veloz'],
+          ['moto_30_motoPaco_5_moneda', 'veloz'],
+          ['moto_30_motoPaco_5_moneda', 'veloz'],
+          ['wall', 'parado'],
+          ['wall', 'parado'],
         ],
       },
     ];
@@ -83,117 +83,28 @@ export default class Spawner {
     this.obstaculosStats = [
 
       {
-        type: 'wall',
+        type: 'parado',
         platformSpawnRange: [0, 0],
         xPosition: 0,
       },
-
       {
-        type: 'bus',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'retenMovil',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'vago',
-        platformSpawnRange: [2000, 6000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'people',
-        platformSpawnRange: [2000, 6000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'moto',
-        platformSpawnRange: [3000, 6000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'motoPaco',
-        platformSpawnRange: [3000, 6000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'sedan',
-        platformSpawnRange: [1500, 5000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'vieja',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'moncho',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'skater',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'carrito',
-        platformSpawnRange: [3000, 7000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'sedan_retenMovil',
-        platformSpawnRange: [2500, 5000],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'vieja_people',
-        platformSpawnRange: [3000, 6500],
-        xPosition: window.game.config.width,
-      },
-
-      {
-        type: 'vieja_vago',
-        platformSpawnRange: [3000, 6500],
+        type: 'normal',
+        platformSpawnRange: [3000, 7000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
-        type: 'vieja_people_moncho',
-        platformSpawnRange: [3000, 6500],
+        type: 'veloz',
+        platformSpawnRange: [2500, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
       {
-        type: 'vieja_people_skater',
-        platformSpawnRange: [3000, 6500],
+        type: 'gente',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 90)),
         xPosition: window.game.config.width,
       },
       {
-        type: 'moto_motoPaco',
-        platformSpawnRange: [3000, 6000],
-        xPosition: window.game.config.width,
-      },
-      {
-        type: 'carrito_vago',
-        platformSpawnRange: [3000, 6000],
-        xPosition: window.game.config.width,
-      },
-      {
-        type: 'people_moncho',
-        platformSpawnRange: [2000, 6000],
+        type: 'autos',
+        platformSpawnRange: [3000, 5000].map((x) => x - (this.level * 75)),
         xPosition: window.game.config.width,
       },
     ];
@@ -277,7 +188,6 @@ export default class Spawner {
     Object.keys(this.stages).forEach((stage) => {
       if (this.stages[stage].type === this.stage) {
         Object.keys(this.stages[stage].blocks).forEach((block) => {
-          console.log(this.outlet[block]);
           this.outlet[block].type = this.stages[stage].blocks[block];
         });
       }
@@ -286,7 +196,7 @@ export default class Spawner {
     // Relleno los oultes con las carecteristicas de los bloques.
     Object.keys(this.outlet).forEach((outlet) => {
       Object.keys(this.obstaculosStats).forEach((enemy) => {
-        if (this.outlet[outlet].type === this.obstaculosStats[enemy].type) {
+        if (this.outlet[outlet].type[1] === this.obstaculosStats[enemy].type) {
           this.outlet[outlet].platformSpawnRange = this.obstaculosStats[enemy].platformSpawnRange;
           this.outlet[outlet].xPosition = this.obstaculosStats[enemy].xPosition;
         }
@@ -320,7 +230,7 @@ export default class Spawner {
             this.outlet[i].yPosition, // Y position
             this.outlet[i].pixelsWidth, // height
             this.outlet[i].name, // Outlet
-            this.outlet[i].type);
+            this.outlet[i].type[0]);
         }
       }
     }
@@ -333,7 +243,7 @@ export default class Spawner {
       this.outlet[i].yPosition, // Y position
       this.outlet[i].pixelsWidth, // height
       this.outlet[i].name, // Outlet
-      this.outlet[i].type);
+      this.outlet[i].type[0]);
     // Permito que el outlet vuelva a dibujar.
     this.outlet[i].canDraw = true;
   }

@@ -6,39 +6,51 @@ export function randomNumber(min, max) {
   return Math.floor(Math.random() * max) + min;
 }
 
-export function randomType2(string1, string2, porciento) {
+export function randomType(
+  string1, porc1, string2, porc2, string3, porc3, string4, porc4, string5,
+) {
   const x = Math.random();
-  if (x > (porciento / 100)) {
-    return string1;
-  } return string2;
-}
-
-export function randomType3(string1, string2, string3, porciento1, porciento2) {
-  const x = Math.random();
-  if (x > (porciento1 / 100)) {
-    return string1;
-  }
-  if (x > (porciento2 / 100)) {
+  // console.log('dentro de la funcion');
+  if (porc1) {
+    console.log(x);
+    if (x > porc1 / 100) {
+      return string1;
+    }
+    if (porc2) {
+      if (x > porc2 / 100) {
+        return string2;
+      }
+      if (porc3) {
+        if (x > porc3 / 100) {
+          return string3;
+        }
+        if (porc4) {
+          if (x > porc4 / 100) {
+            return string4;
+          }
+          return string5;
+        }
+        return string4;
+      }
+      return string3;
+    }
     return string2;
   }
-  return string3;
+  return string1;
 }
 
 // Funcion para crear cookie
-export function uptoCookie(player, level, road) {
-  function setCookie(name, valueOne, valueTwo, valueThree, seg) {
+export function uptoCookie(player, level, road, service1level) {
+  function setCookie(name, valueOne, valueTwo, valueThree, valueFour, seg) {
     let expires = '';
-    // let now = '';
-    if (seg) {
-      const date = new Date();
-      date.setTime(date.getTime());
-      // now = ` ${date.toUTCString()}`;
-      date.setTime(date.getTime() + (seg * 1000));
-      expires = `; expires=${date.toUTCString()}`;
-    }
-    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","deathTime":"${expires}"}`);
+    const date = new Date();
+    date.setTime(date.getTime() + (seg * 1000));
+    expires = `; expires=${date.toUTCString()}`;
+
+    const myObject = JSON.parse(`{"username":"${valueOne}","level": "${valueTwo}","road": "${valueThree}","service1level":"${valueFour}"}`);
 
     document.cookie = `${name}=${JSON.stringify(myObject)}${expires}; path=/`;
   }
-  setCookie('ppkcookie', player, level, road);
+
+  setCookie('pehm', player, level, road, service1level, 7);
 }

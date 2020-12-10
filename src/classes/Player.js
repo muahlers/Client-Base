@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.termo = termo;
     this.distance = distance;
     this.heat = heat;
-    this.name = 'Joe'; // sessionName();
+    this.name = `${USER_NAME}`;
     this.onStage = true;
 
     // enable Physics
@@ -107,5 +107,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   playerChangeSpeed(speed) {
     this.velocity += speed;
+  }
+
+  getPropinaStreet(coin) {
+    this.propina += coin;
   }
 }

@@ -6,6 +6,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
+    this.titleText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Loading ...', { fontSize: '48px', fill: '#fff' });
+    this.titleText.setOrigin(0.5);
     // load images.
     this.loadImages();
     // load spritesheets
@@ -25,11 +27,17 @@ export default class BootScene extends Phaser.Scene {
   }
 
   loadSpitesheets() {
+    this.load.spritesheet('final', 'assets/images/goalGirl2Sheet.png', { frameWidth: 52, frameHeight: 84 });
+    this.load.spritesheet('algodon', 'assets/images/algodonSheet.png', { frameWidth: 92, frameHeight: 100 });
+    this.load.spritesheet('carpa', 'assets/images/carpa1.png', { frameWidth: 142, frameHeight: 74 });
+    this.load.spritesheet('oficinista', 'assets/images/oficinistaSheet.png', { frameWidth: 48, frameHeight: 72 });
+    this.load.spritesheet('perro', 'assets/images/perroSheet.png', { frameWidth: 32, frameHeight: 24 });
+    this.load.spritesheet('telefono', 'assets/images/telefonoSheet.png', { frameWidth: 32, frameHeight: 68 });
+    this.load.spritesheet('camioneta', 'assets/images/camionetaSheet.png', { frameWidth: 195, frameHeight: 85 });
     this.load.spritesheet('vieja', 'assets/images/viejaSheet.png', { frameWidth: 50, frameHeight: 65 });
     this.load.spritesheet('moncho', 'assets/images/monchoSheet.png', { frameWidth: 30, frameHeight: 65 });
     this.load.spritesheet('skater', 'assets/images/skaterSheet.png', { frameWidth: 40, frameHeight: 56 });
     this.load.spritesheet('carrito', 'assets/images/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
-    this.load.spritesheet('final', 'assets/images/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
     this.load.spritesheet('motoPaco', 'assets/images/motoPacoSheet.png', { frameWidth: 80, frameHeight: 65 });
     this.load.spritesheet('sedan', 'assets/images/sedanSheet.png', { frameWidth: 155, frameHeight: 65 });
     this.load.spritesheet('vago', 'assets/images/vago.png', { frameWidth: 74, frameHeight: 24 });
