@@ -50,7 +50,16 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
     this.y -= this.obstaculos.yCorrection;
 
     // Animación.
-    this.play(this.type);
+    if (this.obstaculos.id === 'final') {
+      const flipCoin = Math.random();
+      if (flipCoin > 0.5) {
+        this.play('final');
+      } else {
+        this.play('final2');
+      }
+    } else {
+      this.play(this.type);
+    }
     this.scene.add.existing(this);
     console.log(`${this.type}: ${obstaculoSpeed}`);
   }

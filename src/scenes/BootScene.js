@@ -28,6 +28,7 @@ export default class BootScene extends Phaser.Scene {
 
   loadSpitesheets() {
     this.load.spritesheet('final', 'assets/images/goalGirl2Sheet.png', { frameWidth: 52, frameHeight: 84 });
+    this.load.spritesheet('final2', 'assets/images/goalGirl1Sheet.png', { frameWidth: 52, frameHeight: 76 });
     this.load.spritesheet('algodon', 'assets/images/algodonSheet.png', { frameWidth: 92, frameHeight: 100 });
     this.load.spritesheet('carpa', 'assets/images/carpa1.png', { frameWidth: 142, frameHeight: 74 });
     this.load.spritesheet('oficinista', 'assets/images/oficinistaSheet.png', { frameWidth: 48, frameHeight: 72 });

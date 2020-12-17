@@ -16,15 +16,10 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.physics.world.setBounds(0, 0, window.game.config.width, window.game.config.height);
+    // [1/2 stage, 1 stage, end]
+    this.flags = [true, true, true];
 
-    this.walls = this.physics.add.group();
-    this.blocks = this.physics.add.group();
-    this.powerUps = this.physics.add.group();
-    this.coins = this.physics.add.group();
-    this.finals = this.physics.add.group();
-
-    this.flags = [true, true];
-
+    this.createGroups();
     this.createMusic();
     this.createBackground();
     this.createAnime();
@@ -44,6 +39,15 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Funciones Metodo Create()
+
+  createGroups() {
+    this.walls = this.physics.add.group();
+    this.blocks = this.physics.add.group();
+    this.powerUps = this.physics.add.group();
+    this.coins = this.physics.add.group();
+    this.finals = this.physics.add.group();
+  }
+
   createMusic() {
     this.music = this.sound.add('battle');
     const configMusic = {
@@ -334,6 +338,16 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'final2',
+      frames: this.anims.generateFrameNumbers('final2', {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 
   createBlocks() {
@@ -342,7 +356,7 @@ export default class GameScene extends Phaser.Scene {
     this.blockSpwaner = new Spawner(
       this,
       playerData.level,
-      playerData.velocity,
+      this.playerBaseLevelSpeed,
       playerData.nextLevel,
     );
     // Podria Sacar lvDistance a una clase de Etapas.
@@ -373,6 +387,8 @@ export default class GameScene extends Phaser.Scene {
       playerData.termo,
       playerData.totalHeat,
     );
+
+    this.playerBaseLevelSpeed = playerData.velocity;
   }
 
   createInput() {
@@ -427,15 +443,16 @@ export default class GameScene extends Phaser.Scene {
       for (let i = 0; i < playerData.road.length; i++) {
         adnRoad += playerData.road[i];
       }
-      console.log(adnRoad);
+
       // Creo Cookie para manadar a base de Datos.
       uptoCookie(this.player.name, playerData.level, adnRoad, playerData.level1Service);
       alert(document.cookie);
 
       // Apago Señales y Musica.
       this.cutScene(); // Si muero no debiera ganar propina.
-      window.location.href = 'endstage.php';
-      // this.scene.start('Title');
+      // TODO:
+      // window.location.href = 'endstage.php';
+      this.scene.start('Death');
     }
   }
 
@@ -457,6 +474,7 @@ export default class GameScene extends Phaser.Scene {
     // Finish Level
     if (this.player.distance > this.levelDistance && this.flags[1]) {
       this.flags[1] = false;
+      // Jugardo deja de enfriar la hamburguesa.
       this.player.playerEndStage();
       const playerData = JSON.parse(localStorage.getItem('myPlayerData'));
       // Mido Servicio en nivel 1 para entender performance de distintos pc's.
@@ -468,43 +486,6 @@ export default class GameScene extends Phaser.Scene {
       playerData.totalHeatLS = this.player.heat - 1;
       playerData.totalDistance += this.levelDistance;
 
-      // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
-      const sacoEtapa = playerData.levels.shift();
-      // ELigo una Etapa al azar.
-      playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
-      // Agrego la etapa que Saque!
-      playerData.levels.push(sacoEtapa);
-
-      // Creo un string con todas las etapas que el jugador ha pasado.
-      switch (playerData.nextLevel) {
-        case 'city':
-        {
-          playerData.road[playerData.road.length] = 'c';
-          break;
-        }
-        case 'walkingLane':
-        {
-          playerData.road[playerData.road.length] = 'w';
-          break;
-        }
-        case 'highway':
-        {
-          playerData.road[playerData.road.length] = 'h';
-          break;
-        }
-        case 'protesta':
-        {
-          playerData.road[playerData.road.length] = 'p';
-          break;
-        }
-        case 'callejon':
-        {
-          playerData.road[playerData.road.length] = 'j';
-          break;
-        }
-        default: break;
-      }
-
       // Guardo la info del jugador para la proxima etápa
       localStorage.setItem('myPlayerData', JSON.stringify(playerData));
 
@@ -512,7 +493,8 @@ export default class GameScene extends Phaser.Scene {
       // Apago Spawner.
       this.blockSpwaner.turnOff();
       // Ejecuto el fin de la etapa con un retraso.
-      this.time.delayedCall(6000, this.toEndStage, null, this);
+      console.log('Call first delay');
+      this.time.delayedCall(15000, this.toEndStage, null, this);
     }
   }
 
@@ -522,10 +504,12 @@ export default class GameScene extends Phaser.Scene {
 
   updateBackground() {
     // Extraigo Velocidad de jugador para acelerar los movimientos de fondo. No es muy eficiente!
-    const frames = window.game.loop.actualFps;
-    this.bg0.tilePositionX += 0.375 * (this.player.velocity / 160) * (40 / frames);
-    this.bg1.tilePositionX += 0.750 * (this.player.velocity / 160) * (40 / frames);
-    this.bg2.tilePositionX += 1.500 * (this.player.velocity / 160) * (40 / frames);
+    if (this.flags[2]) {
+      const frames = window.game.loop.actualFps;
+      this.bg0.tilePositionX += 0.375 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
+      this.bg1.tilePositionX += 0.750 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
+      this.bg2.tilePositionX += 1.500 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
+    }
   }
 
   // Funciones Auxiliares Juego.
@@ -560,20 +544,27 @@ export default class GameScene extends Phaser.Scene {
 
   getCoin(player, coin) {
     this.coins.remove(coin, true, true);
-    const coinValue = randomNumber(20, 50);
+    const coinValue = 25;
     player.getPropinaStreet(coinValue);
   }
 
   // Funciones para cerrar Escena.
 
   toEndStage() {
-    this.blockSpwaner.drawEnd(4);
+    console.log('Draw Finale');
+    // Dibujo final en row 2
+    this.blockSpwaner.drawEnd(2);
+    this.time.delayedCall(7000, this.stopBackground, null, this);
   }
 
   endStage() {
     // Apago Señales y Musica.
     this.cutScene();
     this.scene.start('Kiosko');
+  }
+
+  stopBackground() {
+    this.flags[2] = false;
   }
 
   cutScene() {
@@ -596,6 +587,45 @@ export default class GameScene extends Phaser.Scene {
       playerData.propina += 100;
       playerData.propinaLS = 100;
     }
+
+    // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
+    const sacoEtapa = playerData.levels.shift();
+    // ELigo una Etapa al azar.
+    playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
+    console.log(`next stage: ${playerData.nextLevel}`);
+    // Agrego la etapa que Saque!
+    playerData.levels.push(sacoEtapa);
+
+    // Creo un string con todas las etapas que el jugador ha pasado.
+    switch (playerData.nextLevel) {
+      case 'city':
+      {
+        playerData.road[playerData.road.length] = 'c';
+        break;
+      }
+      case 'walkingLane':
+      {
+        playerData.road[playerData.road.length] = 'w';
+        break;
+      }
+      case 'highway':
+      {
+        playerData.road[playerData.road.length] = 'h';
+        break;
+      }
+      case 'protesta':
+      {
+        playerData.road[playerData.road.length] = 'p';
+        break;
+      }
+      case 'callejon':
+      {
+        playerData.road[playerData.road.length] = 'j';
+        break;
+      }
+      default: break;
+    }
+
     localStorage.setItem('myPlayerData', JSON.stringify(playerData));
     //  Apago las señales.
     this.events.off('spawnBlock');
@@ -618,14 +648,14 @@ export default class GameScene extends Phaser.Scene {
         height,
         outlet,
         type,
-        this.blockSpwaner.playerSpeedLevel(), // Evito cambios de velocidad PowerUp.
+        this.playerBaseLevelSpeed,
       );
       // Pongo el bloque en su grupo.
       if (type === 'wall') {
         this.walls.add(block);
       } else if (type === 'final') {
         this.finals.add(block);
-        block.stopObstaculo(15000);
+        block.stopObstaculo(7000);
       } else if (block.type === 'moneda') {
         this.coins.add(block);
       } else this.blocks.add(block);

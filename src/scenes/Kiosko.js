@@ -40,7 +40,7 @@ export default class Kiosko extends Phaser.Scene {
       this.scale.height * 0.6,
       'button1',
       'button2',
-      ' + Speed $200',
+      ' + Speed $250',
       this.improveSpeed.bind(this),
     );
 
@@ -50,7 +50,7 @@ export default class Kiosko extends Phaser.Scene {
       this.scale.height * 0.7,
       'button1',
       'button2',
-      ' + Jump $500',
+      ' + Jump $600',
       this.improveJump.bind(this),
     );
 
@@ -77,7 +77,7 @@ export default class Kiosko extends Phaser.Scene {
 
   update() {
     // sessionName();
-    const username = sessionName();
+    const username = 'Joe'; // sessionName();
     this.events.emit('updatePlayer',
       '-',
       '-',
@@ -97,17 +97,17 @@ export default class Kiosko extends Phaser.Scene {
   }
 
   improveSpeed() {
-    if (this.playerData.propina >= 200) {
+    if (this.playerData.propina >= 250) {
       this.playerData.velocity += 20;
-      this.playerData.propina -= 200;
+      this.playerData.propina -= 250;
     }
     this.titleText6.setText(`Actual Speed: ${this.playerData.velocity}`);
   }
 
   improveJump() {
-    if (this.playerData.propina >= 500) {
+    if (this.playerData.propina >= 600) {
       this.playerData.jumps += 1;
-      this.playerData.propina -= 500;
+      this.playerData.propina -= 600;
     }
     this.titleText7.setText(`Actual Jumps: ${this.playerData.jumps}`);
   }

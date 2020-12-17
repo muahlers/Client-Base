@@ -4,6 +4,7 @@ import GameScene from './GameScene';
 import UiScene from './UiScene';
 import Kiosko from './Kiosko';
 import SetupScene from './SetupScene';
+import DeathScene from './DeathScene';
 
 export default [
   BootScene,
@@ -12,4 +13,5 @@ export default [
   UiScene,
   Kiosko,
   SetupScene,
+  DeathScene,
 ];

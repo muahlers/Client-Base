@@ -9,6 +9,7 @@ export default class UiScene extends Phaser.Scene {
     // grab a reference of the Game Scene
     this.gameScene = this.scene.get('Game');
     this.otherGameScene = this.scene.get('Kiosko');
+    this.deathScene = this.scene.get('Death');
   }
 
   create() {
@@ -49,6 +50,17 @@ export default class UiScene extends Phaser.Scene {
     });
 
     this.otherGameScene.events.on('updatePlayer', (x, y, speed, dist, propina, level, jump, name, heat) => {
+      this.xText.setText(`X: ${x}`);
+      this.yText.setText(`Y: ${y}`);
+      this.speedText.setText(`Speed: ${speed}`);
+      this.distText.setText(`Total Dist: ${dist}`);
+      this.scoreText.setText(`Coins: ${propina}`);
+      this.levelText.setText(`lv.: ${level}`);
+      this.jumpText.setText(`jumps: ${jump}`);
+      this.nameText.setText(`name: ${name}`);
+      this.termoText.setText(`Heat: ${heat}`);
+    });
+    this.deathScene.events.on('updatePlayer', (x, y, speed, dist, propina, level, jump, name, heat) => {
       this.xText.setText(`X: ${x}`);
       this.yText.setText(`Y: ${y}`);
       this.speedText.setText(`Speed: ${speed}`);

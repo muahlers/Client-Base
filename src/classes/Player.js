@@ -11,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.termo = termo;
     this.distance = distance;
     this.heat = heat;
-    this.name = sessionName();
+    this.name = 'Joe'; // sessionName();
     // Indicadores:
     this.canJump = true; // Indicador para Saltar.
     this.canHit = true; // Indicador para ser Golepado.
