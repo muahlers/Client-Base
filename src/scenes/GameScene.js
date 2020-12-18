@@ -210,6 +210,16 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.anims.create({
+      key: 'sedanAlt',
+      frames: this.anims.generateFrameNumbers('sedanAlt', {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 15,
+      repeat: -1,
+    });
+
+    this.anims.create({
       key: 'vieja',
       frames: this.anims.generateFrameNumbers('vieja', {
         start: 0,
@@ -278,6 +288,17 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 5,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'carpaAlt',
+      frames: this.anims.generateFrameNumbers('carpaAlt', {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
 
     this.anims.create({
       key: 'oficinista',

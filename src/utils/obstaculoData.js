@@ -80,6 +80,19 @@ export function obstaculoData(type, playerSpeed) {
         speedVar: 100,
       };
       break;
+    case 'sedanAlt':
+      data = {
+        id: 'sedanAlt',
+        width: 155,
+        height: 60,
+        scale: 1,
+        speed: 450 * (playerSpeed / 160) * (40 / frames),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: 0,
+        speedVar: 100,
+      };
+      break;
     case 'camioneta':
       data = {
         id: 'camioneta',
@@ -110,6 +123,19 @@ export function obstaculoData(type, playerSpeed) {
     case 'carpa':
       data = {
         id: 'carpa',
+        width: 142,
+        height: 74,
+        scale: 1,
+        speed: 110 * (playerSpeed / 160) * (40 / frames),
+        offsetX: 0,
+        offsetY: 0,
+        yCorrection: -18,
+        speedVar: 0,
+      };
+      break;
+    case 'carpaAlt':
+      data = {
+        id: 'carpaAlt',
         width: 142,
         height: 74,
         scale: 1,
@@ -193,7 +219,7 @@ export function obstaculoData(type, playerSpeed) {
         width: 40,
         height: 56,
         scale: 1.3,
-        speed: 180 * (playerSpeed / 160) * (40 / frames),
+        speed: 200 * (playerSpeed / 160) * (40 / frames),
         offsetX: 0,
         offsetY: 5,
         yCorrection: 0,
@@ -218,7 +244,7 @@ export function obstaculoData(type, playerSpeed) {
         id: 'oficinista',
         width: 48,
         height: 70,
-        scale: 1.2,
+        scale: 1.3,
         speed: 150 * (playerSpeed / 160) * (40 / frames),
         offsetX: 0,
         offsetY: 0,
@@ -245,7 +271,7 @@ export function obstaculoData(type, playerSpeed) {
         width: 30,
         height: 30,
         scale: 1.5,
-        speed: playerSpeed - 30, // 220
+        speed: 110 * (playerSpeed / 160) * (40 / frames),
         offsetX: 0,
         offsetY: 0,
         yCorrection: -20,

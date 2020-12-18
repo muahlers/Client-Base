@@ -51,7 +51,7 @@ export default class TitleScene extends Phaser.Scene {
       distance: 0,
       totalDistance: 0,
       level: 1,
-      nextLevel: 'city',
+      nextLevel: 'walkingLane',
       levels: ['city', 'walkingLane', 'highway', 'protesta', 'callejon'],
       propinaLS: 0,
       totalHeatLS: 0,
