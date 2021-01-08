@@ -61,7 +61,6 @@ export default class Obstaculo extends Phaser.Physics.Arcade.Sprite {
       this.play(this.type);
     }
     this.scene.add.existing(this);
-    console.log(`${this.type}: ${obstaculoSpeed}`);
   }
 
   stopObstaculo(time) {

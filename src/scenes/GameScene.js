@@ -299,7 +299,6 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-
     this.anims.create({
       key: 'oficinista',
       frames: this.anims.generateFrameNumbers('oficinista', {
@@ -527,9 +526,13 @@ export default class GameScene extends Phaser.Scene {
     // Extraigo Velocidad de jugador para acelerar los movimientos de fondo. No es muy eficiente!
     if (this.flags[2]) {
       const frames = window.game.loop.actualFps;
-      this.bg0.tilePositionX += 0.375 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
+      /* this.bg0.tilePositionX += 0.375 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
       this.bg1.tilePositionX += 0.750 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
-      this.bg2.tilePositionX += 1.500 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
+      this.bg2.tilePositionX += 1.500 * (this.playerBaseLevelSpeed / 160) * (40 / frames); */
+      this.bg0.tilePositionX += (frames / 200) * (this.playerBaseLevelSpeed / 160);
+      this.bg1.tilePositionX += (frames / 100) * (this.playerBaseLevelSpeed / 160);
+      this.bg2.tilePositionX += (frames / 50) * (this.playerBaseLevelSpeed / 160);
+      console.log(`frames : ${frames}`);
     }
   }
 
