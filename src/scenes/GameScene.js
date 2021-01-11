@@ -18,6 +18,17 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, window.game.config.width, window.game.config.height);
     // [1/2 stage, 1 stage, end]
     this.flags = [true, true, true];
+    this.frames = window.game.loop.actualFps;
+
+    const timer = this.time.addEvent({
+      delay: 400,
+      callback: this.updateFrame,
+      args: [],
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.backPast = 0;
 
     this.createGroups();
     this.createMusic();
@@ -440,8 +451,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.update(this.cursor);
 
     // Mensaje para la UI
-    const frames = window.game.loop.actualFps;
-    if (this.flags[1]) this.player.distance += (this.player.velocity / 1000) * (40 / frames);
+    if (this.flags[1]) this.player.distance += (this.player.velocity / 1000) * (40 / this.frames);
     // Envio infromación para UISCcene.
     this.events.emit('updatePlayer',
       Math.floor(this.player.x),
@@ -525,15 +535,16 @@ export default class GameScene extends Phaser.Scene {
   updateBackground() {
     // Extraigo Velocidad de jugador para acelerar los movimientos de fondo. No es muy eficiente!
     if (this.flags[2]) {
-      const frames = window.game.loop.actualFps;
-      /* this.bg0.tilePositionX += 0.375 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
-      this.bg1.tilePositionX += 0.750 * (this.playerBaseLevelSpeed / 160) * (40 / frames);
-      this.bg2.tilePositionX += 1.500 * (this.playerBaseLevelSpeed / 160) * (40 / frames); */
-      this.bg0.tilePositionX += (frames / 200) * (this.playerBaseLevelSpeed / 160);
-      this.bg1.tilePositionX += (frames / 100) * (this.playerBaseLevelSpeed / 160);
-      this.bg2.tilePositionX += (frames / 50) * (this.playerBaseLevelSpeed / 160);
-      console.log(`frames : ${frames}`);
+      this.bg0.tilePositionX += (15 / this.frames) * (this.playerBaseLevelSpeed / 160);
+      this.bg1.tilePositionX += (30 / this.frames) * (this.playerBaseLevelSpeed / 160);
+      this.bg2.tilePositionX += (60 / this.frames) * (this.playerBaseLevelSpeed / 160);
+      this.backPast += (60 / this.frames) * (this.playerBaseLevelSpeed / 160);
+      console.log(`frames : ${this.frames}, delata Px: ${this.backPast} , Dist: ${this.player.distance}`);
     }
+  }
+
+  updateFrame() {
+    this.frames = window.game.loop.actualFps;
   }
 
   // Funciones Auxiliares Juego.
