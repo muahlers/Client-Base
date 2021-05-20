@@ -24,33 +24,44 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('background0', 'assets/fondos/fondo3.png');
     this.load.image('background1', 'assets/fondos/fondo2.png');
     this.load.image('background2', 'assets/fondos/areaJugable.png');
+    this.load.image('hud', 'assets/images/ui/hud.png');
+    this.load.image('burger1', 'assets/images/ui/brg1.png');
+    this.load.image('burger2', 'assets/images/ui/brg2.png');
+    this.load.image('burger3', 'assets/images/ui/brg3.png');
+    this.load.image('burger4', 'assets/images/ui/brg4.png');
+    this.load.image('burger5', 'assets/images/ui/brg5.png');
   }
 
   loadSpitesheets() {
-    this.load.spritesheet('final', 'assets/images/goalGirl2Sheet.png', { frameWidth: 52, frameHeight: 84 });
-    this.load.spritesheet('final2', 'assets/images/goalGirl1Sheet.png', { frameWidth: 52, frameHeight: 76 });
-    this.load.spritesheet('algodon', 'assets/images/algodonSheet.png', { frameWidth: 92, frameHeight: 100 });
-    this.load.spritesheet('carpa', 'assets/images/carpa1.png', { frameWidth: 142, frameHeight: 74 });
-    this.load.spritesheet('carpaAlt', 'assets/images/carpa2.png', { frameWidth: 142, frameHeight: 74 });
-    this.load.spritesheet('oficinista', 'assets/images/oficinistaSheet.png', { frameWidth: 48, frameHeight: 72 });
-    this.load.spritesheet('perro', 'assets/images/perroSheet.png', { frameWidth: 32, frameHeight: 24 });
-    this.load.spritesheet('telefono', 'assets/images/telefonoSheet.png', { frameWidth: 32, frameHeight: 68 });
-    this.load.spritesheet('camioneta', 'assets/images/camionetaSheet.png', { frameWidth: 195, frameHeight: 85 });
-    this.load.spritesheet('vieja', 'assets/images/viejaSheet.png', { frameWidth: 50, frameHeight: 65 });
-    this.load.spritesheet('moncho', 'assets/images/monchoSheet.png', { frameWidth: 30, frameHeight: 65 });
-    this.load.spritesheet('skater', 'assets/images/skaterSheet.png', { frameWidth: 40, frameHeight: 56 });
-    this.load.spritesheet('carrito', 'assets/images/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
-    this.load.spritesheet('motoPaco', 'assets/images/motoPacoSheet.png', { frameWidth: 80, frameHeight: 65 });
-    this.load.spritesheet('sedan', 'assets/images/sedanSheet.png', { frameWidth: 155, frameHeight: 65 });
-    this.load.spritesheet('sedanAlt', 'assets/images/sedanAltSheet.png', { frameWidth: 155, frameHeight: 65 });
-    this.load.spritesheet('vago', 'assets/images/vago.png', { frameWidth: 74, frameHeight: 24 });
-    this.load.spritesheet('retenMovil', 'assets/images/RetenmovilSheet.png', { frameWidth: 160, frameHeight: 85 });
-    this.load.spritesheet('bus', 'assets/images/busSheet.png', { frameWidth: 180, frameHeight: 85 });
-    this.load.spritesheet('people', 'assets/images/protestaSheet.png', { frameWidth: 119, frameHeight: 94 });
-    this.load.spritesheet('moto', 'assets/images/motoSheet.png', { frameWidth: 80, frameHeight: 65 });
+    // Enemigos
+    this.load.spritesheet('algodon', 'assets/images/enemigos/algodonSheet.png', { frameWidth: 92, frameHeight: 100 });
+    this.load.spritesheet('carpa', 'assets/images/enemigos/carpa1.png', { frameWidth: 142, frameHeight: 74 });
+    this.load.spritesheet('carpaAlt', 'assets/images/enemigos/carpa2.png', { frameWidth: 142, frameHeight: 74 });
+    this.load.spritesheet('oficinista', 'assets/images/enemigos/oficinistaSheet.png', { frameWidth: 48, frameHeight: 72 });
+    this.load.spritesheet('perro', 'assets/images/enemigos/perroSheet.png', { frameWidth: 32, frameHeight: 24 });
+    this.load.spritesheet('mataPaco', 'assets/images/enemigos/perroMatapacoSheet.png', { frameWidth: 32, frameHeight: 24 });
+    this.load.spritesheet('telefono', 'assets/images/enemigos/telefono.png', { frameWidth: 32, frameHeight: 68 });
+    this.load.spritesheet('camioneta', 'assets/images/enemigos/camionetaSheet.png', { frameWidth: 195, frameHeight: 85 });
+    this.load.spritesheet('vieja', 'assets/images/enemigos/viejaPerro.png', { frameWidth: 50, frameHeight: 65 });
+    this.load.spritesheet('moncho', 'assets/images/enemigos/monchoSheet.png', { frameWidth: 30, frameHeight: 65 });
+    this.load.spritesheet('skater', 'assets/images/enemigos/skaterSheet.png', { frameWidth: 40, frameHeight: 56 });
+    this.load.spritesheet('carrito', 'assets/images/enemigos/carretaSheet.png', { frameWidth: 72, frameHeight: 64 });
+    this.load.spritesheet('motoPaco', 'assets/images/enemigos/motoPacosSheet.png', { frameWidth: 80, frameHeight: 65 });
+    this.load.spritesheet('sedan', 'assets/images/enemigos/sedanSheet.png', { frameWidth: 155, frameHeight: 65 });
+    this.load.spritesheet('sedanAlt', 'assets/images/enemigos/sedanAltSheet.png', { frameWidth: 155, frameHeight: 65 });
+    this.load.spritesheet('vago', 'assets/images/enemigos/vago.png', { frameWidth: 74, frameHeight: 24 });
+    this.load.spritesheet('retenMovil', 'assets/images/enemigos/retenmovilSheet.png', { frameWidth: 160, frameHeight: 85 });
+    this.load.spritesheet('bus', 'assets/images/enemigos/transantiagoSheet.png', { frameWidth: 180, frameHeight: 85 });
+    this.load.spritesheet('people', 'assets/images/enemigos/multitudSheet.png', { frameWidth: 119, frameHeight: 94 });
+    this.load.spritesheet('moto', 'assets/images/enemigos/motoSheet.png', { frameWidth: 80, frameHeight: 65 });
+    this.load.spritesheet('patrulla', 'assets/images/enemigos/patrullaSheet.png', { frameWidth: 155, frameHeight: 65 });
+
+    // Others
     this.load.spritesheet('items', 'assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('powerUp', 'assets/images/power-up.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('bike', 'assets/images/mc_3.png', { frameWidth: 64, frameHeight: 72 });
+    this.load.spritesheet('final', 'assets/images/goalGirl2Sheet.png', { frameWidth: 52, frameHeight: 84 });
+    this.load.spritesheet('final2', 'assets/images/goalGirl1Sheet.png', { frameWidth: 52, frameHeight: 76 });
   }
 
   loadAudio() {

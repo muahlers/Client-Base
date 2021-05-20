@@ -47,7 +47,7 @@ export function obstaculoData(type, playerSpeed) {
         width: 80,
         height: 65,
         scale: 1.2,
-        speed: 600 * (playerSpeed / 160) * (frames / 40),
+        speed: 550 * (playerSpeed / 160) * (frames / 40),
         offsetX: 0,
         offsetY: 0,
         yCorrection: 0,

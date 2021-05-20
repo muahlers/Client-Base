@@ -17,19 +17,18 @@ export default class Spawner {
         type: 'city',
         blocks: [
           ['wall', 'parado'],
-          ['wall', 'parado'],
           ['vieja_76_people_46_moncho_36_perro_5_moneda', 'gente'],
           ['sedan_40_sedanAlt_20_retenMovil_5_moneda', 'autos'],
           ['sedan_40_sedanAlt_20_retenMovil_5_moneda', 'autos'],
           ['bus_5_moneda', 'normal'],
           ['carrito_76_vago_66_algodon_36_carpa_5_moneda', 'gente'],
           ['vieja_61_people_51_oficinista_5_moneda', 'gente'],
+          ['wall', 'parado'],
         ],
       },
       {
         type: 'walkingLane',
         blocks: [
-          ['wall', 'parado'],
           ['wall', 'parado'],
           ['carrito_76_vago_66_algodon_36_carpaAlt_5_moneda', 'gente'],
           ['vieja_61_people_51_oficinista_15_skater_5_moneda', 'gente'],
@@ -37,12 +36,12 @@ export default class Spawner {
           ['vieja_76_oficinista_46_moncho_36_perro_5_moneda', 'gente'],
           ['vieja_76_oficinista_71_skater_36_telefono_5_moneda', 'gente'],
           ['vieja_61_people_51_oficinista_15_moncho_5_moneda', 'gente'],
+          ['wall', 'parado'],
         ],
       },
       {
         type: 'highway',
         blocks: [
-          ['wall', 'parado'],
           ['wall', 'parado'],
           ['sedan_72_sedanAlt_46_camioneta_5_moneda', 'autos'],
           ['sedan_72_sedanAlt_46_camioneta_5_moneda', 'autos'],
@@ -50,19 +49,20 @@ export default class Spawner {
           ['sedan_72_sedanAlt_46_retenMovil_5_moneda', 'autos'],
           ['bus_5_moneda', 'normal'],
           ['bus_5_moneda', 'normal'],
+          ['wall', 'parado'],
         ],
       },
       {
         type: 'protesta',
         blocks: [
           ['wall', 'parado'],
+          ['retenMovil_5_moneda', 'normal'],
+          ['people_30_perro_9_moncho_5_moneda', 'gente'],
+          ['people_15_perro_11_moncho_5_moneda', 'gente'],
+          ['people_30_perro_9_moncho_5_moneda', 'gente'],
+          ['people_15_perro_11_moncho_5_moneda', 'gente'],
+          ['retenMovil_5_moneda', 'normal'],
           ['wall', 'parado'],
-          ['retenMovil_5_moneda', 'normal'],
-          ['people_30_perro_9_moncho_5_moneda', 'gente'],
-          ['people_15_perro_11_moncho_5_moneda', 'gente'],
-          ['people_30_perro_9_moncho_5_moneda', 'gente'],
-          ['people_15_perro_11_moncho_5_moneda', 'gente'],
-          ['retenMovil_5_moneda', 'normal'],
         ],
       },
       {
@@ -180,10 +180,10 @@ export default class Spawner {
   }
 
   start() {
-    this.createSpawmer();
+    this.createSpawner();
   }
 
-  createSpawmer() {
+  createSpawner() {
     // Imprimo los tipos de blockes que debe producir cada outlet.
     Object.keys(this.stages).forEach((stage) => {
       if (this.stages[stage].type === this.stage) {

@@ -12,7 +12,6 @@ export function randomType(
   const x = Math.random();
   // console.log('dentro de la funcion');
   if (porc1) {
-    console.log(x);
     if (x > porc1 / 100) {
       return string1;
     }

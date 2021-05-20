@@ -390,7 +390,7 @@ export default class GameScene extends Phaser.Scene {
       this.playerBaseLevelSpeed,
       playerData.nextLevel,
     );
-    // Podria Sacar lvDistance a una clase de Etapas.
+    // Podria Sacar lv Distance a una clase de Etapas.
     this.levelDistance = this.blockSpwaner.lvDistance();
     this.blockSpwaner.drawBlockFromSpawner();
   }
@@ -420,6 +420,7 @@ export default class GameScene extends Phaser.Scene {
     );
 
     this.playerBaseLevelSpeed = playerData.velocity;
+    this.coinValues = playerData.coinValues;
   }
 
   createInput() {
@@ -454,8 +455,6 @@ export default class GameScene extends Phaser.Scene {
     if (this.flags[1]) this.player.distance += (this.player.velocity / 1000) * (40 / this.frames);
     // Envio infromación para UISCcene.
     this.events.emit('updatePlayer',
-      Math.floor(this.player.x),
-      Math.floor(this.player.y),
       this.player.velocity,
       Math.floor(this.player.distance),
       this.levelDistance,
@@ -539,7 +538,7 @@ export default class GameScene extends Phaser.Scene {
       this.bg1.tilePositionX += (30 / this.frames) * (this.playerBaseLevelSpeed / 160);
       this.bg2.tilePositionX += (60 / this.frames) * (this.playerBaseLevelSpeed / 160);
       this.backPast += (60 / this.frames) * (this.playerBaseLevelSpeed / 160);
-      console.log(`frames : ${this.frames}, delata Px: ${this.backPast} , Dist: ${this.player.distance}`);
+      // console.log(`frames : ${this.frames}, delata Px: ${this.backPast} , Dist: ${this.player.distance}`);
     }
   }
 
@@ -579,8 +578,8 @@ export default class GameScene extends Phaser.Scene {
 
   getCoin(player, coin) {
     this.coins.remove(coin, true, true);
-    const coinValue = 25;
-    player.getPropinaStreet(coinValue);
+    // const coinValue = 25;
+    player.getPropinaStreet(this.coinValues);
   }
 
   // Funciones para cerrar Escena.
@@ -609,24 +608,32 @@ export default class GameScene extends Phaser.Scene {
     // Aumento el nivel de la etapa.
     playerData.level += 1;
 
-    if (this.player.heat >= 80) {
+    if (this.player.heat > 80) {
       playerData.propina += 600;
       playerData.propinaLS = 600;
-    } else if (this.player.heat >= 60) {
+    } else if (this.player.heat > 60) {
       playerData.propina += 400;
       playerData.propinaLS = 400;
-    } else if (this.player.heat >= 40) {
+    } else if (this.player.heat > 40) {
       playerData.propina += 300;
       playerData.propinaLS = 300;
-    } else {
+    } else if (this.player.heat > 20) {
       playerData.propina += 100;
       playerData.propinaLS = 100;
+    } else {
+      playerData.propinaLS = 0;
     }
 
     // Remuevo el arreglo de etapas para dar una mayor variedad al momento de jugar
     const sacoEtapa = playerData.levels.shift();
+
     // ELigo una Etapa al azar.
-    playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
+    const lastStage = playerData.nextLevel;
+    // Reviso que la nueva etapa no se repita.
+    while (lastStage === playerData.nextLevel) {
+      playerData.nextLevel = playerData.levels[randomNumber(0, playerData.levels.length)];
+    }
+
     console.log(`next stage: ${playerData.nextLevel}`);
     // Agrego la etapa que Saque!
     playerData.levels.push(sacoEtapa);
@@ -668,6 +675,7 @@ export default class GameScene extends Phaser.Scene {
     this.events.off('playerFinishJump');
 
     this.music.stop();
+    this.scene.stop('Ui');
   }
 
   // Funcion que gatilla Spawner y Player

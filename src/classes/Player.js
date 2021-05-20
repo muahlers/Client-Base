@@ -57,7 +57,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.lowTemp && this.onStage) {
       this.lowTemp = false;
       this.scene.time.addEvent({
-        delay: (1700 * this.termo),
+        delay: (1100 * this.termo),
         callback: () => {
           this.playerRefreshHeat();
         },

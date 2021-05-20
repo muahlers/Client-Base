@@ -6,10 +6,6 @@ export default class Kiosko extends Phaser.Scene {
     super('Kiosko');
   }
 
-  init() {
-    this.scene.launch('Ui');
-  }
-
   create() {
     // Cargo la info. del Jugador.
     this.playerData = JSON.parse(localStorage.getItem('myPlayerData'));
@@ -30,9 +26,23 @@ export default class Kiosko extends Phaser.Scene {
     this.titleText6 = this.add.text(this.scale.width / 2, this.scale.height * 0.6, `Actual Speed: ${this.playerData.velocity}`, { fontSize: '24px', fill: '#fff' });
     this.titleText7 = this.add.text(this.scale.width / 2, this.scale.height * 0.7, `Actual Jumps: ${this.playerData.jumps}`, { fontSize: '24px', fill: '#fff' });
     this.titleText8 = this.add.text(this.scale.width / 2, this.scale.height * 0.8, `Actual Termo: ${this.playerData.termo}`, { fontSize: '24px', fill: '#fff' });
+    this.titleText9 = this.add.text(this.scale.width * (7 / 8), this.scale.height * 0.75, `${this.playerData.propina}`, { fontSize: '32px', fill: '#fff' });
+    this.titleText10 = this.add.text(this.scale.width / 2, this.scale.height * 0.9, `Actual Coins: ${this.playerData.coinValues}`, { fontSize: '24px', fill: '#fff' });
     this.titleText6.setOrigin(0.5);
     this.titleText7.setOrigin(0.5);
     this.titleText8.setOrigin(0.5);
+    this.titleText9.setOrigin(0.5);
+    this.titleText10.setOrigin(0.5);
+
+    this.coinIcon = this.add.image(
+      this.scale.width * (3 / 4),
+      this.scale.height * 0.7,
+      'items',
+      3,
+    );
+    this.coinIcon.setOrigin(0);
+    this.coinIcon.setScale(2.5, 2.5);
+
     // Creat Start button
     this.addSpeedButton = new UiButton(
       this,
@@ -64,9 +74,19 @@ export default class Kiosko extends Phaser.Scene {
       this.improveTermo.bind(this),
     );
 
+    this.addCoinButton = new UiButton(
+      this,
+      this.scale.width / 4,
+      this.scale.height * 0.9,
+      'button1',
+      'button2',
+      ' + Coins $500',
+      this.improveCoins.bind(this),
+    );
+
     this.nextStageButton = new UiButton(
       this,
-      this.scale.width / 2,
+      this.scale.width * (3 / 4),
       this.scale.height * 0.9,
       'button1',
       'button2',
@@ -75,23 +95,9 @@ export default class Kiosko extends Phaser.Scene {
     );
   }
 
-  update() {
-    // sessionName();
-    const username = 'Joe'; // sessionName();
-    this.events.emit('updatePlayer',
-      '-',
-      '-',
-      this.playerData.velocity,
-      this.playerData.totalDistance,
-      this.playerData.propina,
-      this.playerData.level,
-      this.playerData.jumps,
-      username,
-      this.playerData.termo);
-  }
-
   startScene(targetScene) {
     localStorage.setItem('myPlayerData', JSON.stringify(this.playerData));
+    this.scene.stop('UiKiosko');
     console.log('to next Stage!!');
     this.scene.start(targetScene);
   }
@@ -102,6 +108,7 @@ export default class Kiosko extends Phaser.Scene {
       this.playerData.propina -= 250;
     }
     this.titleText6.setText(`Actual Speed: ${this.playerData.velocity}`);
+    this.titleText9.setText(`${this.playerData.propina}`);
   }
 
   improveJump() {
@@ -110,6 +117,7 @@ export default class Kiosko extends Phaser.Scene {
       this.playerData.propina -= 600;
     }
     this.titleText7.setText(`Actual Jumps: ${this.playerData.jumps}`);
+    this.titleText9.setText(`${this.playerData.propina}`);
   }
 
   improveTermo() {
@@ -118,5 +126,15 @@ export default class Kiosko extends Phaser.Scene {
       this.playerData.propina -= 300;
     }
     this.titleText8.setText(`Actual Termo: ${this.playerData.termo}`);
+    this.titleText9.setText(`${this.playerData.propina}`);
+  }
+
+  improveCoins() {
+    if (this.playerData.propina >= 500) {
+      this.playerData.coinValues += 25;
+      this.playerData.propina -= 500;
+    }
+    this.titleText10.setText(`Actual Coins: ${this.playerData.coinValues}`);
+    this.titleText9.setText(`${this.playerData.propina}`);
   }
 }

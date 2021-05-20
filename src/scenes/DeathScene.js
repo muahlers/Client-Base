@@ -6,10 +6,6 @@ export default class DeathScene extends Phaser.Scene {
     super('Death');
   }
 
-  init() {
-    this.scene.launch('Ui');
-  }
-
   create() {
     this.playerData = JSON.parse(localStorage.getItem('myPlayerData'));
     this.createAnime();
